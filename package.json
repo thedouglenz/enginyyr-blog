@@ -18,6 +18,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^4.16.3",
     "astro-aws-amplify": "^0.1.0",
+    "dotenv": "^16.4.5",
     "fuse.js": "^7.0.0",
     "lodash.kebabcase": "^4.1.1",
     "remark-collapse": "^0.1.2",
