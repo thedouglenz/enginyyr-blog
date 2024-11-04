@@ -6,6 +6,8 @@ frontend:
         - "npm install -g pnpm"
         - "pnpm config set store-dir .pnpm-store"
         - "pnpm install"
+        # Remove large deps that are not needed at runtime
+        - "rm -rf node_modules/@swc/core-*"
     build:
       commands:
         - "pnpm run build"
