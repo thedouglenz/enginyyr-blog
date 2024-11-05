@@ -4,7 +4,6 @@ modDatetime: 2024-10-31T14:21:35.273Z
 title: "Cover Letter: Uncovered"
 slug: cover-letter-uncovered
 featured: true
-draft: false
 tags:
   - job search
   - interview
@@ -15,6 +14,7 @@ tags:
   - career
   - computer science
 description: The mysterious document, de-mystified.
+draft: false
 ---
 
 ## Table of contents
