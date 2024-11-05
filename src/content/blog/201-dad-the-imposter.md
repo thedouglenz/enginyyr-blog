@@ -30,7 +30,7 @@ tags:
   - career
   - job search
   - computer science
-description: "This is an incomprehsible rambling about being the sole financial provider for the family and being a part of the tech layoff, from the perspective of a dad in that situation."
+description: "This is an incomprehensible rambling about being the sole financial provider for the family and being a part of the tech layoff, from the perspective of a dad in that situation."
 draft: false
 ---
 
