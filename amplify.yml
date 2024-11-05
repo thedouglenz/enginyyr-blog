@@ -5,6 +5,7 @@ frontend:
       commands:
         - "npx pnpm config set store-dir .pnpm-store"
         - "npx pnpm install"
+        - "rm -rf ./node_modules/.pnpm"
     build:
       commands:
         - "npx pnpm run build"
