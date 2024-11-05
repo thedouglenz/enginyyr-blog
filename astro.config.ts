@@ -41,6 +41,9 @@ export default defineConfig({
     },
   },
   scopedStyleStrategy: "where",
+  build: {
+    format: "directory"
+  },
   experimental: {
     contentLayer: true,
   },

@@ -22,7 +22,6 @@ const { post } = Astro.props;
 
 const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
-
 export const prerender = true;
 ---
 
