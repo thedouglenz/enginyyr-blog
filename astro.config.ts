@@ -42,7 +42,7 @@ export default defineConfig({
   },
   scopedStyleStrategy: "where",
   build: {
-    format: "directory"
+    format: "file"
   },
   experimental: {
     contentLayer: true,
