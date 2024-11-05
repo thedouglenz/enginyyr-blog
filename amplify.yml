@@ -3,19 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - "npm install -g pnpm"
-        - "pnpm config set store-dir .pnpm-store"
-        - "pnpm install"
-        # Remove large deps that are not needed at runtime
-        - "rm -rf node_modules/.pnpm/typescript*"
+        - npm ci
     build:
       commands:
-        - "pnpm run build"
-        - "mv node_modules ./.amplify-hosting/compute/default"
+        - env >> .env
+        - npm run build
+        - mv node_modules ./.amplify-hosting/compute/default
+        - mv .env ./.amplify-hosting/compute/default/.env
   artifacts:
     baseDirectory: .amplify-hosting
     files:
       - "**/*"
   cache:
     paths:
-      - ".pnpm-store/**/*"
+      - node_modules/**/*
