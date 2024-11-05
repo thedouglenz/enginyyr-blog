@@ -5,7 +5,7 @@ frontend:
       commands:
         - "npx pnpm config set store-dir .pnpm-store"
         - "npx pnpm install"
-        - "rm -rf ./node_modules/.pnpm"
+        - "rm -rf ./node_modules/.pnpm/typescript*"
     build:
       commands:
         - "npx pnpm run build"
