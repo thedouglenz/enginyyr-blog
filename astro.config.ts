@@ -1,5 +1,4 @@
 import { SITE } from "./src/config";
-import awsAmplify from "astro-aws-amplify";
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import remarkCollapse from "remark-collapse";
@@ -7,10 +6,14 @@ import remarkToc from "remark-toc";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 
+import node from "@astrojs/node";
+
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
-  adapter: awsAmplify(),
+  output: "hybrid",
+  adapter: node({
+    mode: "standalone",
+  }),
   site: SITE.website,
   integrations: [
     tailwind({
