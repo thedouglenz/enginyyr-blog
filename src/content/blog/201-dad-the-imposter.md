@@ -72,22 +72,21 @@ A lot of it traces back to interest rates. For years, money was cheap to borrow,
     <figcaption class="text-xs">The text thread with my wife the day I was laid off</figcaption>
 </figure>
 
-
-I lost my job for this very reason in October, 2024. It’s hard not to look around and feel a little blindsided. The same industry that was promising the future now feels like it's retreating from it. For people like me, working hard and trying to keep up in a constantly shifting market, it’s unsettling.
+I lost my job for this very reason in October, 2024. To illustrate the shock, I included a screenshot of a text thread with my wife wherein one day I'm showing her a fun excavator shirt at Goodwill (my son loves excavators) and the next, I'm hit with the awful news. It’s hard not to look around and feel a little blindsided. The same industry that was promising the future now feels like it's retreating from it. For people like me, working hard and trying to keep up in a constantly shifting market, it’s unsettling.
 
 ## The Weight of Responsibility
 
-There are days when the pressure of being the sole provider feels almost overwhelming. I sit in my office, knowing that my family is counting on me to keep the wheels turning. And as much as I want to stay positive, there’s a deep-seated fear that I’m somehow letting them down. I worry that I’ll reach the end of my efforts with nothing to show for it. That maybe I won’t be able to find the stability we need—or that I’ll never figure out the right path forward.
+There are days when the pressure of being the sole provider feels almost overwhelming. I sit in my office, knowing that my family is counting on me to keep the wheels turning. And as much as I want to stay positive, there’s a deep-seated fear that I’m somehow letting them down. I worry that I’ll reach the end of my efforts with nothing to show for it. That maybe I won’t be able to find the stability we need — or that I’ll never figure out the right path forward.
 
-There’s guilt, too, especially when I think about my wife and son. I feel guilty that the stability they should have, the life I envisioned for us, isn’t as secure as I want it to be. Some days, it feels like I’m failing them, no matter how hard I try. The job search can be isolating and exhausting, but the real weight comes from knowing that my family’s well-being is directly tied to my ability to provide.
+There’s guilt, too, especially when I think about my wife and son. I feel guilty that the stability they should have, the life I envisioned for us, isn’t as secure as I want it to be. Some days, it feels like I’m failing them, no matter how hard I try. The job search can be isolating and exhausting, but the real weight comes from knowing that my family’s well-being is directly tied to my ability to provide. Somedays it's hard not to feel like *Dad, the imposter*.
 
  ![Isolating home office illustrated by Dall-E](https://ik.imagekit.io/enginyyr/enginyyr-blog/200-dad-the-imposter/DALL_E%202024-11-05%2010.04.48%20-%20quiet%20home%20office.webp?updatedAt=1730820003005)
 
 ## Big picture
 
-I often take a step back and reframe the problem in a way that simplifies it. My office sits in the corner of the main level of the house. From my family's perspective, I spend roughly 8 hours a day in there and about 4 hours of that is spent hammering at the keyboard and the result is that we get to pay the bills and buy groceries and dream of a better life.
+I often take a step back and reframe the problem in a way that simplifies it. My office sits in the corner of the main level of our house. From my family's perspective, I spend roughly 8 hours a day in there, about 4 hours of that is spent hammering at the keyboard and the result is that we get to pay the bills and buy groceries and dream of a better life.
 
-In the end, it doesn't really matter what I'm doing in that office so long as I maintain a healthy balance between that and spending time with my family and a sufficient amount of money is direct-deposited into our checking account as a result of it. It's just that now it's less about hanging out in my office and keystrokes as much as it is about calls with recruiters (few and far between), interviews (even fewer and farther), and job applications. But the market is absolutely saturated with people like me with varying levels of experience and skill sets.
+In the end, it doesn't really matter what I'm doing in that office so long as I maintain a healthy balance between that and spending time with my family, and a sufficient amount of money is direct-deposited into our checking account every couple weeks as a result of it. Although, now it's less about hanging out in my office and keystrokes as much as it is about calls with recruiters (few and far between), interviews (even fewer and farther), and job applications. But the market is absolutely saturated with people like me with varying levels of experience and skill sets.
 
 The question arises: If I'm going to sequester myself in the office and hack away at the keyboard no matter what I do, would it be more beneficial to be on the other end of this job economy? Would it make more sense to be in a position to need to hire, than to be a job seeker? And this line of thinking inevitably leads to the senseless and highly speculative habit of SaaS ideation. I'm stricken with so many *ideas* and so much *potential*, but flabbergasted at the number of paths forward that entrepreneurship offers.
 
