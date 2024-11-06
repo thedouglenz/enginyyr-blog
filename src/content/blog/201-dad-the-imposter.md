@@ -32,6 +32,7 @@ tags:
   - computer science
 description: "This is an incomprehensible rambling about being the sole financial provider for the family and being a part of the tech layoff, from the perspective of a dad in that situation."
 draft: false
+ogImage: https://ik.imagekit.io/enginyyr/enginyyr-blog/200-dad-the-imposter/Screenshot%202024-11-06%20at%203.37.31%E2%80%AFPM.png?updatedAt=1730925626000
 ---
 
 ## Table of contents
@@ -65,10 +66,14 @@ It felt like everything changed in what seemed like the blink of an eye. After y
 
 A lot of it traces back to interest rates. For years, money was cheap to borrow, which made it easy for tech companies to expand. Startups and established companies alike were hiring fast, investing in ambitious projects, and it felt like there was no ceiling to what we could build. But when interest rates went up, the cost of borrowing—and running these businesses—rose with it. Suddenly, investors weren't just cheering for growth; they wanted profits. And that put pressure on companies to slow down, cut costs, and, unfortunately, let people go.
 
+<figure>
+    <img src="https://ik.imagekit.io/enginyyr/enginyyr-blog/200-dad-the-imposter/Screenshot%202024-11-06%20at%203.37.31%E2%80%AFPM.png?updatedAt=1730925626000"
+         alt="Text thread with my wife">
+    <figcaption class="text-xs">The text thread with my wife the day I was laid off</figcaption>
+</figure>
+
+
 I lost my job for this very reason in October, 2024. It’s hard not to look around and feel a little blindsided. The same industry that was promising the future now feels like it's retreating from it. For people like me, working hard and trying to keep up in a constantly shifting market, it’s unsettling.
-
-
-Adding a vulnerable section about the guilt, anxiety, and fear you feel as the sole provider can create a powerful connection with readers, making the article more relatable and impactful. I think this section would work best after the Big Picture section, specifically before you dive into the theoretical questions of security versus freedom. This way, readers first understand your logistical position (working from the office, focusing on applications) and then get a glimpse into the emotional weight of those responsibilities, before moving on to the more abstract question of career paths.
 
 ## The Weight of Responsibility
 
