@@ -1,6 +1,6 @@
 ---
 pubDatetime: 2024-10-31T14:21:35.273Z
-modDatetime: 2024-10-31T14:21:35.273Z
+modDatetime: 2024-11-06T21:23:14.219Z
 title: "Cover Letter: Uncovered"
 slug: cover-letter-uncovered
 featured: true
@@ -42,7 +42,7 @@ What value is left in the dying document? The answer, to some, is *personal touc
 
 # Hang on a sec
 
-Personal touch? Companies want to know why you chose *them* specifcally. Part of the formulaic cover letter is the mandatory **how did you hear about the position?** and **why do you want to work for X company?**. Let's take a look at a typical blurb (source from ChatGPT):
+Personal touch? Companies want to know why you chose *them* specifcally. Part of the formulaic cover letter is the mandatory **how did you hear about the position?** and **why do you want to work for X company?**. Let's take a look at a typical blurb (sourced from ChatGPT):
 
 <b>"I want to work at [Company Name] because I admire your commitment to [specific value or mission]. I’ve followed your recent projects, particularly [mention any specific project or initiative], and I’m excited about the opportunity to contribute to such innovative work. I believe that my skills in [mention relevant skills or experiences] align well with your team’s goals, and I am eager to grow professionally in an environment that values [specific aspects of the company culture]. Overall, I see a great opportunity for both my personal growth and contributing to the success of [Company Name]."</b>
 
@@ -50,9 +50,9 @@ But let's be honest with each other. You only heard about this company 5 minutes
 
 ## In a world where they pay your bills and put food on your table
 
-The reality is job applications in the modern era are *not* personal. There is no emotion. I'm a software engineer so yes, I've been enthusiastic about seeing `TypeScript`, `Node.js`, `Python`, `React`, `React Native`, `Golang`, `Kubernetes`, etc. in a job listing because those words make me salivate and think about all the life goals I'll accomplish thanks to knowing those technologies. **If your company uses any of these, please email me**. I salivate over hammering away at the keyboard using stacks made out of those cryptic words because that means I'll be able to take care of my wife and son, go on vacations, pay off our mortgage, buy real estate, buy land and homestead, and ultimately display a rude hand gesture to that very institution I slaved for for so many years.
+The reality is job applications in the modern era are *not* personal. There is no emotion. I'm a software engineer so yes, I've been enthusiastic about seeing `TypeScript`, `Node.js`, `Python`, `React`, `React Native`, `Golang`, `Kubernetes`, etc. in a job listing because those words make me salivate and think about all the life goals I'll accomplish thanks to being somewhat familiar with them. **If your company uses any of these, please email me**. I salivate over hammering away at the keyboard using stacks made out of those cryptic words because that means I'll be able to take care of my wife and son, go on vacations, pay off our mortgage, buy real estate, buy land and homestead, and ultimately display a rude hand gesture to that very institution I slaved for for so many years.
 
 
-## Conclusion
+## So there you have it
 
-So there you have it. The cover letter is absolutely still relevant in modern job searching and in career transitions. While the motivations for writing it may vary wildly between people, especially as you traverse the spectrum of being fresh on the work-for-the-man market to fully off-grid disconnected. The cover letter offers a bit of originality in an otherwise mechanical and dreary landscape of buzzwords, keywords, career words, start dates, end dates, keyword parsers and scripted LinkedIn messages. Copy your resumé and the job description into ChatGPT and ask it to write you one "that doesn't sound AI-generated". Tweak it to fix the nightmarish inaccuracies and ship it.
+The cover letter is absolutely still relevant in modern job searching and in career transitions. While the motivations for writing it may vary wildly between people, especially as you traverse the spectrum of being fresh on the work-for-the-man market to fully off-grid disconnected. The cover letter offers a bit of originality in an otherwise mechanical and dreary landscape of buzzwords, keywords, career words, start dates, end dates, keyword parsers and scripted LinkedIn messages. Copy your resumé and the job description into ChatGPT and ask it to write you one "that doesn't sound AI-generated". Tweak it to fix the nightmarish inaccuracies and ship it.
