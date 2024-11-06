@@ -3,17 +3,18 @@ frontend:
   phases:
     preBuild:
       commands:
-        - "npx pnpm config set store-dir .pnpm-store"
-        - "npx pnpm install"
-        - "rm -rf ./node_modules/.pnpm/typescript*"
+        - npx pnpm config set store-dir .pnpm-store
+        - npx pnpm i
     build:
       commands:
-        - "npx pnpm run build"
-        - "mv node_modules ./.amplify-hosting/compute/default"
+        - env >> .env
+        - npx pnpm run build
+        - mv .env ./.amplify-hosting/compute/default/.env
+
   artifacts:
     baseDirectory: .amplify-hosting
     files:
       - "**/*"
   cache:
     paths:
-      - ".pnpm-store/**/*"
+      - .pnpm-store/**/*
