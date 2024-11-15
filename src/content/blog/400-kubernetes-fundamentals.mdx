@@ -1,0 +1,129 @@
+---
+pubDatetime: 2024-11-15T23:34:39.048Z
+modDatetime: 2024-11-15T23:34:39.048Z
+title: "Part 1: Kubernetes, Explained 2024: Nodes, Pods, Services, Deployments"
+slug: kubernetes-explained-2024-part-1
+featured: true
+tags:
+  - devops
+  - sre
+  - site reliability
+  - software engineering
+  - kubernetes
+  - k8s
+  - docker
+  - containerization
+  - gke
+  - eks
+  - aws
+  - amazon web services
+  - google cloud platform
+  - networking
+  - microservices
+  - microservices architecture
+  - node
+  - nodeport
+  - cluster
+  - cloud computing
+  - service
+  - clusterip
+  - load balancer
+  - loadbalancer service
+  - external ip address
+  - private network
+  - private IP
+  - internal IP
+description: "Part 1 of a series explaining kubernetes fundamental concepts in an easily digestable format, tailored toward Kubernetes users, discussing Nodes, Services, Pods, and Deployments"
+draft: false
+---
+import CaptionedImage from "../../components/CaptionedImage.astro"
+
+# Part 1: Kubernetes, Explained in 2024: Nodes, Pods, Services, Deployments
+
+## Problem -> Solution approach
+
+Let's look at Kubernetes from a problem versus solution angle to better understand its origin and purpose in life.
+
+### Containerization
+
+The first problem we want to talk about is containerization and the trend from monolith to microservices architecture. While we cannot go in depth on this subject for a digestable intro to Kubernetes, we need to recognize that this shift was foundational to the concept of Kubernetes. Adoption of microservices architecture lead to the rise in popularity of Docker, specifically for it's ability to abstract computational consistency.
+
+If we accept that containerization is a good way to unit-ize application instances in a microservices architecture, then a new problem arises: how do we wrangle these containers?
+
+### Orchestration
+
+What do practitioners of containerization want across the board?
+
+1. High availability (no downtime)
+2. Scalability: the app loads fast and responds fast
+3. Recovery: if data is lost, infrastructure goes down, etc. the application can recover at the latest state
+
+These needs comprise the overall goal of orchestration tools.
+
+## How does Kubernetes approach orchestration?
+
+Let's define the basic components of a system:
+
+### Node
+
+i.e., a server. This can be a physical or virtual machine that runs workloads for a Kubernetes cluster. Structurally, Kubernetes operates across a *cluster* of Nodes. A clustet is a group of two or more such machines, one acting as a Control Plane, managing and scheduling the workloads, and the rest acting as **Worker Nodes**.
+
+
+<CaptionedImage
+  src="https://ik.imagekit.io/enginyyr/enginyyr-blog/400-kubernetes-fundamentals/kubernetes-graphic-02.png?updatedAt=1731256401116"
+  alt="Simple illustration of Kubernetes Nodes in a private cloud"
+  caption="Simple illustration of Kubernetes Nodes in a private cloud"
+/>
+
+### Pod
+
+Smallest and most basic deployable unit, one or more containers that share the same network namespace, storage, and specs.
+- containers (usually one) live in a Pod, but Pod aims to abstract away the container technology so it can be replaced (i.e., something other than Docker)
+- 1 IP address
+- Shared storage across containers
+- **Ephemeral**
+- Lack control (more details to follow)
+
+### Virtual Network
+
+Kubernetes comes out of the box offering a virtual IP address for each Pod. But Pods are meant to be **ephemeral**. When one goes out of existence and a replacement is created, the replacement gets assigned a **new IP address**.
+
+### Service
+
+"Service" in Kubernetes, is a concept to address the ephemeral nature of Pods and the ability of Pods to dissociate with their equally ephemeral IP addresses. A Service can have a **permanent IP address** and perform one of a few different jobs:
+
+Service functions:
+
+* **ClusterIP** exposes the Service within the cluster
+* **NodePort** exposes the Service on each node's IP at a static port, allowing external access
+* **LoadBalancer** creates an external load balancer, i.e., using your specific cloud platform's (AWS, GCP, etc) load balancer technology
+* **ExternalName** maps a Service to an external DNS name, allowing access to services outside the Kubernetes cluster
+
+### Deployment
+
+Akin to a manager, a **Deployment** looks after a group of containers to make sure there's always the right number of them, they're healthy, and they are doing their jobs.
+
+How to use Deployments:
+
+* Define the **ideal state**: how many copies ("replicas") should run at any time?
+* Define "healthy": how do we detect if replica goes down? Deployments must replace these immediately (like a manager that calls another employee in the even that one calls in sick)
+* Smooth updates: if you want to create a ner version, you tell the Deployment, and it will roll out the change gradually, ensuring no downtime. It can roll back if something goes wrong with the new version
+
+Let's put it all together in an example scenario. Let's suppose you have a **frontend** app and a **backend** app. Here's an illustration of the components we've discussed so far:
+
+<CaptionedImage
+  src="https://ik.imagekit.io/enginyyr/enginyyr-blog/400-kubernetes-fundamentals/kubernetes-graphic-01.png?updatedAt=1731253910571"
+  alt="Illustration of a simple Kubernetes architecture with Deployments, Pods, and Services"
+  caption="Illustration of a simple Kubernetes architecture with Deployments, Pods, and Services"/>
+
+Note that we've captured the relationship of the Kubernetes concepts here, but not so much the functionality. So let's break down the scenario further.
+
+You have two containerized applications that we can more or less treat like black boxes so long as we understand their networking requirements and purpose in the overall system. The backend might be some kind of REST API. The frontend may be a React application. You define Deployments for each, specifying the target number of instances of each.
+
+You define **ClusterIP** Services to hold on to static IP addresses for each application within the cluster, even if instances go down and must be recreated.
+
+Then, the frontend needs to be accessible to the public web so an additional Service is created, a **LoadBalancer** service that makes use of your cloud provider's load balancer technology and exposes an external IP address into the cluster.
+
+In part 2, we'll discuss ConfigMap and Secret.
+
+[👉🏼 Continue to part 2](/posts/kubernetes-explained-2024-part-2)
