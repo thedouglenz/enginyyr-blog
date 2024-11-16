@@ -106,7 +106,7 @@ Akin to a manager, a **Deployment** looks after a group of containers to make su
 How to use Deployments:
 
 * Define the **ideal state**: how many copies ("replicas") should run at any time?
-* Define "healthy": how do we detect if replica goes down? Deployments must replace these immediately (like a manager that calls another employee in the even that one calls in sick)
+* Define "healthy": how do we detect if replica goes down? Deployments must replace these immediately (like a manager that calls another employee in the event that one calls in sick)
 * Smooth updates: if you want to create a ner version, you tell the Deployment, and it will roll out the change gradually, ensuring no downtime. It can roll back if something goes wrong with the new version
 
 Let's put it all together in an example scenario. Let's suppose you have a **frontend** app and a **backend** app. Here's an illustration of the components we've discussed so far:
