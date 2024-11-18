@@ -1,0 +1,136 @@
+---
+pubDatetime: 2024-11-18T13:33:52.829Z
+modDatetime: 2024-11-18T13:33:52.829Z
+title: "Part 2: Kubernetes, Explained 2024: Secrets and ConfigMaps"
+slug: kubernetes-explained-2024-part-2
+featured: true
+tags:
+  - devops
+  - sre
+  - site reliability
+  - software engineering
+  - kubernetes
+  - k8s
+  - docker
+  - containerization
+  - gke
+  - eks
+  - aws
+  - amazon web services
+  - google cloud platform
+  - networking
+  - microservices
+  - microservices architecture
+  - node
+  - nodeport
+  - cluster
+  - cloud computing
+  - service
+  - clusterip
+  - load balancer
+  - loadbalancer service
+  - external ip address
+  - private network
+  - private IP
+  - internal IP
+  - secrets
+  - configmaps
+description: "Part 2 of a series explaining kubernetes fundamental concepts in an easily digestable format, tailored toward Kubernetes users, discussing ConfigMaps and Secrets"
+draft: false
+---
+import CaptionedImage from "../../components/CaptionedImage.astro"
+
+# Part 2: Kubernetes, Explained in 2024: Secrets and ConfigMaps
+
+In [part 1](/posts/kubernetes-explained-2024-part-1), we discussed the basics of Kubernetes, including Pods, Nodes, and Deployments. In this part, we'll dive into **ConfigMaps** and **Secrets**.
+
+To do this, we need to understand the concept of **environment variables**. Environment variables are key-value pairs that are available to all processes running in a container.
+They are used to pass configuration information to the containerized application. For example, you might use environment variables to specify the database connection string or the API key for a service.
+
+This concept is the foundation for ConfigMaps and Secrets in Kubernetes.
+
+The reason why we don't simply rely on environment variables is that they can be cumbersome to manage, especially when you have a large number of them. ConfigMaps and Secrets provide a way to manage
+these key-value pairs in a more structured and scalable way. They also allow you to decouple the configuration from the application code, making it easier to update the configuration without changing
+the code.
+
+## ConfigMaps
+
+A **ConfigMap** is an object in Kubernetes that stores configuration data in the form of key-value pairs. It can be used to store configuration information such as environment variables, command-line arguments, or configuration files.
+You can use environment variables directly in your Pod definition, but ConfigMaps provide a more flexible and scalable way to manage configuration data. Here's an example Pod definition that uses a ConfigMap:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DB_URL: "postgres://user:password@localhost/dbname"
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+spec:
+  containers:
+  - name: my-container
+    image: my-app-image
+    envFrom:
+    - configMapRef:
+        name: app-config
+```
+
+In this example, we define a ConfigMap named `app-config` with a key-value pair housing the database URL. We then reference this ConfigMap in the Pod definition using the `envFrom` field.
+
+This leads to an important question: what about that password? Shouldn't it be kept secret?
+
+## Secrets
+
+**Secrets** are similar to ConfigMaps, but they are specifically designed to store sensitive information such as passwords, API keys, and other confidential data. Secrets are stored in a
+base64-encoded format to provide an additional layer of security. Here's an example of how you can use a Secret in a Pod definition:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  DB_PASSWORD: cGFzc3dvcmQ=  # base64-encoded password
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+spec:
+  containers:
+  - name: my-container
+    image: my-app-image
+    env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: db-secret
+          key: DB_PASSWORD
+```
+
+In this example, we define a Secret named `db-secret` with a key-value pair housing the database password. We then reference this Secret in the Pod definition using the `valueFrom` field.
+
+<CaptionedImage
+  src="https://ik.imagekit.io/enginyyr/enginyyr-blog/400-kubernetes-fundamentals/ce6c3e95-9c7d-492a-bc44-6f39aa9035e7.webp?updatedAt=1731936459342"
+  alt="An image of a neon vault"
+  caption="A vault, courtesy of Dall-E" />
+
+### Vault, and other secrets management tools
+
+While Kubernetes provides a way to manage secrets, it is not a full-fledged secrets management solution. For more advanced use cases, you may want to consider using a dedicated secrets
+management tool such as **HashiCorp Vault** or **AWS Secrets Manager**. These tools provide additional features such as encryption, access control, and audit logging. They also integrate
+seamlessly with Kubernetes, allowing you to store and retrieve secrets securely.
+
+
+In part 3, we'll pivot to discussing **Ingress**.
+
+[👉🏼 Continue to part 3](/posts/kubernetes-explained-2024-part-3)
