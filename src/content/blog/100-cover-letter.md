@@ -3,7 +3,7 @@ pubDatetime: 2024-10-31T14:21:35.273Z
 modDatetime: 2024-11-06T21:23:14.219Z
 title: "Cover Letter: Uncovered"
 slug: cover-letter-uncovered
-featured: true
+featured: false
 tags:
   - job search
   - interview
