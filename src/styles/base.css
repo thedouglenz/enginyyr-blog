@@ -269,6 +269,62 @@
     stroke: rgb(var(--color-text-base)) !important;
     stroke-width: 2px !important;
   }
+
+  /* Enhanced dark mode contrast improvements */
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) text,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) text {
+    fill: #e2e8f0 !important;
+    font-weight: 500 !important;
+  }
+
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .edgePath path,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .arrowhead,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .edgePath path,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .arrowhead {
+    stroke: #94a3b8 !important;
+    fill: #94a3b8 !important;
+    stroke-width: 2.5px !important;
+  }
+
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node rect,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node circle,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node ellipse,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node polygon,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node rect,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node circle,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node ellipse,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node polygon {
+    fill: #1e293b !important;
+    stroke: #64748b !important;
+    stroke-width: 2px !important;
+  }
+
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .label,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .nodeLabel,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .edgeLabel,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .label,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .nodeLabel,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .edgeLabel {
+    color: #f1f5f9 !important;
+    fill: #f1f5f9 !important;
+    font-weight: 600 !important;
+  }
+
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .messageLine0,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .messageLine1,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .messageLine0,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .messageLine1 {
+    stroke: #64748b !important;
+    stroke-width: 2px !important;
+  }
+
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) path,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) line,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) path,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) line {
+    stroke: #64748b !important;
+    stroke-width: 2px !important;
+  }
   
   /* Override Mermaid's default font to match blog */
   .mermaid-chart svg text {

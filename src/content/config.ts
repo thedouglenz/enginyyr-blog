@@ -33,4 +33,27 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+const proposals = defineCollection({
+  type: "content",
+  schema: ({ image }) =>
+    z.object({
+      author: z.string().default(SITE.author),
+      title: z.string(),
+      description: z.string(),
+      pubDatetime: z.date(),
+      modDatetime: z.date().optional().nullable(),
+      draft: z.boolean().optional(),
+      featured: z.boolean().optional(),
+      tags: z.array(z.string()).default(["proposal"]),
+      ogImage: image()
+        .refine(img => img.width >= 1200 && img.height >= 630, {
+          message: "OpenGraph image must be at least 1200 X 630 pixels!",
+        })
+        .or(z.string())
+        .optional(),
+      canonicalURL: z.string().optional(),
+      status: z.enum(["draft", "active", "accepted", "rejected", "withdrawn"]).default("draft"),
+    }),
+});
+
+export const collections = { blog, proposals };
