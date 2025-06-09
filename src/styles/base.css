@@ -115,6 +115,171 @@
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
+
+  /* ===== Mermaid Diagrams ===== */
+  .mermaid-container {
+    @apply my-6 overflow-x-auto;
+  }
+  
+  .mermaid-chart {
+    @apply flex justify-center items-center min-h-[200px] transition-opacity duration-300;
+  }
+  
+  .mermaid-chart svg {
+    @apply max-w-full h-auto;
+  }
+  
+  /* Style for rehype-mermaid generated SVGs - be specific to avoid affecting icons */
+  .prose svg[data-mermaid-content],
+  .prose svg[id*="mermaid"],
+  .prose > svg:not(.icon-tabler):not([class*="icon"]),
+  article > svg:not(.icon-tabler):not([class*="icon"]),
+  .prose svg[width][height][viewBox]:not(.icon-tabler):not([class*="icon"]) {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 300px !important;
+    margin: 2rem auto !important;
+    display: block !important;
+    background: rgb(var(--color-fill)) !important;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 1px solid rgb(var(--color-border));
+  }
+  
+  /* Ensure text in MERMAID diagrams is readable and properly sized - not icons */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) text,
+  article > svg:not(.icon-tabler):not([class*="icon"]) text {
+    font-family: inherit !important;
+    font-size: 14px !important;
+    fill: rgb(var(--color-text-base)) !important;
+  }
+  
+  /* Style for paragraphs/spans within SVG (flowchart nodes etc) - not icons */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) foreignObject div,
+  article > svg:not(.icon-tabler):not([class*="icon"]) foreignObject div {
+    font-size: 14px !important;
+    color: rgb(var(--color-text-base)) !important;
+    font-family: inherit !important;
+  }
+
+  /* Enhanced styling for Mermaid diagram elements */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .node rect,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .node circle,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .node ellipse,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .node polygon,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .node rect,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .node circle,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .node ellipse,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .node polygon {
+    fill: rgb(var(--color-card)) !important;
+    stroke: rgb(var(--color-text-base)) !important;
+    stroke-width: 2px !important;
+  }
+
+  /* Style for flowchart edges/arrows */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .edgePath path,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .arrowhead,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .edgePath path,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .arrowhead {
+    stroke: rgb(var(--color-text-base)) !important;
+    fill: rgb(var(--color-text-base)) !important;
+    stroke-width: 2px !important;
+  }
+
+  /* Style for sequence diagram actors */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .actor,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .actor {
+    fill: rgb(var(--color-card)) !important;
+    stroke: rgb(var(--color-text-base)) !important;
+    stroke-width: 2px !important;
+  }
+
+  /* Style for sequence diagram messages */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .messageLine0,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .messageLine1,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .messageLine0,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .messageLine1 {
+    stroke: rgb(var(--color-text-base)) !important;
+    stroke-width: 2px !important;
+  }
+
+  /* Style for decision diamonds and other shapes */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .node.decision,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .node.decision {
+    fill: rgb(var(--color-accent), 0.1) !important;
+    stroke: rgb(var(--color-accent)) !important;
+    stroke-width: 2px !important;
+  }
+
+  /* General path/line styling for better visibility */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) path,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) line,
+  article > svg:not(.icon-tabler):not([class*="icon"]) path,
+  article > svg:not(.icon-tabler):not([class*="icon"]) line {
+    stroke: rgb(var(--color-text-base)) !important;
+    stroke-width: 1.5px !important;
+  }
+
+  /* Ensure all text is properly visible */
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .label,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .nodeLabel,
+  .prose svg:not(.icon-tabler):not([class*="icon"]) .edgeLabel,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .label,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .nodeLabel,
+  article > svg:not(.icon-tabler):not([class*="icon"]) .edgeLabel {
+    color: rgb(var(--color-text-base)) !important;
+    fill: rgb(var(--color-text-base)) !important;
+    font-weight: 500 !important;
+  }
+  
+  /* Mermaid theme adjustments for light mode */
+  html:not([data-theme="dark"]) .mermaid-chart svg {
+    background-color: transparent;
+  }
+  
+  /* Mermaid theme adjustments for dark mode */
+  html[data-theme="dark"] .mermaid-chart svg {
+    background-color: transparent;
+  }
+  
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]),
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) {
+    border-color: rgb(var(--color-border));
+    background: rgb(var(--color-card)) !important;
+  }
+
+  /* Enhanced dark mode styling for better contrast */
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node rect,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node circle,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node ellipse,
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .node polygon,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node rect,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node circle,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node ellipse,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .node polygon {
+    fill: rgb(var(--color-fill)) !important;
+    stroke: rgb(var(--color-text-base)) !important;
+    stroke-width: 2px !important;
+  }
+
+  html[data-theme="dark"] .prose svg:not(.icon-tabler):not([class*="icon"]) .actor,
+  html[data-theme="dark"] article > svg:not(.icon-tabler):not([class*="icon"]) .actor {
+    fill: rgb(var(--color-fill)) !important;
+    stroke: rgb(var(--color-text-base)) !important;
+    stroke-width: 2px !important;
+  }
+  
+  /* Override Mermaid's default font to match blog */
+  .mermaid-chart svg text {
+    font-family: inherit !important;
+  }
+  
+  /* Ensure diagrams are responsive */
+  .mermaid-chart svg {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer components {

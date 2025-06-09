@@ -5,6 +5,8 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import rehypeMermaid from 'rehype-mermaid';
+import addMermaidClass from './add-mermaid-classname';
 
 import mdx from "@astrojs/mdx";
 
@@ -23,6 +25,10 @@ export default defineConfig({
           test: "Table of contents",
         },
       ],
+    ],
+    rehypePlugins: [
+      addMermaidClass,
+      rehypeMermaid,
     ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
