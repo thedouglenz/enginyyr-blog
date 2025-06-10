@@ -5,18 +5,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ### Development
-- `npm run dev` - Start development server at localhost:4321
-- `npm run build` - Build for production (includes type checking)
-- `npm run preview` - Preview production build locally
-- `npm run sync` - Generate TypeScript types for Astro modules
+- `pnpm run dev` - Start development server at localhost:4321
+- `pnpm run build` - Build for production (includes type checking)
+- `pnpm run preview` - Preview production build locally
+- `pnpm run sync` - Generate TypeScript types for Astro modules
 
 ### Code Quality
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
+- `pnpm run lint` - Run ESLint
+- `pnpm run format` - Format code with Prettier
+- `pnpm run format:check` - Check code formatting
 
 ### Maintenance
-- `npm run clean` - Remove build artifacts and reinstall dependencies
+- `pnpm run clean` - Remove build artifacts and reinstall dependencies
 
 ## Architecture
 
