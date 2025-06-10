@@ -1,16 +1,22 @@
 import { visit, CONTINUE } from "unist-util-visit"
 import type { Plugin } from 'unified';
-import type { Root, Element } from 'hast';
+import type { Root, Element, Node } from 'hast';
 
-const visitor = (node: any) => {
+const visitor = (node: Node) => {
   const dataLanguageMermaid = "mermaid"
   const typeElement = "element"
   const tagNamePre = "pre"
   const classMermaid = dataLanguageMermaid
 
-  const isPreElement = (node: any) => typeof node.type !== undefined && node.type === typeElement
-    && node.tagName !== undefined && node.tagName === tagNamePre
-    && node.properties !== undefined && node.properties.dataLanguage === dataLanguageMermaid
+  const isPreElement = (node: Node): node is Element => {
+    if (node.type !== typeElement) return false
+    
+    const element = node as Element
+    if (!element.tagName || element.tagName !== tagNamePre) return false
+    if (!element.properties) return false
+    
+    return element.properties.dataLanguage === dataLanguageMermaid
+  }
 
   if(!isPreElement(node)) {
     return CONTINUE
