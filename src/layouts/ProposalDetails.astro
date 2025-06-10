@@ -24,8 +24,6 @@ const {
   tags,
   status,
 } = proposal.data;
-
-const { Content: PageContent } = await proposal.render();
 const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
 const ogUrl = new URL(
   ogImageUrl ?? `/proposals/${proposal.slug}.png`,
