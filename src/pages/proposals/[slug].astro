@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import ProposalDetails from "@layouts/ProposalDetails.astro";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  proposal: CollectionEntry<"proposals">;
+}
+
+export async function getStaticPaths() {
+  const proposals = await getCollection("proposals", ({ data }) => !data.draft);
+
+  const proposalResult = proposals.map(proposal => ({
+    params: { slug: proposal.slug },
+    props: { proposal },
+  }));
+
+  return proposalResult;
+}
+
+const { proposal } = Astro.props;
+---
+
+<ProposalDetails {proposal} /> 
