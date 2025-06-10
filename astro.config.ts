@@ -28,7 +28,10 @@ export default defineConfig({
     ],
     rehypePlugins: [
       addMermaidClass,
-      rehypeMermaid,
+      [rehypeMermaid, {
+        strategy: 'img-svg',
+        dark: true
+      }],
     ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
