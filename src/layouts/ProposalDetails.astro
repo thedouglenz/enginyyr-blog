@@ -1,0 +1,175 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Tag from "@components/Tag.astro";
+import { SITE } from "@config";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+  proposal: CollectionEntry<"proposals">;
+}
+
+const { proposal } = Astro.props;
+const { Content } = await proposal.render();
+
+const {
+  title,
+  author,
+  description,
+  ogImage,
+  canonicalURL,
+  pubDatetime,
+  modDatetime,
+  tags,
+  status,
+} = proposal.data;
+
+const { Content: PageContent } = await proposal.render();
+const ogImageUrl = typeof ogImage === "string" ? ogImage : ogImage?.src;
+const ogUrl = new URL(
+  ogImageUrl ?? `/proposals/${proposal.slug}.png`,
+  Astro.url.origin
+).href;
+
+const layoutProps = {
+  title: `${title} | ${SITE.title}`,
+  author,
+  description,
+  ogImage: ogUrl,
+  canonicalURL,
+  pubDatetime,
+  modDatetime,
+  scrollSmooth: true,
+};
+---
+
+<Layout {...layoutProps}>
+  <Header activeNav="proposals" />
+
+  <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
+    <button
+      class="focus-outline mb-2 mt-8 flex hover:opacity-75"
+      onclick="(() => (history.length === 1) ? window.location = '/proposals/' : history.back())()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg"
+        ><path
+          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
+        ></path>
+      </svg><span>Go back</span>
+    </button>
+  </div>
+  <main id="main-content">
+    <h1 class="proposal-title">{title}</h1>
+    
+    <div class="proposal-meta">
+      <div class="meta-item">
+        <strong>Status:</strong> 
+        <span class={`status-badge status-${status}`}>{status}</span>
+      </div>
+      <div class="meta-item">
+        <strong>Created:</strong> 
+        <time datetime={pubDatetime.toISOString()}>
+          {pubDatetime.toLocaleDateString("en-us", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </time>
+      </div>
+      {modDatetime && (
+        <div class="meta-item">
+          <strong>Modified:</strong> 
+          <time datetime={modDatetime.toISOString()}>
+            {modDatetime.toLocaleDateString("en-us", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+        </div>
+      )}
+      <div class="meta-item">
+        <strong>Author:</strong> {author}
+      </div>
+    </div>
+
+    <article id="article" class="prose mx-auto mt-8 max-w-3xl">
+      <Content />
+    </article>
+
+    <ul class="my-8">
+      {tags.map(tag => <Tag tag={tag} />)}
+    </ul>
+
+    <button
+      id="back-to-top"
+      class="focus-outline whitespace-nowrap py-1 hover:opacity-75"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="rotate-90">
+        <path
+          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
+        ></path>
+      </svg>
+      <span>Back to Top</span>
+    </button>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  main {
+    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+  }
+  .proposal-title {
+    @apply my-6 text-2xl font-bold leading-tight sm:text-3xl sm:leading-tight;
+  }
+  .proposal-meta {
+    @apply mb-6 flex flex-wrap gap-4 text-sm text-skin-base opacity-80;
+  }
+  .meta-item {
+    @apply flex items-center gap-1;
+  }
+  .status-badge {
+    @apply rounded px-2 py-1 text-xs font-semibold uppercase;
+  }
+  .status-draft {
+    @apply bg-gray-200 text-gray-800;
+  }
+  .status-active {
+    @apply bg-blue-200 text-blue-800;
+  }
+  .status-accepted {
+    @apply bg-green-200 text-green-800;
+  }
+  .status-rejected {
+    @apply bg-red-200 text-red-800;
+  }
+  .status-withdrawn {
+    @apply bg-yellow-200 text-yellow-800;
+  }
+  #back-to-top {
+    @apply mx-auto mt-8 flex w-max items-center gap-2;
+  }
+</style>
+
+<script>
+  const scrollBtn = document.querySelector("#back-to-top") as HTMLButtonElement;
+  const targetHeader = document.querySelector("#main-content") as HTMLDivElement;
+
+  function callback(entries: IntersectionObserverEntry[]) {
+    entries.forEach(entry => {
+      // only show the scroll to top button when the heading is out of view
+      scrollBtn.dataset.show = (!entry.isIntersecting).toString();
+    });
+  }
+
+  scrollBtn.addEventListener("click", () => {
+    document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  const observer = new IntersectionObserver(callback);
+  observer.observe(targetHeader);
+
+
+</script> 

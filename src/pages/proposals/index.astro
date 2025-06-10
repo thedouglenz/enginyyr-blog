@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Main from "@layouts/Main.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Card from "@components/Card";
+import { SITE } from "@config";
+
+const proposals = await getCollection("proposals", ({ data }) => !data.draft);
+const sortedProposals = proposals.sort(
+  (a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf()
+);
+---
+
+<Layout title={`Proposals | ${SITE.title}`}>
+  <Header activeNav="proposals" />
+  <Main 
+    pageTitle="Proposals" 
+    pageDesc="Technical proposals and architectural specifications for future development."
+  >
+    <ul>
+      {
+        sortedProposals.map(({ data, slug }) => (
+          <Card href={`/proposals/${slug}/`} frontmatter={data} />
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout> 
