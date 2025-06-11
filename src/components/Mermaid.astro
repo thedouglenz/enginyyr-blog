@@ -1,0 +1,51 @@
+---
+export interface Props {
+  code: string;
+  id?: string;
+}
+
+const { code, id = `mermaid-${Math.random().toString(36).substr(2, 9)}` } = Astro.props;
+---
+
+<div class="mermaid-wrapper">
+  <pre class="mermaid" id={id}>{code}</pre>
+</div>
+
+<script>
+  import mermaid from 'mermaid';
+  
+  // Initialize mermaid with theme support
+  const initMermaid = () => {
+    const theme = localStorage.getItem("theme") || "light";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: theme === "dark" ? "dark" : "default",
+      securityLevel: "loose",
+    });
+    mermaid.contentLoaded();
+  };
+
+  // Run on initial load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
+
+  // Listen for theme changes
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'theme') {
+      initMermaid();
+    }
+  });
+</script>
+
+<style>
+  .mermaid-wrapper {
+    @apply overflow-x-auto my-4;
+  }
+  
+  .mermaid {
+    @apply text-center;
+  }
+</style>

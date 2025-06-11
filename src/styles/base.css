@@ -336,6 +336,73 @@
     max-width: 100%;
     height: auto;
   }
+
+  /* ===== Mermaid Diagrams ===== */
+  .prose .mermaid svg {
+    @apply w-full max-w-none;
+    min-height: 300px;
+  }
+
+  /* Force readable colors for Mermaid diagrams in dark mode */
+  html[data-theme="dark"] [id^="mermaid-svg"] {
+    /* General text color */
+    .label, .nodeLabel, .edgeLabel, text, .cluster .label {
+      fill: #e5e7eb !important; /* Light gray text */
+    }
+
+    /* ER Diagram boxes */
+    .entityBox {
+      fill: #374151 !important; /* Gray-700 */
+      stroke: #9ca3af !important; /* Gray-400 */
+    }
+    .attributeBoxOdd, .attributeBoxEven {
+      fill: #1f2937 !important; /* Gray-800 */
+      stroke: #4b5563 !important; /* Gray-600 */
+    }
+
+    /* Flowchart nodes */
+    .node rect, .node circle, .node polygon, .node path {
+      fill: #374151 !important; /* Gray-700 */
+      stroke: #9ca3af !important; /* Gray-400 */
+    }
+
+    /* Sequence Diagram Actors and Boxes */
+    .actor, rect.actor {
+        fill: #374151 !important; /* Gray-700 */
+        stroke: #9ca3af !important; /* Gray-400 */
+    }
+    .actor-line, .messageLine0, .messageLine1 {
+        stroke: #9ca3af !important; /* Gray-400 */
+    }
+    .activation0, .activation1 {
+        fill: #4b5563 !important; /* Gray-600 */
+        stroke: #9ca3af !important; /* Gray-400 */
+    }
+
+    /* Subgraph / Cluster containers */
+    .cluster rect, .cluster polygon {
+      fill: #1f2937 !important; /* Darker background for containers */
+      stroke: #4b5563 !important; /* Gray-600 border */
+    }
+
+    /* Edge lines */
+    .edge-path, .path {
+        stroke: #9ca3af !important; /* Gray-400 */
+    }
+
+    /* Edge label background and text */
+    span.edgeLabel {
+      background-color: #374151 !important;
+      color: #e5e7eb !important;
+      padding: 0.125em 0.25em;
+      border-radius: 4px;
+    }
+
+    /* Sequence Diagram Text */
+    .messageText, .labelText, .loopText {
+      fill: #e5e7eb !important;
+    }
+  }
 }
 
 @layer components {
