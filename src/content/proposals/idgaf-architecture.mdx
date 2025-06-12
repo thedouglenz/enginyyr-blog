@@ -8,6 +8,7 @@ featured: true
 draft: false
 tags: ["ai", "architecture", "framework", "paradigm", "automation", "llm"]
 ---
+import Mermaid from "../../components/Mermaid.astro";
 
 # Intent-Driven Gen-AI Autonomous Framework (IDGAF)
 ## Technical Architecture Specification
@@ -24,7 +25,7 @@ The framework provides approximately 80% autonomy to Gen-AI systems while mainta
 
 ### High-Level System Design
 
-```mermaid
+<Mermaid chart={`
 graph TB
     subgraph "IDGAF Framework"
         subgraph "Request Processing Layer"
@@ -66,7 +67,7 @@ graph TB
     BROKER --> LLM2
     MCP --> TOOLS
     CORR --> STATE
-```
+`} />
 
 ---
 
@@ -121,7 +122,7 @@ enum ExecutionState {
 ### 2. Graph Data Model
 
 #### Node Types
-```mermaid
+<Mermaid chart={`
 erDiagram
     IntentNodeClass {
         string id PK
@@ -154,10 +155,10 @@ erDiagram
         string entryPointNodeId FK
         json metadata
     }
-```
+`} />
 
 #### Edge Types
-```mermaid
+<Mermaid chart={`
 graph LR
     A[Intent A] -->|next_step| B[Intent B]
     A -->|invoked| C[Intent C]
@@ -165,7 +166,7 @@ graph LR
     A -->|conditional_branch| E[Intent E]
     A -->|error_handler| F[Intent F]
     A -->|parallel_fork| G[Intent G]
-```
+`} />
 
 **Edge Types:**
 - `next_step`: Sequential workflow progression
@@ -177,7 +178,7 @@ graph LR
 
 ### 3. Request Processing Flow
 
-```mermaid
+<Mermaid chart={`
 sequenceDiagram
     participant Client
     participant Router
@@ -209,7 +210,7 @@ sequenceDiagram
     end
     
     Engine-->>Client: Final Response
-```
+`} />
 
 ### 4. LLM Broker Architecture
 
@@ -244,7 +245,7 @@ enum RoutingStrategy {
 
 #### Central MCP Server Architecture
 
-```mermaid
+<Mermaid chart={`
 graph TB
     subgraph "Central MCP Server"
         REGISTRY[Tool Registry]
@@ -274,7 +275,7 @@ graph TB
     EXEC --> EXT1
     EXEC --> EXT2
     EXEC --> EXT3
-```
+`} />
 
 #### Tool Registration Process
 

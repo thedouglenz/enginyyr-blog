@@ -1,51 +1,44 @@
 ---
-export interface Props {
-  code: string;
-  id?: string;
-}
-
-const { code, id = `mermaid-${Math.random().toString(36).substr(2, 9)}` } = Astro.props;
+const { chart } = Astro.props;
 ---
-
-<div class="mermaid-wrapper">
-  <pre class="mermaid" id={id}>{code}</pre>
+<div class="mermaid-container">
+  <div class="mermaid">{chart}</div>
 </div>
 
 <script>
-  import mermaid from 'mermaid';
-  
-  // Initialize mermaid with theme support
-  const initMermaid = () => {
-    const theme = localStorage.getItem("theme") || "light";
+  import mermaid from "mermaid";
+
+  const getTheme = () => (localStorage.getItem("theme") === "dark" ? "dark" : "forest");
+
+  const renderMermaid = () => {
     mermaid.initialize({
-      startOnLoad: true,
-      theme: theme === "dark" ? "dark" : "default",
-      securityLevel: "loose",
+      startOnLoad: false,
+      theme: getTheme(),
     });
-    mermaid.contentLoaded();
+
+    const mermaidElements = document.querySelectorAll<HTMLElement>(".mermaid");
+    
+    mermaidElements.forEach(el => {
+      el.removeAttribute("data-processed");
+      el.innerHTML = el.textContent || "";
+    });
+
+    mermaid.run({
+      nodes: Array.from(mermaidElements),
+    });
   };
 
-  // Run on initial load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMermaid);
-  } else {
-    initMermaid();
-  }
-
-  // Listen for theme changes
-  window.addEventListener('storage', (e) => {
-    if (e.key === 'theme') {
-      initMermaid();
+  document.addEventListener("astro:page-load", renderMermaid);
+  window.addEventListener("storage", e => {
+    if (e.key === "theme") {
+      renderMermaid();
     }
   });
 </script>
 
 <style>
-  .mermaid-wrapper {
-    @apply overflow-x-auto my-4;
-  }
-  
-  .mermaid {
-    @apply text-center;
-  }
+.mermaid-container {
+  @apply overflow-x-auto my-4 p-4 rounded-lg;
+  background-color: var(--card-bg);
+}
 </style>

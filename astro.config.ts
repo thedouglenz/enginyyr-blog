@@ -5,7 +5,6 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-import mdxMermaid from 'mdx-mermaid';
 
 import mdx from "@astrojs/mdx";
 
@@ -19,10 +18,7 @@ export default defineConfig({
     react(),
     sitemap(),
     mdx({
-      remarkPlugins: [
-        // @ts-ignore
-        [mdxMermaid, { output: 'svg' }]
-      ]
+      remarkPlugins: [ ]
     }),
   ],
   markdown: {

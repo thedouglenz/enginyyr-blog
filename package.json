@@ -25,7 +25,7 @@
     "enginyyr": "link:",
     "fuse.js": "^7.0.0",
     "lodash.kebabcase": "^4.1.1",
-    "mdx-mermaid": "^2.0.3",
+    "mermaid": "^10.9.1",
     "remark-collapse": "^0.1.2",
     "remark-toc": "^9.0.0",
     "satori": "^0.11.0",
