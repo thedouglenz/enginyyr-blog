@@ -1,39 +1,52 @@
 ---
-const { chart } = Astro.props;
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div">;
+
+const { ...attrs } = Astro.props;
 ---
-<div class="mermaid-container">
-  <div class="mermaid">{chart}</div>
+
+<div {...attrs}>
+  <slot />
 </div>
 
 <script>
   import mermaid from "mermaid";
 
-  const getTheme = () => (localStorage.getItem("theme") === "dark" ? "dark" : "forest");
-
-  const renderMermaid = () => {
+  function renderMermaid() {
+    const theme = localStorage.getItem("theme") || "forest";
     mermaid.initialize({
       startOnLoad: false,
-      theme: getTheme(),
+      theme: theme === "dark" ? "dark" : "forest",
     });
 
-    const mermaidElements = document.querySelectorAll<HTMLElement>(".mermaid");
-    
-    mermaidElements.forEach(el => {
-      el.removeAttribute("data-processed");
-      el.innerHTML = el.textContent || "";
-    });
+    document.querySelectorAll('pre[lang="mermaid-client"]').forEach(async (el, i) => {
+      if (el.getAttribute("data-processed")) {
+        return;
+      }
+      
+      const chart = el.querySelector('code')?.innerText;
+      
+      if (!chart) return;
 
-    mermaid.run({
-      nodes: Array.from(mermaidElements),
-    });
-  };
+      const { svg } = await mermaid.render(`mermaid-svg-${i}`, chart);
 
-  document.addEventListener("astro:page-load", renderMermaid);
-  window.addEventListener("storage", e => {
-    if (e.key === "theme") {
-      renderMermaid();
-    }
-  });
+      const container = document.createElement("div");
+      container.innerHTML = svg;
+      container.classList.add("mermaid-container");
+      
+      el.replaceWith(container);
+    });
+  }
+
+  // Initial render
+  renderMermaid();
+
+  // Re-render on theme change
+  document.addEventListener("theme-change", renderMermaid);
+
+  // Re-render on Astro's after-swap event (for view transitions)
+  document.addEventListener("astro:after-swap", renderMermaid);
 </script>
 
 <style>

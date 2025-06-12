@@ -25,7 +25,7 @@ The framework provides approximately 80% autonomy to Gen-AI systems while mainta
 
 ### High-Level System Design
 
-<Mermaid chart={`
+```mermaid-client
 graph TB
     subgraph "IDGAF Framework"
         subgraph "Request Processing Layer"
@@ -67,7 +67,7 @@ graph TB
     BROKER --> LLM2
     MCP --> TOOLS
     CORR --> STATE
-`} />
+```
 
 ---
 
@@ -122,7 +122,7 @@ enum ExecutionState {
 ### 2. Graph Data Model
 
 #### Node Types
-<Mermaid chart={`
+```mermaid-client
 erDiagram
     IntentNodeClass {
         string id PK
@@ -155,10 +155,10 @@ erDiagram
         string entryPointNodeId FK
         json metadata
     }
-`} />
+```
 
 #### Edge Types
-<Mermaid chart={`
+```mermaid-client
 graph LR
     A[Intent A] -->|next_step| B[Intent B]
     A -->|invoked| C[Intent C]
@@ -166,7 +166,7 @@ graph LR
     A -->|conditional_branch| E[Intent E]
     A -->|error_handler| F[Intent F]
     A -->|parallel_fork| G[Intent G]
-`} />
+```
 
 **Edge Types:**
 - `next_step`: Sequential workflow progression
@@ -178,7 +178,7 @@ graph LR
 
 ### 3. Request Processing Flow
 
-<Mermaid chart={`
+```mermaid-client
 sequenceDiagram
     participant Client
     participant Router
@@ -210,7 +210,7 @@ sequenceDiagram
     end
     
     Engine-->>Client: Final Response
-`} />
+```
 
 ### 4. LLM Broker Architecture
 
@@ -245,7 +245,7 @@ enum RoutingStrategy {
 
 #### Central MCP Server Architecture
 
-<Mermaid chart={`
+```mermaid-client
 graph TB
     subgraph "Central MCP Server"
         REGISTRY[Tool Registry]
@@ -275,7 +275,7 @@ graph TB
     EXEC --> EXT1
     EXEC --> EXT2
     EXEC --> EXT3
-`} />
+```
 
 #### Tool Registration Process
 
