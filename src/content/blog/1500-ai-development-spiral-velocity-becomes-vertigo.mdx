@@ -1,0 +1,107 @@
+---
+pubDatetime: 2025-09-17T17:00:00.000Z
+modDatetime: 2025-09-17T17:00:00.000Z
+title: "The AI Development Spiral: When Velocity Becomes Vertigo"
+slug: ai-development-spiral-velocity-becomes-vertigo
+featured: true
+tags:
+  - ai
+  - development
+  - software engineering
+  - productivity
+  - llm
+  - coding
+  - architecture
+  - project management
+  - tech culture
+description: The promise of AI-assisted development is speed and efficiency. But what happens when rapid iteration becomes an endless cycle of starting over? An honest look at the hidden costs of our AI-powered development workflows.
+draft: false
+---
+
+## Table of contents
+
+## The honeymoon phase
+
+Picture this: you wake up with a brilliant idea. Nothing revolutionary, mind you—maybe a productivity app, a side project, or that internal tool your team has been talking about for months. You fire up Claude or ChatGPT, describe your vision in broad strokes, and within minutes you're staring at a comprehensive project plan. Feature lists, technical architecture, implementation phases—it's all there, beautifully organized in markdown.
+
+You feel like you've just hired the world's most efficient consultant. The AI has anticipated edge cases you hadn't considered, suggested modern tech stacks you'd been meaning to explore, and laid out a roadmap that actually makes sense. You copy-paste those documents into your project folder, set up your repository, and dive in with the confidence of someone who knows exactly where they're going.
+
+This is the honeymoon phase of AI-assisted development. Everything feels possible. Velocity is intoxicating.
+
+## The reality check
+
+Then you start building. You feed those pristine planning documents to Claude Code, Cursor, or whatever AI coding agent you prefer. You inject your preferences—maybe you're partial to TypeScript, have strong opinions about state management, or insist on using that particular utility library you've grown fond of. The AI agent starts generating code, and it's... actually pretty good.
+
+But software development is rarely a straight line from vision to reality. As you work together with your AI pair programmer, you discover things. The third-party API you planned to use has rate limits that change your approach. The user interface mockups look different when you actually implement them. That clever architectural decision from the planning phase creates more complexity than value in practice.
+
+So you pivot. You adapt. You make the smart engineering decisions that experienced developers make all the time. The AI agent is happy to follow your lead, generating new code for your refined approach.
+
+Here's where things get interesting.
+
+## The documentation decay
+
+Remember those beautiful planning documents? They're still sitting in your project folder, but they no longer reflect reality. The feature specifications describe functionality you've since simplified. The architectural diagrams show components that never got built and omit the clever workarounds you actually implemented. The implementation timeline assumes you're still building the original vision.
+
+This wouldn't be a big deal in traditional development. Documentation going stale is as old as software engineering itself. But in AI-assisted development, those documents aren't just artifacts—they're the foundation for future AI interactions. When you need to make the next big change or add new features, you'll inevitably feed them back to an AI system that will dutifully plan based on outdated assumptions.
+
+Meanwhile, your codebase has evolved in ways that even your AI coding agent might not fully grasp. Files get created and abandoned. Approaches get started and discarded. Code that seemed essential one day becomes dead weight the next. The AI tools, despite having access to your entire repository, sometimes miss existing implementations that could be extended rather than recreated.
+
+I've watched Cursor recreate utility functions that already existed in a different directory. I've seen Claude Code generate new components that duplicated functionality from earlier iterations that got moved but not deleted. The tools are incredibly capable, but they're not omniscient.
+
+## The relearning cycle
+
+Eventually, you hit a wall. Maybe you want to add a significant new feature, or you need to refactor a core system that's become unwieldy. You turn to your AI assistant for guidance, but there's a problem: the planning documents are obsolete, and even with access to your codebase, the AI needs time to understand what you actually built versus what you originally intended.
+
+So you start over. You ask the AI to analyze your current codebase, understand your actual architecture, and help you plan the next phase. It's like introducing a new team member to a project mid-stream—there's context to rebuild, decisions to explain, and assumptions to validate.
+
+This relearning phase can be surprisingly time-consuming. The AI needs to reverse-engineer your intentions from your implementation. You find yourself explaining why you chose certain approaches over others, justifying architectural decisions that made perfect sense in context but look arbitrary in isolation.
+
+And then you're back to the planning phase, generating new documents that will themselves become stale as you continue to iterate and adapt.
+
+## The existential question
+
+After going through this cycle a few times, you start to wonder: am I actually saving time?
+
+The promise of AI-assisted development is velocity. Move fast, iterate quickly, let the machines handle the boilerplate so you can focus on the creative problem-solving. But velocity without direction is just motion. If you're constantly starting over, constantly re-explaining context, constantly generating new plans for systems that are already half-built, are you really moving faster than you would with traditional development approaches?
+
+I'm not convinced we have a good answer yet. The raw coding speed is undeniable—AI can generate boilerplate, suggest implementations, and help you explore approaches faster than you could alone. But the overhead of managing this process, maintaining coherence across iterations, and preventing the spiral from becoming a centrifuge might be eating into those gains more than we realize.
+
+## The file blindness problem
+
+There's another dimension to this challenge that deserves attention: even sophisticated AI coding agents sometimes exhibit a kind of "file blindness." They have access to your entire codebase, but that doesn't mean they always make the connections a human developer would.
+
+I've seen it repeatedly—an AI agent will generate a new implementation for functionality that already exists in a slightly different form elsewhere in the codebase. Or it will create utilities that duplicate existing code because the existing version is in a different module or named differently than expected. The tools are getting better at this, but the problem persists.
+
+This isn't necessarily a flaw in the AI systems—codebases are complex, and making the right connections between disparate pieces of functionality is genuinely difficult. But it contributes to the spiral effect. You end up with more code than you need, more complexity than you intended, and more cleanup work for future iterations.
+
+## Finding balance in the spiral
+
+I don't think the solution is to abandon AI-assisted development. The benefits are real, and the technology will continue to improve. But I do think we need better strategies for managing the spiral.
+
+One approach is to be more intentional about documentation hygiene. Instead of letting planning documents rot, treat them as living artifacts that need regular updates. When you pivot, update the plans. When you abandon an approach, document why. This creates more work upfront but pays dividends when you need to bring an AI agent up to speed on your current reality.
+
+Another strategy is to be more aggressive about cleanup. Those abandoned files and dead code paths might not hurt your application, but they add noise that confuses AI analysis. Treating code hygiene as a first-class concern in AI-assisted development could help reduce the relearning overhead.
+
+We might also need different tools and workflows optimized for this style of development. Traditional version control and documentation systems were designed for human teams working on longer timelines. AI-assisted development happens faster and with more frequent pivots. Maybe we need new approaches to tracking context, maintaining coherence, and managing the artifacts of rapid iteration.
+
+## The meta question
+
+Here's what really interests me about this phenomenon: it might be revealing something fundamental about how we approach software development with AI assistance. We're applying AI tools to traditional development workflows, but maybe those workflows weren't designed for this kind of velocity and iteration frequency.
+
+When you can generate code and plans quickly, the temptation is to move fast and iterate often. But software systems have inherent complexity that doesn't disappear just because you can write code faster. That complexity has to go somewhere—it either gets managed intentionally or it accumulates as technical debt, documentation rot, and cognitive overhead.
+
+The AI development spiral might be the natural consequence of trying to optimize for short-term velocity without adapting our processes for long-term coherence.
+
+## Embracing the spiral
+
+Maybe the answer isn't to eliminate the spiral but to lean into it more intentionally. Accept that AI-assisted development will involve more frequent restarts and re-contextualization. Plan for it. Build workflows that assume you'll need to periodically step back, assess what you've actually built, and restart the planning process with fresh eyes.
+
+This might mean shorter planning horizons, more frequent architecture reviews, and treating documentation as a continuous process rather than a phase-based activity. It might mean accepting that some amount of throwaway code and abandoned approaches are the price of rapid exploration.
+
+The vertigo of velocity might not be a bug—it might be a feature. The ability to quickly explore multiple approaches, pivot when you learn something new, and iterate based on real feedback is genuinely valuable. The challenge is learning to navigate the spiral without losing your bearings.
+
+The question isn't whether AI-assisted development is worth it. For many problems and many developers, it clearly is. The question is how we evolve our practices, tools, and expectations to get the most out of these powerful new capabilities without drowning in the artifacts of our own productivity.
+
+We're still figuring this out, and that's okay. The technology is young, our practices are evolving, and the problems we're solving with AI assistance are becoming more complex. A little vertigo might be inevitable when you're moving this fast through unfamiliar territory.
+
+The key is recognizing the spiral for what it is—not a failure of planning or process, but a natural consequence of working at AI-accelerated speeds—and adapting accordingly.
