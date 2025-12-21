@@ -33,14 +33,8 @@ export const LOGO_IMAGE = {
 
 export const SOCIALS: SocialObjects = [
   {
-    name: "Github",
-    href: "https://github.com/thedouglenz",
-    linkTitle: ` ${SITE.title} on Github`,
-    active: true,
-  },
-  {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/douglas-lenz-8333a12b/",
+    href: "https://www.linkedin.com/company/magicingredient",
     linkTitle: `${SITE.title} on LinkedIn`,
     active: true,
   },
@@ -61,12 +55,6 @@ export const SOCIALS: SocialObjects = [
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on Twitch`,
     active: false,
-  },
-  {
-    name: "YouTube",
-    href: "https://www.youtube.com/@thedevcouch9789",
-    linkTitle: `${SITE.title} on YouTube`,
-    active: true,
   },
   {
     name: "WhatsApp",
