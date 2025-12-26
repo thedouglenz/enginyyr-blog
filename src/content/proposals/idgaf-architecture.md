@@ -1,7 +1,7 @@
 ---
 title: "Intent-Driven Gen-AI Autonomous Framework (IDGAF) - Technical Architecture Specification"
 description: "A novel software engineering paradigm that shifts from deterministic programming to intent-based autonomous execution, providing 80% autonomy to Gen-AI systems while maintaining developer control."
-author: "Douglas Lenz"
+author: "Enginyyr"
 pubDatetime: 2024-12-27T00:00:00.000Z
 status: "draft"
 featured: true
