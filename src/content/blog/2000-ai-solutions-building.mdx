@@ -1,0 +1,94 @@
+---
+pubDatetime: 2026-01-09T19:30:00.000Z
+modDatetime: 2026-01-09T19:30:00.000Z
+title: "What It Actually Means to Build AI Solutions"
+slug: ai-solutions-building
+featured: true
+tags:
+  - ai
+  - automation
+  - small business
+  - software engineering
+  - n8n
+  - workflows
+  - consulting
+description: "Building AI solutions for small businesses isn't about deploying the fanciest models. It's about understanding the problem, choosing appropriate technology, and delivering something that works without constant babysitting."
+ogImage: "https://cdn.enginyyr.com/magic-bot.png"
+draft: false
+---
+
+![Magic Ingredient AI bot](https://cdn.enginyyr.com/magic-bot.png)
+
+## Table of contents
+
+## The term "AI solution" has become meaningless
+
+Every software vendor now claims to offer an "AI solution." Add a chatbot to your SaaS product? AI solution. Implement a simple recommendation algorithm? AI solution. Run a regex through a language model for no discernible reason? Believe it or not, AI solution.
+
+The inflation of the term has made it nearly useless for describing what any given company actually does. Which is a shame, because there's real work happening beneath the buzzwords. Work that involves understanding specific problems, selecting appropriate tools, and building systems that solve those problems reliably.
+
+I run [Magic Ingredient](https://magic-ingredient.enginyyr.com), an AI automation consulting business focused on small businesses. When people ask what that means, I find myself having to push past the vague terminology and describe the actual work: decomposing business problems into automatable components, connecting systems that don't naturally talk to each other, and building workflows that handle the tedious transformation tasks that eat up human hours.
+
+It's less glamorous than the marketing copy suggests. But it's more useful.
+
+## The reality of small business infrastructure
+
+When consulting with enterprise clients, you can usually assume some baseline infrastructure. Cloud accounts, IT policies, integration platforms, documentation about how systems connect. Small businesses operate differently.
+
+Most small businesses don't have "infrastructure" in any meaningful technical sense. What they have is a collection of SaaS subscriptions: QuickBooks for accounting, Mailchimp for email, Square for payments, Google Workspace for everything else. These tools weren't selected as part of a coherent technology strategy. They were adopted piecemeal, whenever a specific need arose, often by whoever happened to be solving that problem at the moment.
+
+This isn't a criticism. It's rational behavior. Small businesses should be spending their limited time and money on serving customers, not architecting integrated systems. But it does mean that "building an AI solution" for a small business looks fundamentally different than doing the same for an enterprise.
+
+The first step is almost always discovery: what tools do you actually use? Where does information originate, and where does it need to end up? What are the manual steps that connect these systems right now? The answers are often surprising even to the business owners themselves. Processes that seem simple turn out to involve five different platforms and a spreadsheet that only one person understands.
+
+## The workflow approach
+
+At Magic Ingredient, we build workflows. Specifically, we use n8n, a visual workflow automation platform that connects different systems and handles the logic between them.
+
+A workflow is exactly what it sounds like: a defined sequence of steps that takes some input, processes it according to rules, and produces some output. Trigger when a new email arrives, extract the relevant data, transform it to match the destination format, push it to the appropriate system, send a confirmation. Nothing revolutionary here. But when you start connecting these pieces reliably, the cumulative time savings add up fast.
+
+The AI part enters where it makes sense. Sometimes that means using a language model to extract structured data from unstructured text. Sometimes it means generating draft responses for human review. Sometimes it means classifying incoming requests so they can be routed correctly. The key word is "sometimes." AI isn't the solution to every step in a workflow. It's one tool among many, useful when the task requires flexibility in handling varied inputs or producing natural language outputs.
+
+The best workflows are ones that run quietly in the background, handling the boring stuff without supervision. No drama, no alerts, no maintenance emergencies at 2 AM. Just inputs becoming outputs, over and over, exactly as specified.
+
+## Deployment isn't one-size-fits-all
+
+One of the first questions I work through with clients is where their automation should actually run. This seems technical, but it has real implications for cost, security, and long-term ownership.
+
+For most small businesses, a managed hosting approach makes sense. We run a Kubernetes cluster that hosts client workflows, handles monitoring, and manages the infrastructure complexity so clients don't have to. They get the benefits of automation without needing to become cloud infrastructure experts.
+
+But some clients have specific requirements. Maybe they're in a regulated industry and need to control where their data lives. Maybe they've grown large enough to have their own cloud presence and want to own the infrastructure long-term. Maybe their IT team has opinions. For these cases, we can deploy into enterprise cloud environments like AWS or GCP, or even into the client's existing infrastructure if they have something suitable.
+
+The point is that deployment strategy should follow from business requirements, not from what's easiest for the consultant. A solution that technically works but doesn't fit the client's operational reality isn't much of a solution.
+
+## Knowledge as infrastructure
+
+There's another category of AI solution that's less about workflow automation and more about making information accessible: knowledge retrieval.
+
+Most organizations have accumulated useful information across countless documents, wikis, email threads, and the heads of long-tenured employees. Getting answers often requires either knowing exactly where to look or asking the right person. This is inefficient, and it creates single points of failure when key people leave.
+
+[Trailhead](https://trailhead.enginyyr.com) is our answer to this problem. It's a RAG (Retrieval-Augmented Generation) system that ingests your documents and lets you query them conversationally. Ask a question, get an answer synthesized from your own organizational knowledge, with citations so you can verify the source.
+
+What makes Trailhead different from the dozen other RAG products on the market is deployment flexibility. We can host it for you, or we can deploy it entirely within your own cloud environment. For organizations with sensitive data or compliance requirements, that second option matters. Your documents never leave your infrastructure. You control the security posture. We provide the capability without requiring you to trust us with your information.
+
+## The three questions
+
+When evaluating whether AI automation makes sense for a particular use case, I've found three questions helpful:
+
+What specific task are you trying to automate? Not a vague goal like "improve efficiency" but a concrete, describable task. "Extract order details from incoming emails and add them to our order management system." If you can't describe the task precisely, you're not ready to automate it.
+
+How will you measure success? What does working look like? For the email-to-order example, success might mean 95% of orders are processed without human intervention, with the remainder flagged for review. Without a measurable definition of success, you can't tell whether the solution is actually working or just providing the illusion of progress.
+
+What's the minimum viable implementation? What's the simplest version of this automation that would provide value? Start there. Resist the temptation to build the perfect, fully-featured system upfront. Get something working, learn from how it performs in production, then iterate.
+
+These questions aren't AI-specific. They're just good engineering hygiene applied to a domain where it's easy to get distracted by shiny technology.
+
+## The honest pitch
+
+If you're a small business owner reading this, here's the honest pitch: AI automation can provide real value, but only for the right problems. Structured, repetitive tasks with clear inputs and outputs are great candidates. Creative work, strategic decisions, and anything requiring genuine human judgment are not.
+
+The businesses that get the most value are the ones that approach this pragmatically. They identify specific pain points, implement targeted solutions, and measure results. They treat AI as a tool rather than a transformation initiative.
+
+Magic Ingredient exists to help with that pragmatic approach. We're not here to sell you on a vision of the future. We're here to look at what's actually slowing you down and build something that helps.
+
+If that sounds useful, reach out at [magic-ingredient.enginyyr.com](https://magic-ingredient.enginyyr.com). We'll start with the three questions and go from there.
