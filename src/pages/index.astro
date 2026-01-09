@@ -54,6 +54,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           </div>
         )
       }
+      <div class="projects-row">
+        <a href="https://magic-ingredient.enginyyr.com" target="_blank" rel="noopener noreferrer">Magic Ingredient</a>
+        <span class="separator">·</span>
+        <a href="https://trailhead.enginyyr.com" target="_blank" rel="noopener noreferrer">Trailhead</a>
+        <span class="separator">·</span>
+        <a href="https://orbit.llm-games.com" target="_blank" rel="noopener noreferrer">Orbit</a>
+      </div>
     </section>
 
     <Hr />
@@ -152,6 +159,15 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     }
     .social-links {
       @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
+    }
+    .projects-row {
+      @apply mt-3 flex flex-wrap items-center gap-2;
+    }
+    .projects-row a {
+      @apply text-skin-accent hover:underline;
+    }
+    .projects-row .separator {
+      @apply text-skin-base opacity-50;
     }
 
     /* ===== Featured & Recent Posts Sections ===== */
