@@ -1,0 +1,130 @@
+---
+pubDatetime: 2025-01-10T15:30:00.000Z
+modDatetime: 2025-01-10T15:30:00.000Z
+title: "RAG Beyond Chunks: Why Context Gets Lost in Traditional Retrieval"
+slug: rag-beyond-chunks-context-lost
+featured: true
+tags:
+  - ai
+  - rag
+  - llm
+  - knowledge management
+  - document retrieval
+  - enterprise ai
+  - software architecture
+  - trailhead
+description: "Most RAG systems treat documents like a pile of text snippets. But real understanding requires more than chunks. Here's why multi-view retrieval changes everything for document Q&A."
+draft: false
+---
+
+## Table of contents
+
+## The problem nobody talks about
+
+You've probably heard the pitch a hundred times by now: "Just chunk your documents, embed them, and let the LLM answer questions!" It sounds elegant. It sounds simple. And for toy demos, it actually works pretty well.
+
+Then you deploy it to production with real documents and real users, and things get weird.
+
+A user asks, "Is Acme Corp a vendor or a customer?" The system retrieves three chunks that all mention Acme Corp, but none of them explicitly state the relationship. One chunk talks about a contract. Another mentions an invoice. The third describes a meeting. The LLM takes its best guess, and sometimes that guess is wrong. Worse, sometimes it's confidently wrong, presenting its hallucination with the same conviction it would use for a verified fact.
+
+This scenario plays out constantly in enterprise RAG deployments, and it reveals a fundamental limitation in how most systems think about document retrieval. We've been so focused on the mechanics of chunking and embedding that we've forgotten what we're actually trying to do: help people understand their documents.
+
+## How we got here
+
+The standard RAG architecture makes intuitive sense if you squint. Documents are too long to fit in an LLM's context window, so we break them into smaller pieces. We convert those pieces into vector embeddings that capture their semantic meaning. When a user asks a question, we convert the question into a vector, find the chunks whose vectors are most similar, and pass those chunks to the LLM as context for generating an answer.
+
+It's a reasonable approach, and it's gotten a lot of mileage. But it carries an implicit assumption that often goes unexamined: that raw text chunks are the right unit of retrieval.
+
+Think about how humans actually understand documents. When you read a contract, you don't just absorb text sequentially. You build mental models of the entities involved, the relationships between them, the obligations and timelines, the risks and exceptions. You understand that the "Party A" mentioned on page twelve is the same "Client" from page three. You track context across sections and make inferences that no single paragraph could support on its own.
+
+Traditional RAG systems don't do any of this. They treat documents as collections of isolated text snippets, hoping that vector similarity will magically surface the right ones. Sometimes it does. Often it doesn't.
+
+## The entity problem
+
+Consider a simple question: "What role does Microsoft play in our business?"
+
+In a typical enterprise knowledge base, Microsoft might appear in dozens of documents across hundreds of chunks. Some chunks discuss Microsoft as a technology vendor providing Azure infrastructure. Others reference Microsoft as a sales partner in a joint go-to-market arrangement. Still others mention Microsoft as a competitor in certain market segments.
+
+When a user asks about Microsoft's role, traditional RAG will retrieve chunks that mention Microsoft. But which chunks? The ones with the highest vector similarity to the question. And vector similarity, while useful, doesn't understand that the same entity can have multiple roles depending on context.
+
+The result is often a muddled answer that conflates different relationships, or worse, an answer that latches onto one relationship while ignoring others that might be equally or more important.
+
+What we need is a way to represent entities as first-class objects in our retrieval system, with explicit information about their types, aliases, and contextual roles. When someone asks about Microsoft, we should be able to retrieve not just text that mentions Microsoft, but structured knowledge about what Microsoft actually means in our specific organizational context.
+
+## Beyond keyword matching, beyond vector search
+
+Vector search represented a genuine leap forward from keyword matching. Instead of requiring exact term matches, we could find semantically similar content. "Password reset" could match "credential recovery." That's powerful.
+
+But semantic similarity operates at the level of surface meaning. It tells us that two pieces of text are about similar topics. It doesn't tell us about the relationships between concepts, the hierarchical structure of a document, or the different types of information that might be relevant to different types of questions.
+
+Some questions are best answered by raw text chunks. "What does Section 4.2 say about termination clauses?" is a great example. You want the actual text.
+
+Other questions require different kinds of understanding. "What are all the deadlines mentioned in this contract?" needs information extracted and aggregated from multiple locations. "Who are the key stakeholders in Project Mercury?" needs entity recognition and relationship mapping. "How do I troubleshoot the API timeout error?" needs procedural knowledge that might be scattered across a troubleshooting guide.
+
+A retrieval system that only offers one view of documents will inevitably fail at some of these queries. The solution isn't to pick the right view. It's to offer multiple views simultaneously.
+
+## The case for multi-view retrieval
+
+Imagine a retrieval system that maintains several different representations of your documents, each optimized for different types of queries.
+
+The first view is the familiar one: raw text chunks, preserved exactly as they appear in the source documents. These are your ground truth, the actual words on the page. When someone needs to verify exact wording or trace an answer back to its source, chunks are indispensable.
+
+The second view focuses on entities. As documents are ingested, the system identifies named entities like people, organizations, products, and locations. But it goes further than simple extraction. It tracks how each entity is mentioned across documents, what roles they play in different contexts, and how they relate to each other. "Acme Corp" and "Acme" and "ACME Inc." get merged into a single canonical entity. The system knows that Acme appears as a vendor in procurement documents and as a partner in the sales playbook.
+
+The third view captures task-oriented summaries. What questions does this document answer? What problems does it help solve? What policies does it define? Instead of storing just the raw text of a troubleshooting guide, the system also stores a summary like: "This document explains how to resolve API rate limiting errors by implementing exponential backoff and requesting quota increases."
+
+When a query arrives, the system searches across all three views. A question about contract termination might retrieve raw chunks containing termination clauses, entity information about the parties involved, and task summaries about what obligations termination creates. The LLM receives a richer context that enables a more complete answer.
+
+## Citations that actually trace back
+
+One of the persistent frustrations with RAG systems is the citation problem. An LLM might claim that "refunds are available within 30 days according to the company policy," but how do you verify that? Traditional systems can point you to a chunk, but chunks are often decontextualized snippets that are hard to locate in the original document.
+
+A proper citation chain should work like following footnotes in an academic paper. The answer cites a specific claim. That claim traces to a view (maybe an entity mention or a task summary). That view traces back to specific chunks. Those chunks reference specific character positions in specific source documents.
+
+This isn't just about satisfying curiosity. In regulated industries like healthcare and finance, audit trails matter. When a compliance officer asks, "Why did the system give this answer?", you need to be able to show the complete provenance chain from question to source material.
+
+## Understanding document structure
+
+Here's something that bothers me about most chunking strategies: they treat documents as flat sequences of text. A heading gets the same treatment as a paragraph gets the same treatment as a code block.
+
+But document structure carries meaning. A section titled "Exclusions and Limitations" signals something different than a section titled "Benefits and Coverage." A code example embedded in documentation has a different semantic weight than a prose explanation. A table of financial figures serves a different purpose than narrative text.
+
+Intelligent chunking should respect this structure. It should know that the text under "Section 3.1: Payment Terms" belongs together conceptually. It should understand parent-child relationships between sections. It should recognize when content flows sequentially versus when it's organized hierarchically.
+
+This structural awareness enables better retrieval in two ways. First, it produces cleaner chunks that don't arbitrarily split related content. Second, it enables navigation. Once you've found a relevant chunk, you can explore what comes before and after, what section it belongs to, what other content is in the same category.
+
+## The knowledge graph dimension
+
+There's another representation that becomes possible once you have entities and relationships: a knowledge graph.
+
+Instead of just storing text and vectors, you store connections. Microsoft is a vendor. Microsoft provides Azure. Azure is used by Project Mercury. Project Mercury is owned by the Engineering department. The Engineering department reports to the CTO.
+
+Now when someone asks about Microsoft's relationship to the company, the system can traverse these connections to build a comprehensive picture. It's not just searching for similar text anymore. It's reasoning about relationships.
+
+Knowledge graphs have been around for decades, and they've always been powerful but expensive to build manually. The interesting development is that LLMs can now extract these relationships automatically during document ingestion. Not perfectly, and not without supervision, but well enough to add genuine value.
+
+The combination of vector search for semantic similarity and graph traversal for relationship reasoning is more powerful than either approach alone.
+
+## What this means for your knowledge base
+
+If you're evaluating RAG solutions, or building one yourself, the architecture questions matter more than the marketing claims. Ask what kinds of views the system maintains. Ask how entities are handled. Ask how citations trace back to sources. Ask whether the system understands document structure.
+
+The difference between a demo that impresses and a production system that actually helps people often comes down to these structural decisions. A system that only retrieves raw chunks will hit a ceiling. Users will ask questions it can't answer well, not because the information isn't in the documents, but because the retrieval system lacks the right representation to find it.
+
+Multi-view retrieval isn't the only solution to these problems, but it's a coherent one. It acknowledges that different questions require different kinds of understanding, and it provides the machinery to support that.
+
+## A practical path forward
+
+For organizations drowning in documents they can't search effectively, the path forward looks something like this. First, pick a domain where better document Q&A would make a measurable difference. Legal contracts, support knowledge bases, compliance documentation, and research archives are all good candidates.
+
+Second, be realistic about what "good" looks like. Perfect accuracy isn't achievable, but meaningful improvement over keyword search and basic RAG is absolutely within reach. Set benchmarks and measure against them.
+
+Third, demand citations and traceability. Any system that gives you answers without showing its work is a system you can't trust for serious applications. The ability to audit the reasoning chain isn't a nice-to-have; it's a requirement.
+
+Fourth, think about the long game. Documents accumulate. Relationships evolve. A system that can grow with your knowledge base, extracting entities and building understanding over time, is more valuable than one that requires constant manual curation.
+
+The RAG landscape is maturing quickly. The primitive chunk-and-retrieve approach that launched a thousand demos is giving way to more sophisticated architectures that take document understanding seriously. The systems that win will be the ones that treat retrieval as a knowledge problem, not just a search problem.
+
+That's the bet we've made with [Trailhead](https://trailhead.enginyyr.com). Multi-view retrieval with entities, tasks, and chunks. Citations that trace to sources. A knowledge graph that grows with your documents. Production-ready infrastructure that doesn't require you to become a vector database expert.
+
+Whether you build or buy, the underlying insight is the same: documents are more than text, and retrieval systems should reflect that reality. The era of "just chunk it and embed it" is ending. What comes next is more interesting.
