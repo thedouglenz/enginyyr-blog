@@ -7,6 +7,7 @@ import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
+import ProjectCards from "@components/ProjectCards.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SITE, SOCIALS } from "@config";
 
@@ -116,23 +117,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </LinkButton>
     </div>
 
-    <section id="projects">
-      <h2>Keep Exploring</h2>
-      <div class="project-grid">
-        <a href="https://magic-ingredient.enginyyr.com" target="_blank" rel="noopener noreferrer" class="project-card magic-ingredient">
-          <h3 class="gradient-text">Magic Ingredient</h3>
-          <p>AI-powered workflow automation for small businesses. Transform tedious tasks into streamlined processes.</p>
-        </a>
-        <a href="https://trailhead.enginyyr.com" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Trailhead</h3>
-          <p>A retrieval-augmented generation (RAG) solution for intelligent document search and knowledge extraction.</p>
-        </a>
-        <a href="https://orbit.llm-games.com" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Orbit</h3>
-          <p>A daily word game where you guess words based on semantic meaning. How close can you get?</p>
-        </a>
-      </div>
-    </section>
+    <ProjectCards />
 
     <Footer />
   </main>
@@ -183,49 +168,5 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       @apply my-8 text-center;
     }
 
-    /* ===== Projects Section ===== */
-    #projects {
-      @apply pb-6 pt-12;
-    }
-    #projects h2 {
-      @apply text-2xl font-semibold tracking-wide;
-    }
-    .project-grid {
-      @apply mt-6 grid gap-4;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 640px) {
-      .project-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (min-width: 1024px) {
-      .project-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-    .project-card {
-      @apply block rounded-lg border border-skin-line p-5 transition-all duration-200;
-      @apply hover:border-skin-accent hover:bg-skin-card-muted;
-    }
-    .project-card h3 {
-      @apply text-lg font-semibold text-skin-accent;
-    }
-    .project-card p {
-      @apply mt-2 text-sm opacity-80;
-    }
-    .project-card.magic-ingredient {
-      @apply border-2;
-      border-image: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa) 1;
-    }
-
-    /* ===== Gradient Text ===== */
-    .gradient-text {
-      background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 600;
-    }
-  </style>
+    </style>
 </Layout>
