@@ -115,6 +115,11 @@
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
+
+  /* Remove image borders in dark mode */
+  html[data-theme="dark"] .prose img {
+    @apply border-0;
+  }
 }
 
 @layer components {
