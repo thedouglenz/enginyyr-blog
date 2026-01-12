@@ -45,7 +45,7 @@ const layoutProps = {
 <Layout {...layoutProps}>
   <Header activeNav="proposals" />
 
-  <div class="mx-auto flex w-full max-w-3xl justify-start px-2">
+  <div class="mx-auto flex w-full max-w-5xl justify-start px-2">
     <button
       class="focus-outline mb-2 mt-8 flex hover:opacity-75"
       onclick="(() => (history.length === 1) ? window.location = '/proposals/' : history.back())()"
@@ -92,7 +92,7 @@ const layoutProps = {
       </div>
     </div>
 
-    <article id="article" class="prose mx-auto mt-8 max-w-3xl">
+    <article id="article" class="prose mx-auto mt-8 max-w-5xl">
       <Content />
     </article>
 
@@ -117,7 +117,7 @@ const layoutProps = {
 
 <style>
   main {
-    @apply mx-auto w-full max-w-3xl px-4 pb-12;
+    @apply mx-auto w-full max-w-5xl px-4 pb-12;
   }
   .proposal-title {
     @apply my-6 text-2xl font-bold leading-tight sm:text-3xl sm:leading-tight;
