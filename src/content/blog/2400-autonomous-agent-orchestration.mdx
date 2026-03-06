@@ -1,0 +1,133 @@
+---
+pubDatetime: 2026-03-06T18:00:00.000Z
+modDatetime: 2026-03-06T18:00:00.000Z
+title: "The Case for Autonomous Agent Orchestration"
+slug: autonomous-agent-orchestration
+featured: true
+tags:
+  - ai
+  - architecture
+  - software engineering
+  - agency
+  - distributed systems
+  - automation
+description: "Most AI agent setups die after one session. The patterns that make autonomous agents actually work long-term — cycle-based invocation, admin/worker separation, sleep-first design — look nothing like what you'd expect."
+draft: false
+---
+
+## Table of contents
+
+## The session problem
+
+Every developer who's tried to run an AI coding agent for more than a few hours has hit the same wall. The agent starts sharp. It reads the codebase, understands the task, writes clean code. But somewhere around hour three, things drift. Context fills up. The agent starts repeating itself, misreading its own earlier output, making decisions that contradict what it decided twenty minutes ago.
+
+This isn't a model problem. It's an architecture problem. Long-running sessions accumulate context like a desk accumulates paper. Eventually the signal-to-noise ratio collapses and the agent is spending most of its reasoning capacity just parsing its own history.
+
+The instinct is to fix this with better context management — summarization, sliding windows, retrieval. These help at the margins. But they're treating the symptom. The deeper issue is that we're using the wrong execution model entirely.
+
+## What if the agent didn't need to remember?
+
+The pattern that actually works is counterintuitive: don't keep the agent running. Kill it after every unit of work and start fresh.
+
+Think of it like a shift system. A doctor doesn't work a 72-hour shift because their judgment degrades. They work defined shifts, do a handoff, and the next doctor picks up with fresh eyes and a clean chart. The patient's state lives in the medical record, not in the doctor's head.
+
+The same principle applies to autonomous agents. The agent's state should live in external systems — task trackers, version control, databases — not in the conversation context. Each invocation reads the current state, makes a decision, writes the result, and exits. The next invocation gets pristine context with only the information it actually needs.
+
+I call this **cycle-based invocation**. A lightweight outer loop — just a shell script under a process supervisor — handles the lifecycle: invoke the agent, capture its decision, sleep, repeat. The agent itself is stateless. All continuity comes from the environment it reads.
+
+This has several properties that make it surprisingly robust:
+
+- **Fresh reasoning every cycle.** No context pollution, no degraded judgment after hours of accumulated observations.
+- **Sleep is free.** When the agent isn't running, you're not burning API tokens. A bash `sleep` costs nothing.
+- **Crash recovery is trivial.** If the agent dies mid-cycle, the outer loop restarts it. Since all state lives externally, nothing is lost.
+- **"Do nothing" is a first-class outcome.** A long-running agent feels psychological pressure to act — it's running, so it should be doing something. A cycle-based agent naturally defaults to "assess state, find nothing urgent, go back to sleep." This is often the correct behavior.
+
+## The admin/worker split
+
+Once you have a reliable control loop, the next question is scope. Should the orchestrating agent also write code?
+
+No. Emphatically no.
+
+There's a well-understood principle in systems design: the component that makes decisions should not be the same component that executes them. A load balancer doesn't serve web pages. A kernel scheduler doesn't run userspace programs. The control plane and the data plane are separate for good reason.
+
+The same separation applies to agent orchestration. You want an **admin agent** whose only job is to assess the current state of work, decide what needs to happen next, and delegate. It reads task queues, checks on running workers, reviews completed output, and creates pull requests. It never writes a line of production code.
+
+The actual coding happens in **worker agents**, each operating in isolation. They get a single, well-scoped task. They execute it in their own copy of the repository. They commit their work and exit. They don't coordinate with each other. They don't even know each other exists.
+
+This separation buys you several things:
+
+- **The admin agent's context stays small.** It's reading task metadata and status checks, not entire codebases. It can reason clearly about orchestration because that's all it's doing.
+- **Workers can't interfere with each other.** Each worker operates on an isolated copy of the codebase — git worktrees work well for this. No merge conflicts during execution. No file locking. No coordination overhead.
+- **Failure is contained.** A worker that goes off the rails only affects its own isolated copy. The admin agent detects the failure, cleans up, and re-queues the task. No blast radius.
+- **Scaling is straightforward.** Need more throughput? Spawn more workers. The admin agent doesn't care how many are running as long as it stays under the resource ceiling.
+
+## Sleep-first design
+
+The most important design principle in autonomous agent orchestration is one that feels wrong: **the default behavior should be doing nothing.**
+
+Most automation is designed around action. Event arrives, handler fires, work happens. The system is always eager to do something. For autonomous agents, this eagerness is dangerous. Every action has a cost — API tokens, compute, and most importantly, the risk of a bad decision compounding into a mess that's harder to clean up than the original problem.
+
+Sleep-first design inverts the model. Each cycle, the agent runs through a prioritized decision framework:
+
+1. Is infrastructure healthy? If not, fix it.
+2. Is anything blocking other work? Unblock it.
+3. Is there new work to intake? Decompose and queue it.
+4. Is there completed work to review? Review it.
+5. Is there high-priority unattended work? Assign it.
+6. Are workers healthy? Check on them.
+7. Routine maintenance? Handle it.
+8. None of the above? Sleep.
+
+Most cycles should land on step 8. That's the sign of a healthy system. The agent wakes up, scans the environment, confirms everything is fine, and goes back to sleep. Action requires justification — not the other way around.
+
+The sleep duration itself is adaptive. Workers actively committing code? Check back in five minutes. Nothing happening and no pending work? Sleep for thirty. And for genuinely urgent signals — a critical task appearing, a system health failure — the outer loop can interrupt sleep early with a wake trigger, checking every thirty seconds for conditions that warrant cutting the nap short.
+
+## Intent as input, status as output
+
+The interface to an autonomous agent system shouldn't require SSH access or terminal commands. The best interface I've found is one that already exists: issue trackers.
+
+You file an issue describing what you want. The admin agent picks it up, decomposes it into atomic tasks, comments on the issue with its plan, and starts executing. As work progresses, it comments with status updates and links to pull requests. When everything is done, it closes the issue.
+
+This creates a natural contract. The human provides intent — "add OAuth support," "fix the memory leak in the upload handler," "build a CLI tool for managing containers." The system provides status — decomposition plans, progress updates, review results. The same thread captures the full lifecycle from request to delivery.
+
+It also means you can file work from anywhere. Your phone. A tablet. A browser on someone else's computer. The agent picks it up on its next cycle. The interface is asynchronous by design, which matches the reality of autonomous systems — you're not sitting there watching it work. You're checking in periodically to see what happened.
+
+## The compounding effect
+
+Individual cycles are boring. The agent wakes up, does a thing (or doesn't), goes back to sleep. But the system-level behavior over days and weeks is where it gets interesting.
+
+Each completed task produces artifacts — committed code, test results, pull requests. But it also produces knowledge. Session logs get indexed. Patterns get extracted. The next worker that tackles a similar problem benefits from what previous workers learned. A memory system with episodic, working, and procedural layers means the system doesn't just accumulate code — it accumulates judgment.
+
+A quality scanner runs on every piece of completed work before it's eligible for a pull request. Findings from the scanner feed back as new tasks. Bad patterns get flagged. Good patterns get reinforced. The admin agent's decomposition gets better over time because it's drawing on a growing corpus of what worked and what didn't.
+
+This is the flywheel: better environment leads to more productive agents, which produce more code and more knowledge, which leads to better prompts and better task decomposition, which makes the environment even more productive. Each turn of the loop compounds.
+
+The system doesn't get harder to maintain over time. It gets harder to stop.
+
+## What this isn't
+
+This is not a replacement for human judgment. The admin agent creates pull requests — it doesn't merge them. A human reviews the output and decides what ships. The autonomous system handles the high-volume, low-judgment work of decomposition, execution, and quality scanning. The human handles the low-volume, high-judgment work of architectural decisions and final approval.
+
+This is also not a single tool or framework. It's a set of architectural patterns — cycle-based invocation, admin/worker separation, sleep-first design, intent-based input, compounding memory — that can be implemented with various underlying technologies. The specific tools matter less than the patterns. A well-designed orchestration layer with mediocre tools will outperform a poorly-designed one with the best tools available.
+
+And this is not fire-and-forget. You're not deploying this and walking away forever. You're checking in, reviewing PRs, filing new issues, adjusting priorities. The system handles the grind. You handle the direction.
+
+## The shift in what matters
+
+When you have a reliable autonomous orchestration layer, the bottleneck shifts. It's no longer "how fast can someone write this code." It's "how clearly can someone describe what needs to be built."
+
+Task decomposition becomes the critical skill. A well-decomposed issue — clear scope, explicit success criteria, sensible dependency ordering — flows through the system cleanly. A vague issue produces vague tasks that produce vague code that fails quality checks and gets re-queued. The quality of the input determines the quality of the output, just as it always has. The difference is that good input now scales.
+
+The developers who thrive in this model aren't necessarily the fastest coders. They're the ones who can think clearly about what a system needs to do, break it into pieces that can be executed independently, and describe those pieces precisely enough that an autonomous agent can act on them.
+
+If that sounds like engineering management, it should. The role of the human in an autonomous agent system looks a lot like the role of a good engineering manager: set direction, remove blockers, review output, course-correct when needed. The agents are the team.
+
+## Starting small
+
+If you want to experiment with these patterns, start with the smallest possible version. A shell script that invokes an AI agent in non-interactive mode, reads the output, and loops. Give it access to a task tracker and a repository. Let it do one thing: check for new tasks, pick the highest priority one, execute it, commit the result. No workers, no memory system, no adaptive sleep. Just the cycle.
+
+Once that's working, add the admin/worker split. The main loop becomes the admin — it reads tasks but doesn't execute them. Instead, it spawns a separate agent process for each task, pointed at an isolated worktree. Now you have parallelism and failure isolation.
+
+Then add sleep heuristics. Then add quality scanning on completed work. Then add a memory layer. Each addition compounds on the last. You're building the flywheel one piece at a time.
+
+The patterns are simple. The discipline of applying them consistently is the hard part. But once the loop is running — once you can file an issue from your phone and wake up to a pull request — the leverage is unlike anything else in software development today.
