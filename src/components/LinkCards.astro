@@ -1,0 +1,97 @@
+---
+// Link cards component for "all my links" style display
+---
+
+<section id="links" class="links-section">
+  <h2>My Links</h2>
+  <div class="link-grid">
+    <a href="https://magic-ingredient.enginyyr.com" target="_blank" rel="noopener noreferrer" class="link-card magic-ingredient">
+      <h3 class="gradient-text">Magic Ingredient</h3>
+      <p>AI-powered workflow automation for small businesses. Transform tedious tasks into streamlined processes.</p>
+    </a>
+    <a href="https://www.facebook.com/magicingredient7" target="_blank" rel="noopener noreferrer" class="link-card mi-facebook">
+      <h3 class="gradient-text">Magic Ingredient on Facebook</h3>
+      <p>Follow Magic Ingredient on Facebook for updates, tips, and community.</p>
+    </a>
+    <a href="https://trailhead.enginyyr.com" target="_blank" rel="noopener noreferrer" class="link-card trailhead">
+      <h3 class="trailhead-text">Trailhead</h3>
+      <p>A retrieval-augmented generation (RAG) solution for intelligent document search and knowledge extraction.</p>
+    </a>
+    <a href="https://learncanopy.com/" target="_blank" rel="noopener noreferrer" class="link-card canopy">
+      <h3 class="canopy-text">Canopy</h3>
+      <p>Learn smarter with AI-powered education tools designed to help you grow.</p>
+    </a>
+    <a href="https://orbit.llm-games.com" target="_blank" rel="noopener noreferrer" class="link-card orbit">
+      <h3 class="orbit-text">Orbit</h3>
+      <p>A daily word game where you guess words based on semantic meaning. How close can you get?</p>
+    </a>
+  </div>
+</section>
+
+<style>
+  .links-section {
+    @apply pb-6 pt-12;
+  }
+  .links-section h2 {
+    @apply text-2xl font-semibold tracking-wide;
+  }
+  .link-grid {
+    @apply mt-6 grid gap-4;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .link-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .link-card {
+    @apply block rounded-lg border border-skin-line p-5 transition-all duration-200;
+    @apply hover:border-skin-accent hover:bg-skin-card-muted;
+    text-decoration: none;
+  }
+  .link-card h3 {
+    @apply text-lg font-semibold text-skin-accent;
+  }
+  .link-card p {
+    @apply mt-2 text-sm opacity-80;
+  }
+  .link-card.magic-ingredient {
+    @apply border-2;
+    border-image: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa) 1;
+  }
+  .link-card.mi-facebook {
+    @apply border-2;
+    border-image: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa) 1;
+  }
+  .link-card.trailhead {
+    @apply border-2;
+    border-color: #228b22;
+  }
+  .trailhead-text {
+    color: #228b22;
+    font-weight: 600;
+  }
+  .link-card.canopy {
+    @apply border-2;
+    border-color: #2a9d8f;
+  }
+  .canopy-text {
+    color: #2a9d8f;
+    font-weight: 600;
+  }
+  .link-card.orbit {
+    @apply border-2;
+    border-color: #1e3a5f;
+  }
+  .orbit-text {
+    color: #1e3a5f;
+    font-weight: 600;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+  }
+</style>
