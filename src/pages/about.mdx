@@ -16,29 +16,44 @@ import LinkCards from "../components/LinkCards.astro";
     <img src="https://cdn.enginyyr.com/about.jpeg" alt="Doug" />
   </div>
   <div class="hero-bio">
-    I'm a father, hobbyist beat boxer (it entertains my adorable son), [DIYer](https://www.youtube.com/channel/UCy3dXSfrcc4Pv8uXlGrctog), gym-goer (but not hardcore and just enough to stay healthy).
+    <p>I'm a father, hobbyist beat boxer (it entertains my adorable son), <a href="https://www.youtube.com/channel/UCy3dXSfrcc4Pv8uXlGrctog">DIYer</a>, and <span style="color: #8B4513; font-weight: 600;">pad thai</span> enthusiast.</p>
+    <div class="bio-columns">
+      <div>
+        <h3>Interests</h3>
+        <ul>
+          <li>Low carb</li>
+          <li>Music (listening & playing guitar)</li>
+          <li>Family time</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Life goals</h3>
+        <ul>
+          <li>Travel and see many countries with my family</li>
+          <li>Start a family compound in Portugal</li>
+          <li>Grow a lot of our own food</li>
+          <li>See our son find happiness</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
 <LinkCards />
 
-## Hobbies
+<div class="contact-section">
+  <h2>Get in Touch</h2>
+  <div class="email-row">
+    <a href="mailto:doug@enginyyr.com" class="contact-email">doug@enginyyr.com</a>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText('doug@enginyyr.com').then(() => { const btn = document.querySelector('.copy-btn'); btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1500); })">Copy</button>
+  </div>
+</div>
 
-- Travel with my family
-- Hiking
-- Play with my son
-- Music (listening to)
-- Music (playing my campfire version of songs with the guitar)
-- Watching TV series with my wife
-- Trying out restaurants and trying to find their low-carb options
-- Board games with friends
-
-## Life goals
-
-- Travel and see many countries with my family
-- Start a family compound in Portugal
-- Grow a lot of our own food
-- See our son find happiness
+<div class="community-section">
+  <h2>Join the Community</h2>
+  <p>Connect with local business owners and entrepreneurs in Indianapolis.</p>
+  <a href="https://www.facebook.com/groups/868951352520958" target="_blank" rel="noopener noreferrer" class="community-link">Indy Business Connect on Facebook</a>
+</div>
 
 <style>{`
   .hero-split {
@@ -59,12 +74,121 @@ import LinkCards from "../components/LinkCards.astro";
   .hero-bio {
     flex: 1;
     min-width: 0;
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .hero-bio p {
+    margin-bottom: 0.75rem;
+  }
+  .bio-columns {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .bio-columns h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+  .bio-columns ul {
+    list-style: disc;
+    padding-left: 1.2rem;
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
   }
   @media (max-width: 640px) {
     .hero-split {
       flex-direction: column;
     }
+    .bio-columns {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+  .contact-section {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    border-radius: 0.75rem;
+    border: 2px solid rgba(248, 113, 113, 0.3);
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.1), rgba(124, 58, 237, 0.08), rgba(59, 130, 246, 0.1));
+  }
+  .contact-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, #f87171, #7c3aed, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .contact-email {
+    font-size: 1.35rem;
+    font-weight: 500;
+    text-decoration: none;
+    background: linear-gradient(135deg, #f87171, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .contact-email:hover {
+    -webkit-text-fill-color: #7c3aed;
+    text-decoration: underline;
+  }
+  .email-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .copy-btn {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 0.375rem;
+    border: 1.5px solid rgba(124, 58, 237, 0.4);
+    background: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover {
+    background: rgba(124, 58, 237, 0.2);
+    border-color: #7c3aed;
+  }
+  .community-section {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    margin: 1rem 0 2rem 0;
+    border-radius: 0.75rem;
+    border: 2px solid rgba(24, 119, 242, 0.3);
+    background: linear-gradient(135deg, rgba(24, 119, 242, 0.1), rgba(66, 133, 244, 0.06));
+  }
+  .community-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.35rem 0;
+    color: #1877f2;
+  }
+  .community-section p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin: 0 0 0.75rem 0;
+  }
+  .community-link {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    border: 2px solid #1877f2;
+    color: #1877f2;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .community-link:hover {
+    background: rgba(24, 119, 242, 0.15);
   }
 `}</style>

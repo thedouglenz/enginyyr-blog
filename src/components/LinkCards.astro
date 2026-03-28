@@ -3,14 +3,14 @@
 ---
 
 <section id="links" class="links-section">
-  <h2>My Links</h2>
+  <h2>Out in the Wild</h2>
   <div class="link-grid">
     <a href="https://magic-ingredient.enginyyr.com" target="_blank" rel="noopener noreferrer" class="link-card magic-ingredient">
-      <h3 class="gradient-text">Magic Ingredient</h3>
+      <h3 class="mi-text">Magic Ingredient</h3>
       <p>AI-powered workflow automation for small businesses. Transform tedious tasks into streamlined processes.</p>
     </a>
     <a href="https://www.facebook.com/magicingredient7" target="_blank" rel="noopener noreferrer" class="link-card mi-facebook">
-      <h3 class="gradient-text">Magic Ingredient on Facebook</h3>
+      <h3 class="fb-text">Magic Ingredient on Facebook</h3>
       <p>Follow Magic Ingredient on Facebook for updates, tips, and community.</p>
     </a>
     <a href="https://trailhead.enginyyr.com" target="_blank" rel="noopener noreferrer" class="link-card trailhead">
@@ -45,53 +45,72 @@
     }
   }
   .link-card {
-    @apply block rounded-lg border border-skin-line p-5 transition-all duration-200;
-    @apply hover:border-skin-accent hover:bg-skin-card-muted;
+    @apply block rounded-lg border-2 p-5 transition-all duration-200;
     text-decoration: none;
   }
+  .link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
   .link-card h3 {
-    @apply text-lg font-semibold text-skin-accent;
+    @apply text-xl font-semibold;
   }
   .link-card p {
     @apply mt-2 text-sm opacity-80;
   }
   .link-card.magic-ingredient {
-    @apply border-2;
-    border-image: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa) 1;
+    border-color: #f87171;
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.18), rgba(251, 146, 60, 0.08));
+  }
+  .link-card.magic-ingredient:hover {
+    background: linear-gradient(135deg, rgba(248, 113, 113, 0.28), rgba(251, 146, 60, 0.15));
   }
   .link-card.mi-facebook {
-    @apply border-2;
-    border-image: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa) 1;
+    border-color: #1877f2;
+    background: linear-gradient(135deg, rgba(24, 119, 242, 0.18), rgba(66, 133, 244, 0.08));
+  }
+  .link-card.mi-facebook:hover {
+    background: linear-gradient(135deg, rgba(24, 119, 242, 0.28), rgba(66, 133, 244, 0.15));
+  }
+  .mi-text {
+    color: #ef4444;
+    font-weight: 600;
+  }
+  .fb-text {
+    color: #1877f2;
+    font-weight: 600;
   }
   .link-card.trailhead {
-    @apply border-2;
     border-color: #228b22;
+    background: linear-gradient(135deg, rgba(34, 139, 34, 0.18), rgba(22, 101, 52, 0.08));
+  }
+  .link-card.trailhead:hover {
+    background: linear-gradient(135deg, rgba(34, 139, 34, 0.28), rgba(22, 101, 52, 0.15));
   }
   .trailhead-text {
     color: #228b22;
     font-weight: 600;
   }
   .link-card.canopy {
-    @apply border-2;
-    border-color: #2a9d8f;
+    border-color: #22c55e;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(21, 128, 61, 0.08));
+  }
+  .link-card.canopy:hover {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.28), rgba(21, 128, 61, 0.15));
   }
   .canopy-text {
-    color: #2a9d8f;
+    color: #16a34a;
     font-weight: 600;
   }
   .link-card.orbit {
-    @apply border-2;
-    border-color: #1e3a5f;
+    border-color: #7c3aed;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(59, 130, 246, 0.08));
+  }
+  .link-card.orbit:hover {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28), rgba(59, 130, 246, 0.15));
   }
   .orbit-text {
-    color: #1e3a5f;
-    font-weight: 600;
-  }
-  .gradient-text {
-    background: linear-gradient(135deg, #f472b6, #a78bfa, #60a5fa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #7c3aed;
     font-weight: 600;
   }
 </style>

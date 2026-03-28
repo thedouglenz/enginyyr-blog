@@ -33,6 +33,12 @@ export const LOGO_IMAGE = {
 
 export const SOCIALS: SocialObjects = [
   {
+    name: "Facebook",
+    href: "https://www.facebook.com/magicingredient7",
+    linkTitle: `${SITE.title} on Facebook`,
+    active: true,
+  },
+  {
     name: "LinkedIn",
     href: "https://www.linkedin.com/company/magicingredient",
     linkTitle: `${SITE.title} on LinkedIn`,
