@@ -58,6 +58,7 @@ of our own food, and watch our son find his own version of happiness. That's the
 </div>
 
 <div class="contact-section">
+  <h2 class="contact-heading">Let's Connect</h2>
   <div class="email-row">
     <a href="mailto:doug@enginyyr.com" class="email-link">doug@enginyyr.com</a>
     <button class="copy-btn" onclick="navigator.clipboard.writeText('doug@enginyyr.com').then(() => { const btn = document.querySelector('.copy-btn'); btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1500); })">Copy</button>
@@ -204,10 +205,19 @@ of our own food, and watch our son find his own version of happiness. That's the
   }
   .contact-section {
     max-width: 65ch;
-    margin: 0 auto 3rem;
-    padding: 1.5rem 1.25rem;
+    margin: 1rem auto 3rem;
+    padding: 2rem 2rem;
     text-align: center;
-    border-top: 1px solid rgba(var(--color-border), 1);
+    border: 2px solid rgba(var(--color-accent), 0.3);
+    border-radius: 0.75rem;
+    background: rgba(var(--color-card), 0.2);
+  }
+  .contact-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 0 1rem 0;
+    color: rgba(var(--color-text-base), 1);
   }
   .email-row {
     display: flex;
@@ -216,8 +226,8 @@ of our own food, and watch our son find his own version of happiness. That's the
     gap: 0.75rem;
   }
   .email-link {
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 600;
     color: rgba(var(--color-accent), 1);
     text-decoration: none;
   }
