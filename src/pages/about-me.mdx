@@ -11,6 +11,24 @@ title: "Doug"
   </div>
 </div>
 
+<div class="bio-section">
+
+I build AI-powered products at **Magic Ingredient** — tools that help small businesses
+automate the work nobody wants to do. When I'm not deep in code, I'm probably
+attempting to beatbox for my son (his reviews are mixed but enthusiastic), planning
+our next family trip, or arguing that pad thai is a top-three food and I will not
+be taking questions.
+
+I'm a DIYer at heart. I like building things — software, furniture, raised garden beds,
+whatever needs doing. My guitar playing is best described as "committed." I keep a low-carb
+lifestyle most of the time, with a standing exception for pad thai. Some things are
+non-negotiable.
+
+The long game? Travel the world with my family, start a compound in Portugal, grow a lot
+of our own food, and watch our son find his own version of happiness. That's the whole plan.
+
+</div>
+
 <style>{`
   .hero-container {
     position: relative;
@@ -49,6 +67,20 @@ title: "Doug"
     font-style: italic;
     letter-spacing: 0.02em;
   }
+  .bio-section {
+    max-width: 65ch;
+    margin: 2.5rem auto;
+    padding: 0 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(var(--color-text-base), 1);
+  }
+  .bio-section p {
+    margin-bottom: 1.25rem;
+  }
+  .bio-section strong {
+    color: rgba(var(--color-accent), 1);
+  }
   @media (max-width: 640px) {
     .hero-container {
       max-height: 22rem;
@@ -64,6 +96,11 @@ title: "Doug"
     }
     .hero-overlay {
       padding: 2rem 1.25rem 1.5rem;
+    }
+    .bio-section {
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+      font-size: 0.9rem;
     }
   }
 `}</style>
