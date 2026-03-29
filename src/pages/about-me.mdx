@@ -1,0 +1,69 @@
+---
+layout: ../layouts/AboutLayout.astro
+title: "Doug"
+---
+
+<div class="hero-container">
+  <img src="https://cdn.enginyyr.com/about.jpeg" alt="Doug" class="hero-img" />
+  <div class="hero-overlay">
+    <h2 class="hero-name">Doug</h2>
+    <p class="hero-tagline">Father. Builder. Pad thai enthusiast.</p>
+  </div>
+</div>
+
+<style>{`
+  .hero-container {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    max-height: 28rem;
+    overflow: hidden;
+  }
+  .hero-img {
+    width: 100%;
+    height: 28rem;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 3rem 2rem 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  }
+  .hero-name {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .hero-tagline {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.85);
+    margin: 0.5rem 0 0 0;
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+  @media (max-width: 640px) {
+    .hero-container {
+      max-height: 22rem;
+    }
+    .hero-img {
+      height: 22rem;
+    }
+    .hero-name {
+      font-size: 2.25rem;
+    }
+    .hero-tagline {
+      font-size: 0.95rem;
+    }
+    .hero-overlay {
+      padding: 2rem 1.25rem 1.5rem;
+    }
+  }
+`}</style>
