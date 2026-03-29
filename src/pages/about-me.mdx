@@ -29,6 +29,32 @@ of our own food, and watch our son find his own version of happiness. That's the
 
 </div>
 
+<div class="projects-section">
+  <h2 class="projects-heading">What I'm Building</h2>
+  <div class="projects-grid">
+    <a href="https://magic-ingredient.enginyyr.com" target="_blank" rel="noopener noreferrer" class="project-card">
+      <h3>Magic Ingredient</h3>
+      <p>AI-powered workflow automation for small businesses.</p>
+    </a>
+    <a href="https://www.facebook.com/magicingredient7" target="_blank" rel="noopener noreferrer" class="project-card">
+      <h3>Magic Ingredient on Facebook</h3>
+      <p>Updates, tips, and community.</p>
+    </a>
+    <a href="https://trailhead.enginyyr.com" target="_blank" rel="noopener noreferrer" class="project-card">
+      <h3>Trailhead</h3>
+      <p>Intelligent document search and knowledge extraction.</p>
+    </a>
+    <a href="https://learncanopy.com/" target="_blank" rel="noopener noreferrer" class="project-card">
+      <h3>Canopy</h3>
+      <p>AI-powered education tools to help you grow.</p>
+    </a>
+    <a href="https://orbit.llm-games.com" target="_blank" rel="noopener noreferrer" class="project-card">
+      <h3>Orbit</h3>
+      <p>A daily word game based on semantic meaning.</p>
+    </a>
+  </div>
+</div>
+
 <style>{`
   .hero-container {
     position: relative;
@@ -81,6 +107,48 @@ of our own food, and watch our son find his own version of happiness. That's the
   .bio-section strong {
     color: rgba(var(--color-accent), 1);
   }
+  .projects-section {
+    max-width: 65ch;
+    margin: 1rem auto 2.5rem;
+    padding: 0 1.25rem;
+  }
+  .projects-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 0 1.25rem 0;
+    color: rgba(var(--color-text-base), 1);
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .project-card {
+    display: block;
+    padding: 1.25rem;
+    border: 1.5px solid rgba(var(--color-accent), 0.4);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+    background: rgba(var(--color-card), 0.3);
+  }
+  .project-card:hover {
+    border-color: rgba(var(--color-accent), 1);
+    transform: translateY(-2px);
+  }
+  .project-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: rgba(var(--color-accent), 1);
+  }
+  .project-card p {
+    font-size: 0.8rem;
+    margin: 0.4rem 0 0 0;
+    color: rgba(var(--color-text-base), 0.7);
+    line-height: 1.4;
+  }
   @media (max-width: 640px) {
     .hero-container {
       max-height: 22rem;
@@ -101,6 +169,12 @@ of our own food, and watch our son find his own version of happiness. That's the
       margin: 1.5rem auto;
       padding: 0 1rem;
       font-size: 0.9rem;
+    }
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+    .projects-section {
+      padding: 0 1rem;
     }
   }
 `}</style>
