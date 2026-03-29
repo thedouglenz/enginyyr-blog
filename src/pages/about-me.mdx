@@ -55,6 +55,16 @@ of our own food, and watch our son find his own version of happiness. That's the
   </div>
 </div>
 
+<div class="contact-section">
+  <div class="email-row">
+    <a href="mailto:doug@enginyyr.com" class="email-link">doug@enginyyr.com</a>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText('doug@enginyyr.com').then(() => { const btn = document.querySelector('.copy-btn'); btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 1500); })">Copy</button>
+  </div>
+  <p class="community-line">
+    Indianapolis entrepreneur? Join <a href="https://www.facebook.com/groups/868951352520958" target="_blank" rel="noopener noreferrer">Indy Business Connect</a> on Facebook.
+  </p>
+</div>
+
 <style>{`
   .hero-container {
     position: relative;
@@ -175,6 +185,65 @@ of our own food, and watch our son find his own version of happiness. That's the
     }
     .projects-section {
       padding: 0 1rem;
+    }
+  }
+  .contact-section {
+    max-width: 65ch;
+    margin: 0 auto 3rem;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    border-top: 1px solid rgba(var(--color-border), 1);
+  }
+  .email-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .email-link {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgba(var(--color-accent), 1);
+    text-decoration: none;
+  }
+  .email-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .copy-btn {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: 0.375rem;
+    border: 1.5px solid rgba(var(--color-accent), 0.4);
+    background: rgba(var(--color-accent), 0.1);
+    color: rgba(var(--color-accent), 1);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover {
+    background: rgba(var(--color-accent), 0.2);
+    border-color: rgba(var(--color-accent), 1);
+  }
+  .community-line {
+    font-size: 0.85rem;
+    margin: 1rem 0 0 0;
+    color: rgba(var(--color-text-base), 0.6);
+  }
+  .community-line a {
+    color: rgba(var(--color-accent), 1);
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 4px;
+  }
+  .community-line a:hover {
+    color: rgba(var(--color-accent), 1);
+    text-decoration-style: solid;
+  }
+  @media (max-width: 640px) {
+    .contact-section {
+      padding: 1.5rem 1rem;
     }
   }
 `}</style>
