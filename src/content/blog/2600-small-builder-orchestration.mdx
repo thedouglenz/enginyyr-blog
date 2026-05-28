@@ -1,0 +1,91 @@
+---
+pubDatetime: 2026-05-27T15:00:00.000Z
+modDatetime: 2026-05-27T15:00:00.000Z
+title: "The Missing Tier: AI Orchestration for People Who Aren't Enterprises"
+slug: small-builder-orchestration
+featured: true
+tags:
+  - ai
+  - architecture
+  - orchestration
+  - small business
+  - consulting
+  - agents
+  - mcp
+  - infrastructure
+description: "Every serious AI orchestration platform — LangGraph, Temporal, AgentCore — assumes a platform team. There's a tier of builder underneath with the same problems at a tenth of the scale, and they've been stuck."
+ogImage: "https://cdn.enginyyr.com/sheep.png"
+draft: false
+---
+
+## Table of contents
+
+There's a moment in every AI project where the prototype stops being a prototype.
+
+It's usually quiet. A second customer asks if they can run it against their own data. The first one wants it on a nightly cron instead of a button. Someone notices the model bill and asks if there's a cap. Legal sends an email about audit logs. A user wants to interrupt a long-running job and is annoyed that they can't.
+
+None of these are model problems. They're runtime problems. And when you go looking for a runtime, every serious option on the market is built for somebody bigger than you.
+
+## The shape of "bigger than you"
+
+At the heavy end is **Temporal** — a durable-execution platform with a beautifully designed SDK and brutal operational demands. You run a server, you run workers, you run Postgres or Cassandra behind it, you write business logic in a replay-safe style. It's the right answer for Uber. It's an over-engineered answer for a two-person consultancy.
+
+In the developer-framework tier are **LangGraph**, **CrewAI**, **AutoGen**, **Semantic Kernel**, the OpenAI Agents SDK. These are libraries you import. They give you the agent loop or the graph. You bring the persistence, the multi-tenancy, the scheduler, the auth, the auditing. As a [Redis breakdown of the category](https://redis.io/blog/ai-agent-orchestration-platforms/) put it: "Most orchestration platforms don't include this infrastructure. They expect you to bring your own."
+
+In the middle sit the real platforms — **AgentCore**, **Glean Agents**, **watsonx Orchestrate**, **Azure AI Foundry**, **Vertex AI Agent Builder**. They're shaped and priced for procurement departments. Not wrong to exist; just not for you. An [MES Computing piece on midmarket build-vs-buy](https://www.mescomputing.com/news/2026/ai/ai-tools-and-platforms-when-midmarket-it-teams-should-build-vs-buy-ai-in-2026) cited the going rate: custom-built AI eats 20 to 30 percent of initial development cost in annual maintenance. That's the deal anyone without an MLOps team is signing up for.
+
+At the bottom are **Zapier**, **n8n**, **Make**, **Gumloop**. Great when your problem fits in a flowchart of HTTP calls. They start hurting the moment you need anything stateful, multi-tenant, intelligently retried, or fenced behind your customer's auth.
+
+Between those tiers is a gap, and it's not small.
+
+## Who lives there
+
+People too serious for Zapier and too small for Temporal.
+
+The consulting shop building AI features for clients, each one wanting their data isolated, their model spend visible, their workflows on their schedule. The consultancy doesn't want to rebuild the runtime per engagement, and it can't drag every client onto a $50k/year platform.
+
+The three-to-ten-engineer SaaS team adding AI features to a product they've already shipped. They have customers, a Postgres, an auth system. They need to bolt AI workflows onto what exists — not pivot the company into being an AI platform team.
+
+The in-house operator at a non-tech SMB — a property management firm, a regional law practice — where one technical person has been promoted to "the AI person" and is staring at n8n's ceiling.
+
+These groups share something important: they're builders, not adopters. Most of what's published about small-business AI is about adoption — Claude subscriptions, marketing copy, support chat. This is about the people building the sixth, seventh, eighth tool: the ones that don't exist off the shelf because they're specific to a client or a product.
+
+The skill barrier to building those tools has collapsed. [Brett Calhoun's framing](https://medium.com/@brett_Tcalhoun/build-vs-buy-in-the-age-of-ai-1429e74b6e3c) is right: small teams are building because they finally can. AI made bespoke internal tools viable without deep technical talent.
+
+It made building cheap. It did not make running cheap.
+
+## What the runtime has to do
+
+You can't pretend the requirements list is short. The reason enterprise platforms exist is that the requirements are real. The trick is delivering them without enterprise weight.
+
+Here's what shows up in every project that crosses the prototype line:
+
+**Multi-tenancy that's actually enforced.** Not "we added a `tenant_id` column." Row-level isolation, per-tenant secrets, per-tenant integration credentials, fences that return 404 on cross-tenant probes so existence doesn't leak. The moment you have a second customer, this is the difference between a product and an incident.
+
+**Durability across restarts.** A run started yesterday must survive an overnight restart. In-flight tool calls must reconcile on boot. Resume must not re-execute side effects.
+
+**Scheduled execution with HA-safe semantics.** Cron triggers are obvious. Cron triggers that don't double-fire when two replicas are running are not. The pattern is well-understood at enterprise scale — `FOR UPDATE SKIP LOCKED`, claim fencing, dead-lettering — and consistently absent at this tier.
+
+**Cost containment.** A runaway agent loop is a runaway bill. Per-run token caps, per-tenant monthly budgets, per-model price tables that compute real cost as the run proceeds. You don't need to be enterprise to need this. You need to be reachable by a customer at 3 a.m.
+
+**A real tool surface.** Not just function-calling against your own code. The model needs to call your APIs, third-party APIs, file and git operations, shells when appropriate, MCP servers belonging to other products — each with its own auth, sandboxing, output limits, timeout policies. The model is the cheap part of any of this.
+
+**Audit, disposal, visibility.** What ran, what data flowed where, who triggered it, what it cost, who to call when it broke. The compliance ask gets easier when this is built in. It gets terrible when you remember it later.
+
+**An operator surface a non-engineer can use.** Not every workflow review has to happen in psql. A UI that lists runs, shows the DAG, surfaces errors, lets you cancel things. Without it, you have a script. With it, you have a product.
+
+You can build all of this yourself. People do. They spend six months on it and then another six months maintaining it. You can also adopt LangGraph plus Temporal plus a tenant model plus a scheduler plus an admin UI plus a billing meter and glue them together. That works too. The result is something a small team spends a quarter of its engineering capacity tending forever.
+
+## A third option
+
+I've been building one. [Grove](https://grove.enginyyr.com) is an AI orchestration runtime aimed at this tier: multi-tenant by default, durable, schedulable, with the operator UI and audit log and cost containment built in. It's a single binary you deploy on a small VPS. It's the answer I wished existed when I was wiring this stuff up by hand on client engagements.
+
+This isn't a product tour. The point is that the underserving has had real consequences. [Gartner expects more than 40% of agentic AI projects to be canceled by the end of 2027](https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027), citing escalating costs, unclear business value, and inadequate risk controls. Read between those reasons. Projects don't only die because the business case was thin. They die because nobody had time to build the durability, the multi-tenancy, the cost caps, the auditing — and the thing that started as "we'll just add an LLM" ended as a sprawling pile of glue code that nobody wanted to maintain.
+
+The right shape isn't "build everything" or "buy everything." It's the same one enterprises have been quietly converging on: buy the platforms that store decades of edge cases and compliance; build only the parts that actually differentiate you. Small builders need that shape too. Buy the runtime. Build the workflows. Don't reinvent the orchestration, the multi-tenancy, the durability, the scheduler, the audit trail. Reinvent the thing that's actually specific to your customer. That's what you're being paid for.
+
+The missing piece has been a runtime that fits the tier: priced for it, sized for it, shaped for it, runnable by it. That piece is filling in now.
+
+If you're in this tier, the prototype-crossing moment is coming. It might already be here. The question isn't whether you'll need a runtime. The question is whether you'll build one, buy an enterprise one, or finally have one shaped for you.
+
+I've placed my bet on the third.
