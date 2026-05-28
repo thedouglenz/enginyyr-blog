@@ -105,36 +105,43 @@ import LinkCards from "../components/LinkCards.astro";
       gap: 0.75rem;
     }
   }
-  .contact-section {
+  .contact-section,
+  .community-section {
     text-align: center;
     padding: 1.5rem 2rem;
-    margin: 2rem 0;
-    border-radius: 0.75rem;
-    border: 2px solid rgba(248, 113, 113, 0.3);
-    background: linear-gradient(135deg, rgba(248, 113, 113, 0.1), rgba(124, 58, 237, 0.08), rgba(59, 130, 246, 0.1));
+    border-radius: 0.625rem;
+    background: rgba(var(--color-card), 0.45);
+    position: relative;
+    overflow: hidden;
   }
-  .contact-section h2 {
-    font-size: 1.5rem;
+  .contact-section {
+    margin: 2rem 0 1rem 0;
+  }
+  .community-section {
+    margin: 1rem 0 2rem 0;
+  }
+  .contact-section::before,
+  .community-section::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+  }
+  .contact-section::before {
+    background: rgb(var(--color-accent));
+  }
+  .community-section::before {
+    background: #1877f2;
+  }
+  .contact-section h2,
+  .community-section h2 {
+    font-style: normal;
+    font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
-    margin: 0 0 0.5rem 0;
-    background: linear-gradient(135deg, #f87171, #7c3aed, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .contact-email {
-    font-size: 1.35rem;
-    font-weight: 500;
-    text-decoration: none;
-    background: linear-gradient(135deg, #f87171, #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .contact-email:hover {
-    -webkit-text-fill-color: #7c3aed;
-    text-decoration: underline;
+    letter-spacing: 0.03em;
+    margin: 0 0 0.6rem 0;
   }
   .email-row {
     display: flex;
@@ -142,53 +149,48 @@ import LinkCards from "../components/LinkCards.astro";
     justify-content: center;
     gap: 0.75rem;
   }
+  .contact-email {
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: rgb(var(--color-accent));
+  }
+  .contact-email:hover {
+    text-decoration: underline;
+  }
   .copy-btn {
-    padding: 0.35rem 0.85rem;
-    font-size: 0.8rem;
-    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 500;
     border-radius: 0.375rem;
-    border: 1.5px solid rgba(124, 58, 237, 0.4);
-    background: rgba(124, 58, 237, 0.1);
-    color: #7c3aed;
+    border: 1px solid rgba(var(--color-text-base), 0.25);
+    background: transparent;
+    color: rgb(var(--color-text-base));
+    opacity: 0.7;
     cursor: pointer;
     transition: all 0.2s;
   }
   .copy-btn:hover {
-    background: rgba(124, 58, 237, 0.2);
-    border-color: #7c3aed;
-  }
-  .community-section {
-    text-align: center;
-    padding: 1.5rem 2rem;
-    margin: 1rem 0 2rem 0;
-    border-radius: 0.75rem;
-    border: 2px solid rgba(24, 119, 242, 0.3);
-    background: linear-gradient(135deg, rgba(24, 119, 242, 0.1), rgba(66, 133, 244, 0.06));
-  }
-  .community-section h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    margin: 0 0 0.35rem 0;
-    color: #1877f2;
+    opacity: 1;
+    background: rgba(var(--color-text-base), 0.08);
   }
   .community-section p {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin: 0 0 0.75rem 0;
+    font-size: 0.88rem;
+    opacity: 0.78;
+    margin: 0 0 0.85rem 0;
   }
   .community-link {
     display: inline-block;
-    padding: 0.5rem 1.25rem;
-    font-size: 1rem;
+    padding: 0.45rem 1.1rem;
+    font-size: 0.92rem;
     font-weight: 600;
-    border-radius: 0.5rem;
-    border: 2px solid #1877f2;
+    border-radius: 0.4rem;
+    border: 1px solid #1877f2;
     color: #1877f2;
     text-decoration: none;
     transition: all 0.2s;
   }
   .community-link:hover {
-    background: rgba(24, 119, 242, 0.15);
+    background: rgba(24, 119, 242, 0.12);
   }
 `}</style>

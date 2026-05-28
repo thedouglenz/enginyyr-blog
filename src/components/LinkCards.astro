@@ -1,30 +1,67 @@
 ---
-// Link cards component for "all my links" style display
+const cards = [
+  {
+    href: "https://magic-ingredient.enginyyr.com",
+    title: "Magic Ingredient",
+    description:
+      "AI-powered workflow automation for small businesses. Transform tedious tasks into streamlined processes.",
+    accent: "#ef4444",
+  },
+  {
+    href: "https://grove.enginyyr.com",
+    title: "Grove",
+    description:
+      "An AI orchestration runtime for small builders. Multi-tenant, durable, and schedulable in a single binary.",
+    accent: "#0d9488",
+  },
+  {
+    href: "https://www.facebook.com/magicingredient7",
+    title: "Magic Ingredient on Facebook",
+    description:
+      "Follow Magic Ingredient on Facebook for updates, tips, and community.",
+    accent: "#1877f2",
+  },
+  {
+    href: "https://trailhead.enginyyr.com",
+    title: "Trailhead",
+    description:
+      "A retrieval-augmented generation (RAG) solution for intelligent document search and knowledge extraction.",
+    accent: "#228b22",
+  },
+  {
+    href: "https://learncanopy.com/",
+    title: "Canopy",
+    description:
+      "Learn smarter with AI-powered education tools designed to help you grow.",
+    accent: "#22c55e",
+  },
+  {
+    href: "https://orbit.llm-games.com",
+    title: "Orbit",
+    description:
+      "A daily word game where you guess words based on semantic meaning. How close can you get?",
+    accent: "#7c3aed",
+  },
+];
 ---
 
 <section id="links" class="links-section">
   <h2>Out in the Wild</h2>
   <div class="link-grid">
-    <a href="https://magic-ingredient.enginyyr.com" target="_blank" rel="noopener noreferrer" class="link-card magic-ingredient">
-      <h3 class="mi-text">Magic Ingredient</h3>
-      <p>AI-powered workflow automation for small businesses. Transform tedious tasks into streamlined processes.</p>
-    </a>
-    <a href="https://www.facebook.com/magicingredient7" target="_blank" rel="noopener noreferrer" class="link-card mi-facebook">
-      <h3 class="fb-text">Magic Ingredient on Facebook</h3>
-      <p>Follow Magic Ingredient on Facebook for updates, tips, and community.</p>
-    </a>
-    <a href="https://trailhead.enginyyr.com" target="_blank" rel="noopener noreferrer" class="link-card trailhead">
-      <h3 class="trailhead-text">Trailhead</h3>
-      <p>A retrieval-augmented generation (RAG) solution for intelligent document search and knowledge extraction.</p>
-    </a>
-    <a href="https://learncanopy.com/" target="_blank" rel="noopener noreferrer" class="link-card canopy">
-      <h3 class="canopy-text">Canopy</h3>
-      <p>Learn smarter with AI-powered education tools designed to help you grow.</p>
-    </a>
-    <a href="https://orbit.llm-games.com" target="_blank" rel="noopener noreferrer" class="link-card orbit">
-      <h3 class="orbit-text">Orbit</h3>
-      <p>A daily word game where you guess words based on semantic meaning. How close can you get?</p>
-    </a>
+    {
+      cards.map(card => (
+        <a
+          href={card.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-card"
+          style={`--accent: ${card.accent}`}
+        >
+          <h3>{card.title}</h3>
+          <p>{card.description}</p>
+        </a>
+      ))
+    }
   </div>
 </section>
 
@@ -44,73 +81,49 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
+  @media (min-width: 1024px) {
+    .link-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
   .link-card {
-    @apply block rounded-lg border-2 p-5 transition-all duration-200;
+    position: relative;
+    display: block;
+    padding: 1.1rem 1.25rem 1.1rem 1.5rem;
+    border-radius: 0.625rem;
+    background: rgba(var(--color-card), 0.45);
     text-decoration: none;
+    overflow: hidden;
+    transition:
+      transform 0.18s ease,
+      background 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+  .link-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent);
   }
   .link-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: rgba(var(--color-card), 0.8);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   }
   .link-card h3 {
-    @apply text-xl font-semibold;
+    font-style: normal;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
   }
   .link-card p {
-    @apply mt-2 text-sm opacity-80;
-  }
-  .link-card.magic-ingredient {
-    border-color: #f87171;
-    background: linear-gradient(135deg, rgba(248, 113, 113, 0.18), rgba(251, 146, 60, 0.08));
-  }
-  .link-card.magic-ingredient:hover {
-    background: linear-gradient(135deg, rgba(248, 113, 113, 0.28), rgba(251, 146, 60, 0.15));
-  }
-  .link-card.mi-facebook {
-    border-color: #1877f2;
-    background: linear-gradient(135deg, rgba(24, 119, 242, 0.18), rgba(66, 133, 244, 0.08));
-  }
-  .link-card.mi-facebook:hover {
-    background: linear-gradient(135deg, rgba(24, 119, 242, 0.28), rgba(66, 133, 244, 0.15));
-  }
-  .mi-text {
-    color: #ef4444;
-    font-weight: 600;
-  }
-  .fb-text {
-    color: #1877f2;
-    font-weight: 600;
-  }
-  .link-card.trailhead {
-    border-color: #228b22;
-    background: linear-gradient(135deg, rgba(34, 139, 34, 0.18), rgba(22, 101, 52, 0.08));
-  }
-  .link-card.trailhead:hover {
-    background: linear-gradient(135deg, rgba(34, 139, 34, 0.28), rgba(22, 101, 52, 0.15));
-  }
-  .trailhead-text {
-    color: #228b22;
-    font-weight: 600;
-  }
-  .link-card.canopy {
-    border-color: #22c55e;
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(21, 128, 61, 0.08));
-  }
-  .link-card.canopy:hover {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.28), rgba(21, 128, 61, 0.15));
-  }
-  .canopy-text {
-    color: #16a34a;
-    font-weight: 600;
-  }
-  .link-card.orbit {
-    border-color: #7c3aed;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(59, 130, 246, 0.08));
-  }
-  .link-card.orbit:hover {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.28), rgba(59, 130, 246, 0.15));
-  }
-  .orbit-text {
-    color: #7c3aed;
-    font-weight: 600;
+    margin: 0.4rem 0 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.78;
   }
 </style>
