@@ -1,0 +1,77 @@
+---
+pubDatetime: 2026-05-31T16:00:00.000Z
+modDatetime: 2026-05-31T16:00:00.000Z
+title: "Opus 4.8: The Model Learned to Doubt Itself"
+slug: opus-4-8-first-impressions
+featured: true
+tags:
+  - ai
+  - agents
+  - coding
+  - claude
+  - tools
+  - review
+description: "First impressions of Claude Opus 4.8 from real work: the honesty upgrade is the real story, the benchmarks are a sideshow, and the one place it still trips is — ironically — knowing when to do one thing at a time."
+ogImage: "https://cdn.enginyyr.com/claude-coffee.png"
+draft: false
+---
+
+<img
+  src="https://cdn.enginyyr.com/claude-coffee.png"
+  alt="Claude, with a coffee"
+  style="width:100%; aspect-ratio:4/3; object-fit:cover; object-position:center; border-radius:0.375rem;"
+/>
+
+## Table of contents
+
+Anthropic shipped [Claude Opus 4.8](https://www.anthropic.com/news/claude-opus-4-8) on May 28th, forty-one days after 4.7. I've had it in my actual working rotation for a few days now — not a benchmark harness, just the normal mix of greenfield prototyping, spelunking through an existing codebase, and the long agentic sessions where the model is driving a terminal and I'm mostly reading.
+
+The headline everyone reached for was the benchmark sweep, and we'll get to that. But the thing I actually felt, the thing that changes how I work with it, isn't on any leaderboard. It's that the model finally seems to know when it doesn't know.
+
+## What's actually new
+
+The shape of the release is familiar by now: a point bump that's bigger than a point. Same price as 4.7 — [$5 per million input tokens, $25 per million output](https://www.anthropic.com/news/claude-opus-4-8) — with a fast mode that Anthropic cut to $10/$50, roughly three times cheaper than the previous Opus fast tier. There's a new **Effort Control** knob in the apps, and a research-preview feature called **Dynamic Workflows** in Claude Code that spawns hundreds of parallel subagents for codebase-scale work.
+
+I'll be honest about my own coverage here: I haven't leaned on fast mode or effort control enough to have a verdict, so I'm not going to manufacture one. The reviews that have are mixed in the predictable way — [Every's vibe check](https://every.to/vibe-check/opus-4-8-vibecheck) notes coding quality drops at lower effort settings, which is exactly what you'd expect from a dial labeled "spend fewer tokens." What I can talk about is the part I lived in.
+
+## The win: a model that flags its own work
+
+Anthropic's framing for 4.8 is "sharper judgment, more honesty about its own progress." That's marketing language, and I'm allergic to marketing language, so I want to be precise about what it looks like in practice.
+
+It looks like the model finishing a task and then, unprompted, telling me which part of it I should double-check. It looks like "I implemented this, but I couldn't verify the third case because the fixture wasn't in the repo" instead of a confident green checkmark over code that doesn't run. The previous generation would bluff — it would summarize what it *intended* to do as if it had done it. 4.8 raises its hand.
+
+The numbers underneath this are the most interesting part of the release. On Anthropic's "code summary honesty" evaluation — does the model surface the important things that happened during a task — 4.8 [fails only 3.7% of the time](https://www.vellum.ai/blog/claude-opus-4-8-benchmarks-explained), and it's the first Claude model to score a clean 0% on "uncritically reporting flawed results." Anthropic puts it more bluntly: 4.8 is [four times less likely than 4.7](https://www.anthropic.com/news/claude-opus-4-8) to let a flaw in its own code pass unremarked.
+
+In agent work, this matters more than raw capability. A model that's 5% smarter but lies about its progress costs you more than it saves, because you have to re-verify everything by hand. A model that's honest about where it's shaky lets you spend your attention where it's actually needed. This is the upgrade I'll miss most if I ever have to go back.
+
+## The failure: it wants to do everything at once
+
+Here's the part that didn't make the press releases, and it's the most interesting thing I found.
+
+The standard 4.8 complaint — echoed in [Claire Vo's testing over at Lenny's](https://www.lennysnewsletter.com/p/claude-opus-48-is-here-is-it-as-good) — is the "last 10%": great at greenfield, weaker at finishing polished features inside an existing codebase, occasionally hallucinating an API that doesn't exist. I saw a little of that. But it's not what cost me time.
+
+What cost me time was sequencing. 4.8 is *eager*. Given a task with five steps, it wants to fire all five off in parallel — batch the file edits, run the commands concurrently, fan the work out — and a meaningful share of the time that's the wrong call. Step three depended on step two's output. The directory it tried to write into didn't exist yet because the command that creates it was still in flight. So a batch fails, and then the model spends a flurry of follow-up commands untangling the mess it made by moving too fast. The net result was slower than if it had just done one thing, looked at the result, and done the next.
+
+There's a real irony here. The marquee feature of this release is *more* parallelism — Dynamic Workflows, hundreds of subagents fanning out across [hundreds of thousands of lines of code](https://techcrunch.com/2026/05/28/anthropic-releases-opus-4-8-with-new-dynamic-workflow-tool/). And the thing I most wanted from the base model was better judgment about *when not to parallelize*. Concurrency is a tool, not a virtue. The orchestration layer can be as wide as you like, but the agent driving it still needs to know that some steps are a chain, not a fan. 4.8's judgment got sharper almost everywhere; this is the one corner where its enthusiasm outruns it.
+
+The good news is it's a steerable failure. A line in the prompt — *do these sequentially, verify each step before the next* — fixes it. But you have to know to say it, and the model's default is to assume more parallelism is always better. It usually is. Not always.
+
+## Dynamic Workflows: I'm waiting for the right job
+
+I haven't run Dynamic Workflows yet, and I'm not going to pretend otherwise. But it's the feature I'm most eager to find a reason to use, because it sits almost exactly on top of the problem I spend my time on.
+
+Most of my writing lately has been about [orchestration for people who aren't enterprises](/posts/small-builder-orchestration/) — the tier of builder who has real multi-step, multi-tenant, stateful AI work but no platform team to stand up Temporal behind it. Dynamic Workflows is Anthropic putting fan-out-and-verify directly in the agent's hands: plan the work, spawn the subagents, check your own outputs before reporting back. That's a genuinely different posture from "here's a bigger context window, good luck."
+
+What I want is the workload that actually warrants it — a migration big enough that no single context can hold it, with a test suite sharp enough to be the bar. When I find it, that's its own post. For now I'll just say the pairing is the most architecturally interesting thing in the release, and it's the part I'll be watching.
+
+## The benchmarks, briefly
+
+For completeness: 4.8 is, by the independent measures, the best general model available right now. [Artificial Analysis](https://artificialanalysis.ai/articles/claude-opus-4-8-analysis-and-benchmarks) puts it at the top of its Intelligence Index at 61.4, a hair above GPT-5.5. On coding it posts [88.6% on SWE-bench Verified and 69.2% on the harder SWE-bench Pro](https://www.vellum.ai/blog/claude-opus-4-8-benchmarks-explained), both up from 4.7. It also does the work more efficiently — Artificial Analysis clocked it using 15% fewer turns and 35% fewer output tokens than its predecessor on agentic tasks.
+
+I'm putting this section near the bottom on purpose. The benchmark numbers are real and they're good, but they're not why I'd recommend the model, and most of them lean on Anthropic's own proprietary evals. The honesty improvement is the thing you'll feel in the first hour. The leaderboard position is the thing you'll forget by the second.
+
+## Verdict
+
+Opus 4.8 is the first model in a while where the upgrade I care about is a *character* upgrade, not a capability one. It's not dramatically smarter than 4.7. It's more honest, and in agentic work honesty compounds — it's the difference between a collaborator you have to check and one that checks itself.
+
+The one thing to keep in your back pocket: it's eager to parallelize, sometimes to a fault, and a sentence of sequencing discipline in your prompt buys back a surprising amount of wasted motion. Tell it when the steps are a chain. Then mostly get out of its way.
