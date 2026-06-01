@@ -1,0 +1,121 @@
+---
+pubDatetime: 2026-06-01T16:00:00.000Z
+modDatetime: 2026-06-01T16:00:00.000Z
+title: "The Speedup Trap: What AI Did to Engineering Expectations"
+slug: speedup-trap
+featured: true
+tags:
+  - ai
+  - engineering
+  - management
+  - productivity
+  - burnout
+  - leadership
+description: "AI made writing code faster. Organizations turned that into a mandate. The problem is that the speedup is the one part of the job that got easier — and it's the part nobody was struggling with."
+ogImage: "https://cdn.enginyyr.com/speedup-trap-2.png"
+draft: false
+---
+
+![A developer sprinting flat-out on a treadmill, motion streaming off them](https://cdn.enginyyr.com/speedup-trap-2.png)
+
+## Table of contents
+
+The expectation arrives without anyone saying it out loud.
+
+You feel it in the way a ticket gets scoped now. In the standup question that used to be "how's it going" and is now "is the AI not getting you there." In the quiet recalibration of what a week is supposed to produce. Nobody hands you a new quota. The number just moves, because everyone has read the same headlines about AI making engineers faster, and the math has already been done in someone else's head: tools got better, so output should go up, so the same work should take less of you.
+
+I've been on the receiving end of that math. And the thing I keep wanting to say to the people doing it is: you're counting the one part of the job that got easier, and you're counting it as if it were the whole job.
+
+## The part that actually got faster
+
+Let me concede the real thing first, because it is real. Writing code is faster now. The blank-file problem is mostly gone. Boilerplate, glue, the unfamiliar API you'd have spent an afternoon reading docs for — the model gets you a working draft in minutes. On a good task, the speedup is not marketing. It's there, and it's large.
+
+That's also exactly why the expectation feels reasonable from the outside. If the typing got 3x faster, the work should get faster. The trouble is that typing was never the bottleneck. The bottleneck was — still is — knowing whether the thing you just wrote is *right* for the system it's going into. And that part didn't get faster. It got harder.
+
+Here is what AI actually did to my day. It made me faster at producing code and slower at trusting the codebase. Every change now lands against a system that no human fully holds in their head anymore. Nobody reads the code the way we used to. Nobody is carrying the architecture around as a mental model. What we do instead is stand outside the black box and inject what we know — *use a real abstraction here, don't duplicate that, watch this boundary* — and hope the model finds a fit against the specific shape of this specific codebase. Sometimes it does. Often it produces another narrow, focused monkeypatch: a change that works, passes, ships, and quietly forecloses the refactor that would have made the next ten changes easier.
+
+The output goes up. The comprehension goes down. And the gap between those two numbers is the debt nobody is putting on the board.
+
+## The research caught the same gap
+
+This isn't just my read from inside one set of projects. The most honest study we have found the same shape, and it's worth sitting with because it's so easy to misuse.
+
+In [METR's randomized trial](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/), sixteen experienced open-source developers did 246 real tasks on codebases they knew well, half with AI and half without. Before starting, they predicted AI would speed them up by 24%. Afterward, they believed it *had* sped them up by about 20%. Measured, they were **19% slower** with the tools than without.
+
+<figure class="my-8">
+  <figcaption class="mb-3 text-sm text-skin-base/90">
+    The calibration gap: what experienced developers predicted, what they felt afterward, and what was actually measured.
+  </figcaption>
+  <div class="space-y-3">
+    <div class="flex items-center gap-3">
+      <span class="w-32 shrink-0 text-sm text-skin-base/90">Predicted</span>
+      <div class="relative h-6 flex-1">
+        <div class="absolute inset-y-0 left-1/2 w-px bg-skin-inverted/25"></div>
+        <div class="absolute inset-y-1 left-1/2 rounded-r bg-skin-accent" style="width:45%"></div>
+      </div>
+      <span class="w-16 shrink-0 text-right text-sm tabular-nums text-skin-base/90">+24%</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="w-32 shrink-0 text-sm text-skin-base/90">Felt afterward</span>
+      <div class="relative h-6 flex-1">
+        <div class="absolute inset-y-0 left-1/2 w-px bg-skin-inverted/25"></div>
+        <div class="absolute inset-y-1 left-1/2 rounded-r bg-skin-accent" style="width:37.5%"></div>
+      </div>
+      <span class="w-16 shrink-0 text-right text-sm tabular-nums text-skin-base/90">+20%</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="w-32 shrink-0 text-sm text-skin-base/90">Measured</span>
+      <div class="relative h-6 flex-1">
+        <div class="absolute inset-y-0 left-1/2 w-px bg-skin-inverted/25"></div>
+        <div class="absolute inset-y-1 right-1/2 rounded-l" style="width:35.6%; background-color: rgb(220,38,38)"></div>
+      </div>
+      <span class="w-16 shrink-0 text-right text-sm tabular-nums text-skin-base/90">−19%</span>
+    </div>
+  </div>
+  <div class="mt-2 flex justify-between text-sm text-skin-base/90">
+    <span>← slower</span>
+    <span>no change</span>
+    <span>faster →</span>
+  </div>
+</figure>
+
+I want to be careful here, because this finding gets weaponized in both directions. METR itself was careful: the sample was small, the developers were working in repos they already knew intimately, and a [follow-up cohort](https://metr.org/blog/2026-02-24-uplift-update/) with more tasks landed much closer to neutral — roughly a 4% slowdown, with a confidence interval that comfortably straddles zero. So the responsible reading is *not* "AI makes engineers slower." It's quieter and more damning for the expectation-setters: the productivity gain is far smaller, far more variable, and far more context-dependent than anyone budgeting for it assumes. The headline number that justified the new quota does not exist as a stable quantity.
+
+The most striking part isn't the slowdown anyway. It's the **39-point calibration error** between what the developers felt — a 20% boost — and what actually happened. If the people doing the work, who can feel the keystrokes flying, are that wrong about their own speed, consider how wrong the manager two levels up is when they set a number based on a vibe and a press release.
+
+## What the org is actually asking for
+
+When you mandate the speedup, you are not asking for the easy part. You are asking for the easy part *plus* everything the easy part displaced, all of it now invisible and uncounted:
+
+- The review burden, which went up, not down — someone has to assess regression risk on changes against a system nobody fully understands.
+- The architectural erosion, as monkeypatch accretes on monkeypatch because reading the whole and refactoring it is exactly the slow, comprehension-heavy work AI didn't make faster.
+- The skill atrophy that engineers themselves are uneasy about. One staff engineer in [Gergely Orosz's 2026 survey of working engineers](https://newsletter.pragmaticengineer.com/p/ai-impact-on-software-engineers-part-2) put it plainly: *"I do worry about the quality of the work and atrophy of certain skills. It's unclear to me if those skills even matter anymore."*
+- The maintenance debt, which the same survey found concentrating on a shrinking core of engineers who still understand the codebase, while "drive-by" AI contributions pile up from people who don't stay to own them.
+
+And the org sees none of that. It sees velocity. The same survey caught the incentive that follows: organizations measuring throughput while "there is no recognition for work truly well done." You can watch the whole thing rhyme in the wider data. Upwork's research found [**96%** of executives expect AI to boost productivity](https://www.cio.com/article/4159631/increased-ai-expectations-without-guidance-leads-to-employee-burnout.html) while **77%** of the employees using it say it has actually *added* to their workload, and nearly half say they have no idea how to hit the productivity gains their employers expect. That is not a workforce that is slacking. That is a workforce being held to a number that was never real.
+
+## The expectation is a management artifact, not a fact
+
+Here's the part I most want managers to hear, because it's the part that's fixable. The toxic expectation is not "go faster." Wanting more is the job. The toxicity is in the *calibration* — taking an uneven, context-dependent, frequently-overstated bump and converting it into a flat baseline that every engineer is now measured against, while refusing to count the costs that the bump created.
+
+That's a management error, not an engineering shortfall. And the research says managers are *more* exposed to it than the engineers are, not less, because they're further from the keystrokes and closer to the headlines. The 39-point gap doesn't shrink with altitude. It grows.
+
+It gets worse when the calibration error reaches for a proxy. I keep seeing the same ones: lines of code added per developer, total LOC for the project, tokens burned. These were always weak signals — Bill Gates' line that [measuring programming progress by lines of code is "like measuring aircraft building progress by weight"](https://www.goodreads.com/quotes/536587-measuring-programming-progress-by-lines-of-code-is-like-measuring) is decades old — but AI has turned them actively perverse. Every one of those numbers is precisely what the model inflates for free. A monkeypatch adds lines; a refactor that deletes a duplicated abstraction *removes* them. Token spend measures how much the model talked, not how much was understood. Reward LOC and you are paying a bounty on exactly the black-box-thickening behavior you should be trying to suppress. Reward tokens and you are subsidizing the developer who lets the agent thrash instead of the one who read the code and knew the answer. The proxies don't just miss the comprehension cost — they invert it.
+
+So if you set expectations for engineers, a few things follow that the evidence actually supports:
+
+**Count the whole job.** If you're going to measure the speedup, measure the review load, the regression surface, and the maintenance concentration alongside it. A velocity metric with no comprehension metric next to it is a lie of omission, and your senior engineers know it's a lie, which is its own slow corrosion of trust.
+
+**Treat the gain as a hypothesis, not a constant.** The honest read of METR is that you don't know your team's real uplift, and neither do they. Find out before you budget against it. The number you imported from a vendor deck is not your number.
+
+**Reward the work AI didn't make easier.** The refactor that collapses ten future monkeypatches into one clean abstraction. The engineer who actually read the code and can tell you why the architecture is drifting. That work got *more* valuable when the model started flooding the repo with plausible local changes, and most orgs are recognizing it less.
+
+**Don't fund headcount cuts with productivity that hasn't shown up.** Adoption is near-universal — [around 93% of developers use AI tools](https://philippdubach.com/posts/93-of-developers-use-ai-coding-tools.-productivity-hasnt-moved./) — and aggregate productivity has barely moved. Cutting the team against a projected gain that the best available evidence can't confirm is how you end up with the same output, fewer people to carry the black box, and a burnout statistic with your name on it.
+
+## What I'd want said back to me
+
+I don't think the expectations are toxic because they're high. I've set high ones for myself; I'll keep doing it. They're toxic when they're built on a number that the people closest to the work can't even feel correctly, applied as a flat tax, with the new costs pushed off the books and onto the few engineers still holding the architecture in their heads.
+
+The speedup is real. It's just not the job. The job is the comprehension we're quietly spending down to pay for it — and that bill is going to come due in someone's codebase, on someone's on-call, whether or not it ever shows up in the quarter's velocity chart.
+
+If you're setting the expectations, the most useful thing you can do is the least AI-shaped thing on the list: go read the code, talk to the person who still understands it, and find out what you're actually asking for before you ask for more of it.
