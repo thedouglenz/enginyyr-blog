@@ -2,7 +2,7 @@
 pubDatetime: 2026-05-08T00:00:00.000Z
 title: "Harness as a service: ship the model, not the scaffolding"
 slug: harness-as-a-service
-featured: true
+featured: false
 tags:
   - ai
   - architecture
