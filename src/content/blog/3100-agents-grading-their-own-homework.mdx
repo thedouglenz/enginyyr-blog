@@ -1,0 +1,117 @@
+---
+pubDatetime: 2026-06-09T15:00:00.000Z
+modDatetime: 2026-06-09T15:00:00.000Z
+title: "Agents Shouldn't Grade Their Own Homework"
+slug: agents-grading-their-own-homework
+featured: true
+tags:
+  - ai
+  - agents
+  - engineering
+  - architecture
+  - grove
+  - validation
+description: "GitHub built an impressive stack to validate non-deterministic agents — a prefix-tree graph, dominator analysis, a multimodal LLM. I needed the same thing for Grove's agents and found the hard part didn't exist. The reason is the whole argument for structured trajectories."
+ogImage: "https://cdn.enginyyr.com/agent-acceptance.png"
+draft: false
+---
+
+![A low-poly flight sim: an AI agent reports "✅ Plane created!" beside a plane whose wings are visibly too short; the user asks "Did you test it?" and the agent answers "The honest answer? No."](https://cdn.enginyyr.com/agent-acceptance.png)
+
+## Table of contents
+
+A few weeks ago GitHub published one of the more honest pieces of engineering writing I've read this year: [Validating agentic behavior when "correct" isn't deterministic](https://github.blog/ai-and-ml/generative-ai/validating-agentic-behavior-when-correct-isnt-deterministic/). The problem it describes is the one everyone shipping autonomous agents hits the moment they try to write a test. Traditional testing assumes a deterministic path — same input, same steps, same output. An agent operating a real UI breaks that assumption on contact. A loading spinner appears or doesn't. Two different click sequences reach the same end state. The task genuinely succeeded, and your assertion on step four genuinely failed. You get a red build that means nothing, and after enough of them you stop believing the green ones too.
+
+GitHub's answer is genuinely clever, and it's worth understanding because the shape of it is the whole point of this post. They stop treating an execution as a line and start treating it as a graph. Successful runs get folded into a structure called a [Prefix Tree Acceptor](https://arxiv.org/abs/2605.03159) — nodes are observed states, edges are actions — so branching and reconvergence become first-class instead of impossible. Then they borrow **dominator analysis** from compiler theory to ask which states every successful path has to pass through. Those are the *essential* states; the loading spinners and incidental detours are not. The reframe they land on is the sentence I keep coming back to: stop asking "did this exact thing happen?" and start asking "what had to happen for success to be real?"
+
+It's a great idea. But sitting underneath the whole construction is one load-bearing assumption, and it's the assumption I want to pull on.
+
+## The assumption is a perception problem
+
+To fold two runs into the same graph, GitHub has to answer a deceptively hard question over and over: *are these two states the same state?* Their agent perceives the world as **screenshots**. So "same state" is a computer-vision problem. The blog describes a three-tier equivalence stack to solve it: perceptual hashing and SSIM for near-identical frames, then a [multimodal LLM](https://github.blog/ai-and-ml/generative-ai/validating-agentic-behavior-when-correct-isnt-deterministic/) to tell a meaningful difference (a missing button) from cosmetic noise (a changed timestamp), then conservative merging so genuine divergences still branch. The dominator analysis is elegant; most of the *machinery* is there to reconstruct structure that the agent threw away the moment it took a screenshot instead of recording what it did.
+
+I needed exactly this capability for [Grove](https://grove.enginyyr.com), the workflow-and-agent engine I work on. Its agents run autonomously — clone a repo, grep around, run the tests, commit, finish — and I wanted to know, independently, whether a given run *actually did the job*. I sat down ready to build some version of GitHub's stack. I did not build it. The hard part — "are these two states the same?" — turned out not to exist for me, and the reason is the entire argument for doing agents the way Grove does them.
+
+## Why agents need an oracle at all
+
+First, the part that *is* universal, because it's the reason you need any of this. The only completion signal a Grove run had before this work was its status: the loop sets `Completed` when the model calls the `finish` tool. Think about what that actually is. The model decides it's done, calls a tool that announces it's done, and the system records that it's done. That is the model **grading its own homework**. It will cheerfully report `Completed` on a run where it edited the wrong file, skipped the tests it claimed to run, and wrote a confident final answer about a fix that doesn't compile.
+
+So I made acceptance a **separate axis** from status, on purpose. They answer different questions:
+
+<figure class="my-8">
+  <figcaption class="mb-3 text-sm text-skin-base/90">
+    Two questions that get conflated, split into two columns on the run record.
+  </figcaption>
+  <div class="grid gap-3 sm:grid-cols-2">
+    <div class="rounded border border-skin-line p-4">
+      <div class="text-sm font-semibold text-skin-base"><code>status</code></div>
+      <div class="mt-1 text-sm text-skin-base/90">How did the loop end? Finished, stopped, hit the turn cap, was cancelled. The model's own report.</div>
+    </div>
+    <div class="rounded border border-skin-line p-4">
+      <div class="text-sm font-semibold text-skin-accent"><code>acceptance_passed</code></div>
+      <div class="mt-1 text-sm text-skin-base/90">Did it do the job? An independent verdict over what actually happened. Nobody's self-report.</div>
+    </div>
+  </div>
+</figure>
+
+A run can be `Completed` with `acceptance_passed = false` — it claimed victory but never ran the tests. A run can hit the turn cap, technically "incomplete," yet have passed every essential checkpoint before it was cut off. Status is the model's story about the run. Acceptance is an oracle over the trajectory. Once you've watched a model declare success on a broken run, you stop wanting those to be the same column.
+
+## Essential milestones, not an exact script
+
+Here's where I land in the same place GitHub did, because the non-determinism is real either way. A Grove agent can reach the same goal by several legitimate tool sequences, with incidental retries and exploratory greps in between. Asserting on the exact path produces the same false failures. So an agent's acceptance spec declares the **essential milestones** a correct run must hit, and treats everything else as optional. Validation is an ordered-subsequence match: the essential checkpoints have to appear, in order, with arbitrary other events allowed between them.
+
+Concretely, here's the spec for a "fix the failing test" agent:
+
+```json
+{ "ordered": true, "checkpoints": [
+  { "id": "cloned",    "when": { "type": "ToolCalled", "tool": "git_clone" } },
+  { "id": "ran_tests", "when": { "type": "ToolCalled", "tool": "ws_shell",
+      "input": { "left": "{{tool.input.command}}", "op": "contains", "right": "test" } } },
+  { "id": "committed", "when": { "type": "ToolCalled", "tool": "git_commit" } },
+  { "id": "claims_ok", "when": { "type": "FinalAnswer",
+      "predicate": { "left": "{{final_answer}}", "op": "contains", "right": "passing" } } }
+]}
+```
+
+Read it as: the run must clone, must at some later point run a shell command containing `test`, must commit after that, and must end claiming the suite is passing — but it can grep, retry, and wander as much as it likes in between. Any checkpoint marked optional (`"essential": false`) is reported but never fails the run. The verdict is simply: did every essential checkpoint match, in order?
+
+## The hard part GitHub has, that I don't
+
+Now the divergence. GitHub spends most of its engineering reconstructing state identity from pixels. A Grove trajectory never lost its structure in the first place. Every step is a **typed tool call** — a name, a JSON input, a result — already persisted as a structured record. "Did the agent run the tests?" isn't a perception question; it's `name == "ws_shell" && input.command contains "test"` over a row I already have. The entire "are these two states the same?" problem — the thing the prefix tree, the dominator analysis, and the multimodal LLM all exist to solve — *does not arise*, because identity over typed events is free.
+
+That's why the matcher is small enough to fit in your head. A checkpoint is one of three things:
+
+```rust
+pub enum CheckpointMatch {
+    /// A tool named `tool` fired (optionally, with input satisfying a predicate).
+    ToolCalled  { tool: String, input: Option<Predicate> },
+    /// A completed call of `tool` produced a result satisfying the predicate.
+    ToolResult  { tool: String, predicate: Predicate },
+    /// The run's final answer satisfied the predicate.
+    FinalAnswer { predicate: Predicate },
+}
+```
+
+And the evaluator is a pure function — no I/O, no model calls, no vision — that flattens the persisted turns into an ordered event stream and walks a cursor down it:
+
+```rust
+pub fn evaluate_acceptance(
+    spec: &AcceptanceSpec,
+    turns: &[AgentRunTurn],
+    final_answer: Option<&str>,
+) -> AcceptanceReport
+```
+
+The `Predicate` in there isn't even new. Grove's workflow engine already has a [`Refine` node](/posts/who-profits-from-ai/) whose `accept_when` clause decides if a generated result is good enough to stop iterating, using a small single-comparison predicate grammar. Acceptance reuses that grammar verbatim — the same operators, the same `compare_values` — and just points it at a different surface: per-event trajectory tokens (`{{tool.input.*}}`, `{{tool.result}}`, `{{final_answer}}`) instead of workflow node outputs. The agent-level check is the node-level check, lifted up to the whole run and made trajectory-aware. No new mental model, because the structure was already there to borrow.
+
+The hook that runs all this is deliberately boring: once, after the loop terminates, regardless of how it ended, entirely best-effort. If loading the turns or writing the verdict fails, it logs and moves on — acceptance is an observer, never a gate, and it must never fail an otherwise-good run. It records `acceptance_passed`, attaches a per-checkpoint report, and emits an event on the run's stream. There's one guard worth calling out, because it's the kind of thing that quietly rots trust: at definition time, a checkpoint that references a tool the agent isn't even allowed to call is rejected outright. A typo'd milestone can never silently become a forever-failing one.
+
+## The part that generalizes
+
+I want to be careful not to claim too much. GitHub is solving a strictly harder problem than I am — their agents have to operate software built for human eyes, where the only available signal really is the screen. When the interface is pixels, you have no choice but to recover structure after the fact, and the prefix-tree-plus-dominator approach is a genuinely good way to do it. None of this is GitHub doing it wrong.
+
+The point is the fork in the road that sits *before* any of that. The cost of validating an agent is set, almost entirely, by how much structure the agent preserved about what it did. Perceive the world as screenshots and you pay for a perception stack to validate it. Record the world as typed tool calls and validation collapses into a predicate over rows you already kept. The expensive machinery downstream is the bill for structure you declined to keep upstream.
+
+This is the same bet the rest of Grove makes, and the same one I keep [writing about from other directions](/posts/who-profits-from-ai/): the value lives in the wiring. An agent improvising inside a chat box and reporting back in prose is the screenshot version — you'll be reconstructing what it meant forever. An agent whose every action is an explicit, typed, recorded step is a thing you can check with a function so dull it's a single page of Rust. The discipline of structuring the trajectory up front isn't bureaucracy. It's what turns "did the agent actually do the job?" from a research project into a row lookup.
+
+The model declaring itself done was never going to be the answer to that question. The good news is that if you kept the right records, you don't have to ask it — you can just go look.
