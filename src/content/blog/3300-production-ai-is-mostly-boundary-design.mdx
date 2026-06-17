@@ -1,0 +1,120 @@
+---
+pubDatetime: 2026-06-16T15:00:00.000Z
+modDatetime: 2026-06-16T15:00:00.000Z
+title: "Production AI Is Mostly Boundary Design"
+slug: production-ai-is-mostly-boundary-design
+featured: true
+tags:
+  - ai
+  - architecture
+  - orchestration
+  - agents
+  - engineering
+  - grove
+description: "Production AI works when the model owns the ambiguous middle, not the whole workflow. The lesson shows up in a lead dedup case study, but the real story is boundary design."
+ogImage: "https://cdn.enginyyr.com/production-ai-boundary-design.png"
+draft: false
+---
+
+![A layered, boundary-heavy network visualized as a physical model of nodes and connections](https://cdn.enginyyr.com/production-ai-boundary-design.png)
+
+## Table of contents
+
+The hardest part of production AI is usually not getting the model to answer. It is deciding what the model should never be allowed to decide.
+
+That sounds like a minor architectural detail until you have to ship something real. Then it becomes the whole system. The reliable parts of the workflow should stay deterministic. The ambiguous parts should be isolated. The human review loop should be visible, not improvised. The model should live inside a boundary the software can actually defend.
+
+That is the lesson I keep coming back to, and it is the one I want to anchor this case study around. [Grove](https://grove.enginyyr.com) exists around that premise: AI work is not a prompt with a shell around it, it is a workflow with typed steps, explicit handoffs, and a runtime that can keep the whole thing coherent. If you want to talk about production AI honestly, that is where the conversation starts.
+
+## The real problem is scope
+
+Most AI failures are scope failures.
+
+A team starts with a narrow use case and then gradually hands the model more of the system. First it classifies. Then it summarizes. Then it routes. Then it decides. Then it silently becomes responsible for the parts that used to be rules, state machines, or human judgment. At that point the model is no longer a component. It is the boundary. And once that happens, every mistake becomes harder to explain, harder to recover from, and harder to trust.
+
+Boundary design is the opposite move. It says:
+
+- deterministic code handles what can be decided deterministically;
+- the model sees only the uncertain middle;
+- human review closes the loop where judgment still matters;
+- the system records enough structure that you can inspect the path later.
+
+That is not an AI-specific trick. It is just good software design in a probabilistic environment.
+
+## Narrow the model, widen the system
+
+The instinct that hurts teams most is to treat the model as if it should own the entire workflow because it is the most interesting part of the stack. In practice, the model is usually the least stable part of the stack. You want to minimize the surface area where it can improvise.
+
+When the boundary is drawn well:
+
+- costs drop, because the model is not burning tokens on obvious cases;
+- reliability rises, because deterministic code handles the easy path;
+- precision improves, because the model only votes on the ambiguous path;
+- auditability improves, because the workflow is explicit instead of implied;
+- product quality improves, because humans can intervene where the model is uncertain.
+
+That is why “AI feature” is often the wrong phrase. What you are really building is a system for routing uncertainty.
+
+## The lead dedup case study
+
+The best way to make this concrete is the lead-dedup case study at [lead-dedup-ui-production.up.railway.app](https://lead-dedup-ui-production.up.railway.app/). It is a live example of the concept, but the point is broader than deduplication.
+
+The pipeline starts with incoming leads from multiple sources that disagree with one another. Names vary. Emails differ. Company names drift. Some records are obvious matches, some are obvious non-matches, and some are genuinely ambiguous. That ambiguity is the only place the model belongs.
+
+The flow looks like this:
+
+1. deterministic SQL blocks candidate pairs against the lakehouse;
+2. rule scoring sorts the pairs into obvious matches, obvious rejects, and a review band;
+3. Grove adjudicates only the review band with an LLM;
+4. the workflow resolves clusters from the confirmed matches;
+5. humans review the uncertain cases and write corrections back into the next run.
+
+That is boundary design in practice. The model does not get asked to solve entity resolution from scratch. It gets asked to resolve the part that is genuinely fuzzy.
+
+The result is the useful kind of AI outcome: recall rises from 41% to 77% while precision holds at 99.8%, across 2,392 unified leads. Those numbers matter, but the deeper lesson matters more. The system gets better because the model’s responsibility is smaller and better defined.
+
+## Why this works better than a “smart prompt”
+
+There is a superficial version of this pattern that looks like prompt engineering. It is not the same thing.
+
+A prompt says, “please be careful.”
+A boundary says, “you may only act here.”
+
+That difference matters. Prompts are advisory. Boundaries are structural. If the model is allowed to touch every stage, then every stage inherits model risk. If the model only receives the low-confidence band, then the rest of the system can be made boring on purpose.
+
+This is also why human review belongs inside the workflow, not outside it. A review queue is not a cleanup task. It is part of the system’s control surface. It gives you a place to correct the model, but it also gives you a place to enforce policy, inspect edge cases, and decide whether an edge really should be merged.
+
+That is the software lesson I think more teams need to absorb: production AI is not about making the model more autonomous. It is about making the surrounding system more deliberate.
+
+## The Grove-shaped version of the lesson
+
+This is the kind of problem Grove is built for. Grove is most useful when the interesting work is not “call the model,” but “design the workflow around the model so it behaves like part of a system.”
+
+That means:
+
+- explicit graph steps instead of hidden control flow;
+- typed handoffs instead of ambiguous message chains;
+- deterministic transforms before and after model calls;
+- human review where the output is still uncertain;
+- auditability all the way down.
+
+If you are building AI software, that is the job. The model is one node. The boundary is the product.
+
+If you are building this kind of system for a data team, there is a natural extension of the same pattern into [Grove data engineering](https://grove.enginyyr.com/data-engineering/), where the workflow has to live next to the lakehouse instead of next to a chat box.
+
+## What to take away
+
+The useful mental model is not “how can I make the model do more?”
+
+It is:
+
+- what should be deterministic?
+- what should be model-driven?
+- what should be reviewed by a human?
+- what should be recorded so the run can be explained later?
+
+If you answer those questions well, the AI part of the system gets smaller, and the product gets better.
+
+That is why I think production AI is mostly boundary design. The model is important, but the real engineering work is deciding where it starts, where it stops, and who gets the final say when the answer is still uncertain.
+
+I build this kind of system through [Grove](https://grove.enginyyr.com), and I do it through [Magic Ingredient LLC](https://magic-ingredient.enginyyr.com). If you want to talk through a similar workflow or compare notes on the architecture, [contact me here](https://grove.enginyyr.com/contact/).
