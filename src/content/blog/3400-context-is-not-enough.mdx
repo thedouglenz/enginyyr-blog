@@ -1,0 +1,69 @@
+---
+pubDatetime: 2026-06-17T15:00:00.000Z
+modDatetime: 2026-06-17T15:00:00.000Z
+title: "Context Is Necessary. It Isn't Enough."
+slug: context-is-not-enough
+featured: true
+tags:
+  - ai
+  - agents
+  - architecture
+  - context
+  - verification
+  - grove
+description: "The whole data industry is racing to ship context graphs — Genie Ontology, Horizon, the IQ family. Context is real and necessary. But it tells an agent what's true, not whether it did the right thing. The open problem is verifiable execution."
+ogImage: "https://cdn.enginyyr.com/context-is-not-enough.png"
+draft: false
+---
+
+![A glowing knowledge graph of business concepts hovering over a darkened data center floor](https://cdn.enginyyr.com/context-is-not-enough.png)
+
+## Table of contents
+
+This week at the Data + AI Summit, Databricks made the case that has quietly become the consensus of the entire industry: AI's problem isn't intelligence, it's context. ["AI doesn't have an intelligence problem, it has a context problem,"](https://www.hpcwire.com/bigdatawire/2026/06/16/ali-ghodsis-keynote-ai-doesnt-have-an-intelligence-problem-it-has-a-context-problem/) Ali Ghodsi told the keynote crowd. The product behind the line is [Genie Ontology](https://www.databricks.com/blog/introducing-genie-one-genie-ontology-and-genie-agents), a "living context graph" that crawls your tables, queries, dashboards, pipelines, and connected apps and assembles a map of what your data actually *means* — your metric definitions, your business terms, the relationships between concepts and teams. When two dashboards disagree about what "active customer" means, an OntoRank-style algorithm (think PageRank, for business definitions) decides which one the agent should trust.
+
+It's a genuinely good idea, and Databricks isn't alone. Snowflake shipped Horizon Context. Microsoft has an entire IQ family — Fabric IQ, Work IQ, Foundry IQ. The arc is clear: we went from vector databases, to RAG, to **context layers**, and every major data platform now wants to be the one that grounds your agents.
+
+I build [Grove](https://grove.enginyyr.com), an execution engine for AI workflows and agents, so I've been watching this closely. And I think the industry is half right in a way that's worth being precise about.
+
+## The half that's right
+
+RAG was always a little dumb. As Moor Insights analyst Michael Leone [put it this week](https://www.infoworld.com/article/4186146/from-rag-to-ontology-databricks-bets-on-context-as-the-key-to-trusted-ai-agents.html), older approaches "just pull back whatever looks similar to your question, and they don't actually understand your business." If you ask an agent for "Q2 revenue in EMEA," similarity search will cheerfully hand it three tables that *look* relevant and let the model guess which join is correct. A context graph encodes the meaning a vector index can't: what the term means, which source is authoritative, and how the pieces relate.
+
+So yes — context is necessary. An agent without it fills the gaps with inference, and inference at enterprise scale is just confident error. If your agents are hallucinating your business logic, a context layer is a real fix.
+
+## The half that's missing
+
+Here's the part the launch slides skip, and that the analysts in the room said out loud. Context tells an agent what's *true*. It says nothing about whether the agent then did the right *thing*.
+
+HyperFRAME Research's Stephanie Walter [put it bluntly](https://www.infoworld.com/article/4186146/from-rag-to-ontology-databricks-bets-on-context-as-the-key-to-trusted-ai-agents.html): "Ontologies can improve context, but they do not guarantee the answer is correct. An agent can still pull incomplete data, apply the wrong logic, skip rows, misunderstand a workflow, or take the wrong action." A perfect ontology feeding a flawed execution is still a flawed execution — now delivered with more confidence and a citation.
+
+This is not a nitpick. It's the whole game once agents stop *answering* questions and start *acting* on them — writing back to systems, kicking off jobs, sending the email, moving the money. The moment an agent takes an action, "we gave it good context" is not an acceptable answer to "how do you know it did the right thing?" Walter's closing line is the one I'd put on a billboard:
+
+> "The next enterprise AI battleground is not just context. It is **verifiable execution**."
+
+## What verifiable execution actually looks like
+
+A context graph is a map. Verifiable execution is the flight recorder plus the checklist. Concretely, it means three things most agent stacks don't have:
+
+1. **A trajectory you can inspect.** Every step the agent took — every tool call, every query, every write — captured as a durable, replayable record, not a summary the model wrote about itself.
+2. **Declarative outcome checks.** Before the run, you state what *must* be true for the run to count as successful ("wrote results only to the staging table," "every output row maps to an input row," "never called the production write tool"), and the engine checks the actual trajectory against those conditions — essential outcomes separated from nice-to-haves.
+3. **A verdict that's separate from "it finished."** "The run completed" and "the run did what it was supposed to" are two different facts. Conflating them is how you ship confident nonsense to production.
+
+None of this competes with a context graph. It sits *downstream* of it. You want the best context layer you can get — and then you want proof the agent used it correctly.
+
+This is not a hypothetical wishlist. It's the exact thing I [built into Grove](/posts/agents-grading-their-own-homework/): acceptance as a separate axis from status, an oracle that walks the agent's typed trajectory and checks declared milestones, a `acceptance_passed` verdict that has nothing to do with whether the model called its own `finish` tool. The expensive part of that work was never the checking — it was insisting, upstream, that the agent record what it did as structured events instead of prose. Keep the trajectory and verification collapses into a predicate over rows you already have. Throw it away and you're reconstructing what the agent meant forever.
+
+## Where I think this leaves teams
+
+A practical take, if you're building with agents right now:
+
+- **Adopt a context layer that follows your data gravity.** If you live in Databricks, Genie Ontology is the obvious path; Snowflake shops get Horizon; Microsoft shops get the IQ family. Don't fight where your data already is.
+- **But don't confuse the map for the journey.** Budget as much attention for *checking what the agent did* as you spent on *what the agent knows*. The first is where the production incidents come from. It's the same lesson as [boundary design](/posts/production-ai-is-mostly-boundary-design/): the model is one node, and the engineering work is the system you build around it.
+- **Keep your execution layer portable.** Context layers are, by design, platform-locked — that's the vendors' business model. Your agents and the guarantees around them shouldn't be. The execution and verification layer is exactly the part you want to own across platforms, so a context-layer decision doesn't become an agent-platform lock-in.
+
+That last point is why we built Grove the way we did: it runs your agentic and LLM steps *beside* the lakehouse rather than inside any one vendor, with governance (RBAC, deny-by-default access, append-only audit) and — the part I care most about — declarative acceptance checks that turn "the agent finished" into "the agent did what we required, and here's the record." We're happy to read context from Genie, Horizon, or anywhere else. We're less happy to let an agent act on it unchecked.
+
+Context is having its moment, and deservedly. Just remember what the moment is actually for. A context graph makes your agent *smarter*. It doesn't make it *accountable*. Those are different problems, and right now the whole industry is loudly solving the first one. The second one is still open — and it's the one that matters the day your agent stops talking and starts doing.
+
+I build this kind of system through [Grove](https://grove.enginyyr.com), and through [Magic Ingredient LLC](https://magic-ingredient.enginyyr.com). If you want to compare notes on verifiable execution — or argue that the context layer is enough — [contact me here](https://grove.enginyyr.com/contact/).
