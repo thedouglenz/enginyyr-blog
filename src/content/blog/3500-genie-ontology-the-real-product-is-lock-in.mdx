@@ -1,0 +1,69 @@
+---
+pubDatetime: 2026-06-18T16:00:00.000Z
+modDatetime: 2026-06-18T16:00:00.000Z
+title: "Genie Ontology: The Real Product Is Lock-In"
+slug: genie-ontology-the-real-product-is-lock-in
+featured: true
+tags:
+  - ai
+  - agents
+  - strategy
+  - data
+  - lock-in
+  - ontology
+description: "Genie Ontology, Horizon Context, the IQ family — six context layers shipped in four days. The agents are disposable and the models are commoditized. The semantic graph underneath is the part that doesn't get swapped, and that's exactly why every data platform is racing to own yours."
+ogImage: "https://cdn.enginyyr.com/genie-ontology-lock-in.png"
+draft: false
+---
+
+![A low-poly brain in red, blue, and purple on a cream background](https://cdn.enginyyr.com/genie-ontology-lock-in.png)
+
+## Table of contents
+
+Count the launches. In the four days around this June's Data + AI Summit, Databricks shipped [Genie Ontology](https://www.databricks.com/blog/introducing-genie-one-genie-ontology-and-genie-agents), Snowflake pushed Horizon Context, Microsoft kept expanding its IQ family, and SAP, Salesforce, and ServiceNow all leaned harder on their own [context layers](https://itdaily.com/blogs/cloud/databricks-genie-ontology/). Same week, same pitch, almost the same slide: AI's problem isn't the model, it's that the model doesn't understand *your* business. ["AI doesn't have an intelligence problem, it has a context problem,"](https://www.hpcwire.com/bigdatawire/2026/06/16/ali-ghodsis-keynote-ai-doesnt-have-an-intelligence-problem-it-has-a-context-problem/) Ali Ghodsi told the keynote crowd. ["Most enterprise AI today is just guessing with false confidence."](https://siliconangle.com/2026/06/16/databricks-new-agentic-coworker-genie-one-brings-ai-automation-every-part-business/)
+
+When six companies independently arrive at the same product in the same week, the interesting question isn't whether they're right about the technology. They mostly are — I [argued last week](/posts/context-is-not-enough/) that a context graph is a genuinely good idea. The interesting question is *why the rush*. Why is every data platform on earth suddenly desperate to be the thing that maps what your data means?
+
+Because the ontology is the part that locks you in. And the people building these things know it.
+
+## The model is the disposable part
+
+Start with what *isn't* defensible. The large language model underneath Genie One, or Copilot, or any of these agents is a commodity and getting more commoditized by the quarter. Today's frontier model is next year's open-weight checkpoint. Nobody is building a ten-year enterprise strategy on which specific model answers the prompt, because that choice has the shelf life of a carton of milk.
+
+The agent interface isn't sticky either. Genie One is a chat box in Slack and Teams with [a mobile app and MCP support](https://www.databricks.com/blog/introducing-genie-one-genie-ontology-and-genie-agents) — useful, but the kind of thing a competitor clones in a quarter. One sharp [strategic read](https://fourweekmba.com/databricks-genie-one-enterprise-agent-ontology/) of the launch put the hierarchy plainly: Genie One is "the disposable agent interface," the model is interchangeable infrastructure, and the ontology — "the structured knowledge graph of how a company's data, people, and processes connect" — is "the layer that doesn't get swapped."
+
+That's the whole strategy in one sentence. You don't win enterprise AI by having the smartest agent. You win by owning the layer beneath every agent — the one that encodes what "active customer" means, which revenue table is authoritative, how your org actually defines a qualified lead. Swap the model, swap the chat UI, and that graph is still there, still yours, still the reason the next agent gives a correct answer instead of a confident guess.
+
+## Why the graph only gets harder to leave
+
+Lock-in only bites if leaving is expensive, and this kind compounds. Genie Ontology doesn't ship as a static schema; it [auto-extracts knowledge](https://www.databricks.com/blog/introducing-genie-one-genie-ontology-and-genie-agents) from your tables, queries, dashboards, pipelines, and [50-plus connected apps](https://itdaily.com/blogs/cloud/databricks-genie-ontology) — files, tickets, chats, meetings — and keeps updating. The strategic framing calls it a learning loop: ["Every time an agent answers a question, the ontology gets smarter."](https://fourweekmba.com/databricks-genie-one-enterprise-agent-ontology/)
+
+Read that as a buyer, not a marketer. Every query your team runs deposits another layer of institutional memory into a graph that lives inside one vendor's platform. Six months in, that graph is the single best map of how your company actually works — and it was assembled by watching you work. Migrating off doesn't mean exporting a table. It means *reconstructing your enterprise's semantic understanding from scratch* somewhere else. The cost of leaving isn't the data; it's everything the platform learned about the data while you weren't looking.
+
+This is the part the "context problem" framing quietly buries. Solving your context problem and deepening your switching costs are, mechanically, the same activity. The more honestly the ontology maps your business, the more captive you are to wherever it lives.
+
+## Ranking truth is a position of power
+
+There's a sharper edge to it. Genie Ontology arbitrates *which* definition wins. When two dashboards disagree about what "active customer" means, an algorithm Databricks calls OntoRank picks the authority — ["PageRank for business knowledge,"](https://itdaily.com/blogs/cloud/databricks-genie-ontology/) weighing author seniority, usage frequency, ties to certified assets, and freshness. As one Databricks engineer [put it](https://itdaily.com/blogs/cloud/databricks-genie-ontology/), "Pagerank only had to rank web pages; ontorank has to rank different types of data."
+
+Set aside whether popularity is a good proxy for correctness (it wasn't for PageRank, and that's a post for another day). Notice the position it puts the vendor in: the platform that ranks your definitions is the platform that decides, at machine speed, what your company believes to be true. That's not a reporting tool. That's the control plane. The analyst Ashish Chaturvedi [said it without flinching](https://www.cio.com/article/4186154/from-rag-to-ontology-databricks-bets-on-context-as-the-key-to-trusted-ai-agents-2.html): "It's absolutely a control-plane play. When you connect the dots across everything Databricks has announced... you see a single place where enterprise data, governance, business semantics, and agent execution all converge."
+
+Converge in *one place*, owned by *one vendor*, enforced through [Unity Catalog](https://siliconangle.com/2026/06/16/databricks-new-agentic-coworker-genie-one-brings-ai-automation-every-part-business/) and billed [pay-as-you-go by the token](https://siliconangle.com/2026/06/16/databricks-new-agentic-coworker-genie-one-brings-ai-automation-every-part-business/). That is a beautiful business. It is also, from where you sit as the customer, the most consequential vendor-lock decision you'll make this decade — dressed up as a productivity feature.
+
+## What this means if you're buying one
+
+I'm not saying don't adopt a context layer. You should; an agent without one fills the gaps with inference, and inference at enterprise scale is just [confident error](/posts/context-is-not-enough/). I'm saying buy it with your eyes open about what it is.
+
+- **Follow your data gravity, but name the trade.** Chaturvedi's [rule of thumb](https://www.cio.com/article/4186154/from-rag-to-ontology-databricks-bets-on-context-as-the-key-to-trusted-ai-agents-2.html) is right — "If your data lives in Databricks, Genie Ontology is your path. If it's in Snowflake, Horizon Context is." Just say the quiet part out loud in the procurement doc: you are picking the owner of your business semantics, not a chatbot.
+- **Weight openness more than demos.** Snowflake is pitching ["open semantic interoperability aimed at reducing the risk of semantic lock-in,"](https://www.cio.com/article/4186154/from-rag-to-ontology-databricks-bets-on-context-as-the-key-to-trusted-ai-agents-2.html) which tells you the vendors themselves see lock-in as the axis of competition. Whether the graph can be exported, queried by outside tools, and rebuilt elsewhere should outrank first-attempt accuracy on the scorecard.
+- **Keep the layer above it portable.** The context graph will be platform-locked — that's the business model, and fighting it is a losing game. So fight the other front instead. The agents that *act* on the ontology, and the guarantees around them, are the part you can and should own across vendors. It's the same lesson as [boundary design](/posts/production-ai-is-mostly-boundary-design/): the platform is one node; the system you build around it is yours.
+
+This is why I build [Grove](https://grove.enginyyr.com) the way I do — the execution and verification layer runs *beside* the lakehouse, reading context from Genie or Horizon or wherever your data gravity points, without becoming a third thing you're locked into. Own the part that acts. Rent the part that remembers, and never forget you're renting.
+
+## The verdict
+
+The "context problem" is real, and the context layers are good. But notice what the framing accomplishes: it turns the single stickiest, most defensible, most expensive-to-leave asset in your stack into something you're grateful to hand over. Six vendors shipped the same product in one week not because they all had the same epiphany about AI, but because they all saw the same land — the semantic layer between your data and your agents — and moved at once to plant a flag.
+
+The ontology that maps your business is worth owning. The only real question this launch season is asking you is *who gets to own it.* Answer that one deliberately, because it's the answer that compounds — and the people selling you the magic lamp already know exactly what they wished for.
+
+I work on this layer through [Grove](https://grove.enginyyr.com) and [Magic Ingredient LLC](https://magic-ingredient.enginyyr.com). If you're weighing a context-layer decision and want to talk about what stays portable, [reach out here](https://grove.enginyyr.com/contact/).
