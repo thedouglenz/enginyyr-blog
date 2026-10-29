@@ -18,13 +18,13 @@ draft: false
 
 ![A low-poly flight sim: an AI agent reports "✅ Plane created!" beside a plane whose wings are visibly too short; the user asks "Did you test it?" and the agent answers "The honest answer? No."](https://cdn.enginyyr.com/agent-acceptance.png)
 
-## Table of contents
-
 A few weeks ago GitHub published one of the more honest pieces of engineering writing I've read this year: [Validating agentic behavior when "correct" isn't deterministic](https://github.blog/ai-and-ml/generative-ai/validating-agentic-behavior-when-correct-isnt-deterministic/). The problem it describes is the one everyone shipping autonomous agents hits the moment they try to write a test. Traditional testing assumes a deterministic path — same input, same steps, same output. An agent operating a real UI breaks that assumption on contact. A loading spinner appears or doesn't. Two different click sequences reach the same end state. The task genuinely succeeded, and your assertion on step four genuinely failed. You get a red build that means nothing, and after enough of them you stop believing the green ones too.
 
 GitHub's answer is genuinely clever, and it's worth understanding because the shape of it is the whole point of this post. They stop treating an execution as a line and start treating it as a graph. Successful runs get folded into a structure called a [Prefix Tree Acceptor](https://arxiv.org/abs/2605.03159) — nodes are observed states, edges are actions — so branching and reconvergence become first-class instead of impossible. Then they borrow **dominator analysis** from compiler theory to ask which states every successful path has to pass through. Those are the *essential* states; the loading spinners and incidental detours are not. The reframe they land on is the sentence I keep coming back to: stop asking "did this exact thing happen?" and start asking "what had to happen for success to be real?"
 
 It's a great idea. But sitting underneath the whole construction is one load-bearing assumption, and it's the assumption I want to pull on.
+
+## Table of contents
 
 ## The assumption is a perception problem
 

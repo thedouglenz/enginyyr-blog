@@ -18,8 +18,6 @@ draft: false
 
 ![A rain-slicked harbor at dawn, with fishing boats reflected in dark blue water and warm streetlights along the quay.](/assets/lunar-canoe-harbour.png)
 
-## Table of contents
-
 Text-to-video demos have a peculiar way of hiding the actual product problem.
 
 One beautiful five-second clip looks like the future. Ask for a two-minute film, though, and the work changes shape immediately. The character's jacket drifts between shots. A camera move lands somewhere unusable. A good scene gets regenerated, and suddenly the next three no longer match it. The ambient sound hard-cuts every few seconds. Then there is the small matter that each retry takes a minute and costs real money.
@@ -29,6 +27,8 @@ The hard problem is not getting a model to emit a clip. It is letting a person m
 I've been building **[Lunar Canoe](https://lunarcanoe.com)** around that premise: a web-first storyboard for composing longer videos from short AI-generated shots. It has a director agent, but it is not trying to replace the director. Its job is to make the expensive, irreversible-looking parts of AI video deliberate, inspectable, and recoverable.
 
 The design has led to a useful conclusion: continuity should not be an emergent property of generations. It needs its own data model.
+
+## Table of contents
 
 ## A movie is not a prompt with a duration slider
 

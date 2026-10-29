@@ -32,7 +32,7 @@ experience; ask for them.
 
 - Read 1–2 recent featured posts (e.g. `2600-*.mdx`, `2500-*.md`) to absorb
   the **house voice**: essay-driven, grounded, no hype, strong opening
-  anecdote, a `## Table of contents` marker right after the header image,
+  anecdote, a `## Table of contents` marker after the opening paragraphs,
   inline-cited links woven into prose (not a footnote dump).
 
 ## 1. Research (if the topic needs sources)
@@ -80,14 +80,16 @@ draft: true                  # see step 4 — drafts 404 locally
 
 <header image — see step 5>
 
+<opening paragraphs>
+
 ## Table of contents
 
-<body…>
+<remaining body…>
 ```
 
 House-style checklist for the body:
 - Open with a concrete scene or tension, not a definition.
-- Keep the `## Table of contents` marker (AstroPaper auto-populates it).
+- Put the opening paragraphs before the `## Table of contents` marker; `remarkToc` replaces the content under that heading. Keep the marker after the intro so AstroPaper can auto-populate it.
 - Inline-link every external claim to its source.
 - Cross-link related posts as `/posts/<slug>/` (this repo's convention).
 - Demote benchmark/number dumps; lead with the human takeaway.

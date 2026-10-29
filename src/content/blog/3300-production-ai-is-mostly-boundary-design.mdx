@@ -18,13 +18,13 @@ draft: false
 
 ![A layered, boundary-heavy network visualized as a physical model of nodes and connections](https://cdn.enginyyr.com/production-ai-boundary-design.png)
 
-## Table of contents
-
 The hardest part of production AI is usually not getting the model to answer. It is deciding what the model should never be allowed to decide.
 
 That sounds like a minor architectural detail until you have to ship something real. Then it becomes the whole system. The reliable parts of the workflow should stay deterministic. The ambiguous parts should be isolated. The human review loop should be visible, not improvised. The model should live inside a boundary the software can actually defend.
 
 That is the lesson I keep coming back to, and it is the one I want to anchor this case study around. [Grove](https://grove.enginyyr.com) exists around that premise: AI work is not a prompt with a shell around it, it is a workflow with typed steps, explicit handoffs, and a runtime that can keep the whole thing coherent. If you want to talk about production AI honestly, that is where the conversation starts.
+
+## Table of contents
 
 ## The real problem is scope
 
