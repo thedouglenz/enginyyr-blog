@@ -155,12 +155,17 @@ const structuredData = {
       src="https://plausible.io/js/script.js"></script>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBSNVLJDRY"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBSNVLJDRY"
+    ></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-ZBSNVLJDRY');
+      // gtag.js requires the real `arguments` object, so rest params would break it
+      function gtag() {
+        // eslint-disable-next-line prefer-rest-params
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-ZBSNVLJDRY");
     </script>
   </head>
   <body>

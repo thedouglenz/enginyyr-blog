@@ -1,0 +1,117 @@
+---
+import { PROJECTS } from "@data/projects";
+
+const hostOf = (href: string) => new URL(href).host;
+---
+
+<section id="projects" aria-labelledby="projects-heading">
+  <h2 id="projects-heading">Projects</h2>
+  <ul class="project-grid">
+    {
+      PROJECTS.map(project => {
+        const live = project.status === "live" && project.href;
+        const Tag = live ? "a" : "div";
+        return (
+          <li>
+            <Tag
+              class:list={["project-card", !live && "is-soon"]}
+              {...(live
+                ? {
+                    href: project.href,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  }
+                : {})}
+            >
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={project.imageAlt ?? ""}
+                  width="1200"
+                  height="630"
+                  loading="lazy"
+                  decoding="async"
+                  class="project-image"
+                />
+              ) : (
+                <div
+                  class="project-image project-placeholder"
+                  aria-hidden="true"
+                />
+              )}
+              <div class="project-body">
+                <div class="project-title-row">
+                  <h3>{project.name}</h3>
+                  <span class:list={["status", live ? "live" : "soon"]}>
+                    {live ? "Live" : "Coming soon"}
+                  </span>
+                </div>
+                <p>{project.description}</p>
+                {live && project.href && (
+                  <span class="project-link">
+                    {hostOf(project.href)}
+                    <span class="sr-only"> (opens in a new tab)</span>
+                    <span aria-hidden="true"> ↗</span>
+                  </span>
+                )}
+              </div>
+            </Tag>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>
+
+<style>
+  #projects {
+    @apply pb-6 pt-4;
+  }
+  #projects h2 {
+    @apply text-2xl font-semibold tracking-wide;
+  }
+  .project-grid {
+    @apply mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2;
+  }
+  .project-card {
+    @apply flex h-full flex-col overflow-hidden rounded-lg border border-skin-line transition-colors duration-200;
+    text-decoration: none;
+  }
+  a.project-card {
+    @apply hover:border-skin-accent hover:bg-skin-card-muted focus-visible:border-skin-accent;
+  }
+  .project-card.is-soon {
+    @apply border-dashed opacity-80;
+  }
+  .project-image {
+    @apply block h-auto w-full border-b border-skin-line object-cover;
+    aspect-ratio: 1200 / 630;
+  }
+  .project-placeholder {
+    @apply bg-skin-card-muted;
+  }
+  .project-body {
+    @apply flex flex-1 flex-col p-4;
+  }
+  .project-title-row {
+    @apply flex items-center justify-between gap-2;
+  }
+  .project-card h3 {
+    @apply text-lg font-semibold text-skin-accent;
+  }
+  .status {
+    @apply whitespace-nowrap rounded-full border px-2 py-0.5 text-xs;
+  }
+  .status.live {
+    @apply border-skin-accent text-skin-accent;
+  }
+  .status.soon {
+    @apply border-skin-line opacity-80;
+  }
+  .project-body p {
+    @apply mt-2 text-sm opacity-80;
+  }
+  .project-link {
+    @apply mt-auto pt-3 text-sm text-skin-accent;
+  }
+</style>
