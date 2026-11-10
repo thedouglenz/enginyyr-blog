@@ -24,6 +24,29 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <main id="main-content">
     <section id="hero">
       <h1>Enginyyr</h1>
+      <a
+        class="maker"
+        href="https://magic-ingredient.enginyyr.com"
+        target="_blank"
+        rel="noopener"
+      >
+        <span>from</span>
+        <img
+          src="/assets/magic-ingredient-logo.png"
+          alt=""
+          width="28"
+          height="26"
+          class="maker-logo maker-logo-light"
+        />
+        <img
+          src="/assets/magic-ingredient-logo-white.png"
+          alt=""
+          width="28"
+          height="26"
+          class="maker-logo maker-logo-dark"
+        />
+        <span class="maker-name">Magic Ingredient</span>
+      </a>
       <p>
         AI workflow tooling and developer tools. The writing lives on the
         <a href="/posts/">blog</a>.
@@ -79,6 +102,24 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     }
     #hero h1 {
       @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
+    }
+    .maker {
+      @apply mb-4 flex w-fit items-center gap-2 text-lg opacity-90 hover:opacity-100 sm:-mt-4 sm:mb-6;
+    }
+    .maker-name {
+      @apply font-semibold text-skin-accent underline decoration-dashed underline-offset-4;
+    }
+    .maker-logo {
+      @apply h-[26px] w-auto;
+    }
+    .maker-logo-dark {
+      display: none;
+    }
+    :global(html[data-theme="dark"]) .maker-logo-light {
+      display: none;
+    }
+    :global(html[data-theme="dark"]) .maker-logo-dark {
+      display: inline;
     }
     #hero p {
       @apply my-2;
