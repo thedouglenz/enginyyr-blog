@@ -73,15 +73,6 @@ export const PROJECTS: Project[] = [
     imageAlt: "Orbit: the daily semantic word guessing challenge",
   },
   {
-    name: "Magic Ingredient",
-    description:
-      "Forward-deployed AI engineering. Embeds with regulated and enterprise teams to build AI workflows on Grove, with clear controls, review points, and operating handoffs.",
-    status: "live",
-    href: "https://magic-ingredient.enginyyr.com",
-    image: "/assets/projects/magic-ingredient.png",
-    imageAlt: "Magic Ingredient: forward-deployed AI engineering",
-  },
-  {
     name: "Langoliers",
     description: "Not live yet.",
     status: "coming-soon",
