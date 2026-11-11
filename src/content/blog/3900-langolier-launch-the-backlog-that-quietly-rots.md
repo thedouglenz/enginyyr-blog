@@ -21,13 +21,17 @@ Nothing in your backlog is on fire, which is exactly the problem.
 
 A ticket was assigned to you eleven days ago and you haven't touched it. A thread in a channel mentions you and wants a reply. A pull request has been waiting on your review since Monday. You focus on a few things each day, and the rest quietly rots. Nothing surfaces, so nothing gets done, until the mess grows large enough to hurt.
 
+<!-- TODO(Doug): 1-2 sentences, in your own words, about the backlog you live with. Placeholder only: nothing here is written for you, and this comment must be replaced or removed before publishing. -->
+
+**[PLACEHOLDER: Doug's line about the backlog he lives with goes here.]**
+
 [Langolier](https://langolier.enginyyr.com) is a local agent built for that gap. It follows behind you, finds the work you can't get to, asks what to do about each item, and does nothing until you answer. It works behind you, not instead of you.
 
 ## Table of contents
 
 ## Where the name comes from
 
-The name comes from Stephen King's *The Langoliers*: the langoliers are creatures that devour whatever has already passed. The product is one Langolier, a single one of them, eating the stale backlog behind you. (Before 0.2.0 it was called Langoliers, plural. The rename is why you'll see the old spelling in older notes and in the demo screenshots below.)
+The name comes from Stephen King's *The Langoliers*: the langoliers are creatures that devour whatever has already passed. The product is one Langolier, a single one of them, eating the stale backlog behind you. (Before 0.2.0 it was called Langoliers, plural. If you have an older install, the first start moves your data from `~/.langoliers` to `~/.langolier` and the installer leaves shims under the old command names, so nothing needs doing.)
 
 ## Find, ask, act, remember
 
@@ -38,7 +42,7 @@ The whole product is one loop:
 3. **Act.** Only after you answer, and only with the permissions that option needs.
 4. **Remember.** Repeated answers become rules, so the next scan is quieter.
 
-A day with it looks like this. You open the queue and see nine items. One is a ticket untouched for eleven days, with the options *add a comment asking for clarification (recommended)*, *reassign*, *snooze a week*, or *leave it*. Another is a pull request that has waited on your review for three days. You answer in a couple of minutes, the agent does the approved legwork, and the cards move to Review.
+A day with it looks like this. You open the queue and see nine items. One is a ticket untouched for eleven days, with the options *add a comment asking for clarification (recommended)*, *snooze a week*, or *dismiss*. Another is a pull request that has waited on your review for three days. You answer in a couple of minutes, the agent does the approved legwork, and the cards move to Review.
 
 The goal is a short queue where every item is worth reading. You answer questions. You don't groom a board.
 
@@ -85,9 +89,10 @@ There are also learned checks (what to look at) and recipes (a templated comment
 Langolier is early, and I'd rather you know that before you install it.
 
 - **macOS first.** The installer targets macOS. There's no Linux or Windows build.
-- **The binaries are unsigned.** They are not Developer ID signed or notarized.
+- **Nothing is signed.** The binaries and `Langolier.app` are not Developer ID signed or notarized.
 - **Writes are narrow.** One real write exists (GitHub comments), and it's off until you turn it on. Linear is read-only.
-- **Claude Code only.** Other agents aren't wired up yet.
+- **Claude Code only.** Codex isn't wired up as an agent yet.
+- **Setup is in the terminal.** Connecting accounts, turning writes on, and setting a scan schedule happen in the CLI and `config.json`, not in the app.
 - **Personal accounts.** Connect your own GitHub and Linear accounts.
 
 If you want to look before you commit, `langolier --demo` runs the whole thing on fake data with a fake agent. It never starts `claude`, reads no credentials, and contacts nothing.
@@ -98,6 +103,6 @@ To install on macOS:
 curl -fsSL https://get.langolier.enginyyr.com/install.sh | sh
 ```
 
-The installer verifies a SHA-256 before putting `langolier` and `langolierd` in `~/.local/bin`, with no `sudo`. The details are at [langolier.enginyyr.com](https://langolier.enginyyr.com).
+The installer verifies a SHA-256 before putting `langolier` and `langolierd` in `~/.local/bin` and the desktop app, `Langolier.app`, in `~/Applications`, with no `sudo`. Pass `--no-app` (`sh -s -- --no-app`) to skip the app. The details are at [langolier.enginyyr.com](https://langolier.enginyyr.com).
 
 Your backlog is going to rot whether or not you look at it. The only question is whether something is keeping watch, and whether it waits for your answer before it does anything about it.
