@@ -50,15 +50,25 @@ The goal is a short queue where every item is worth reading. You answer question
 
 "Ask before acting" is easy to say and easy to water down, so here is what it means in practice.
 
-The scan is read-only. The daemon does every read itself and hands the items to the model as data. The triage agent runs Claude Code with no tools at all, and the daemon enforces that a second time by watching the event stream and killing the run if a tool call appears. Ticket and chat text is treated as untrusted input, never as instructions.
+A scan never writes and never starts an agent session; only a card you answer can. The daemon does every read itself and hands the items to the model as data. The triage agent runs Claude Code with no tools at all, and the daemon enforces that a second time by watching the event stream and killing the run if a tool call appears. Ticket and chat text is treated as untrusted input, never as instructions.
 
-Real writes are narrower still. They are off by default, switched on per action type, and only one exists today: posting a comment on a GitHub issue or pull request. Everything else, including every Linear action, stays a dry run that records what would have happened.
+So this is not a read-only tool, and it isn't a dry run either. Langolier is fully functional as installed: it can post. What it won't do is post without you. Writes are narrow, and only one exists today: posting a comment on a GitHub issue or pull request. It is on by default and can be switched off per action type, in the app's Settings screen or with `langolierd settings set writes.github.comment off`. Every Linear action is unsupported for now; Linear is read-only.
 
-With that switch on, a comment option is tagged **WRITES FOR REAL**, and choosing it doesn't send anything. It opens a confirmation that shows the target and every character that will be posted, and the Send button stays disabled until all of that text has been on screen.
+A comment option is tagged **WRITES FOR REAL**, and choosing it doesn't send anything. It opens a confirmation that shows the target and every character that will be posted, and the Send button stays disabled until all of that text has been on screen. Approval is per action, every time.
 
 ![The confirmation dialog titled THIS WRITES FOR REAL, showing the target issue and the full comment text, with Cancel and Send for real buttons.](/assets/langolier/langolier-confirm-write.png)
 
-Immediately before posting, the daemon re-checks that the active `gh` account is still the one you connected and that the item hasn't changed since you decided. If it has, nothing is posted and the card goes back to your queue with the reason. A failed post is never retried without a new answer.
+Immediately before posting, the daemon re-reads the item and re-checks that the active `gh` account is still the one you connected and that the item hasn't changed since you decided. If it has, nothing is posted and the card goes back to your queue with the reason. A failed post is never retried without a new answer.
+
+## Connect and configure in the app
+
+You don't need the terminal to get set up. The desktop app has a **Connections** screen: it shows what it found on the machine (`gh`, Claude Code, MCP server names), and connects GitHub (it shows the exact account and owners first) and Linear (you paste a personal API key into the app, and the daemon stores it in the Keychain after you confirm the workspace it opens). The **Settings** screen covers comment posting, the scan schedule, and the scan limits, and the daemon checks every value before saving it. There's no `config.json` to edit.
+
+![The Connections screen: what was found on the machine, a connected GitHub account with its owners and Re-check and Disconnect buttons, and a Linear card asking for a personal API key.](/assets/langolier/langolier-connections.png)
+
+![The Settings screen: a Post GitHub comments checkbox, with Linear actions marked not supported yet, and a Scans section with automatic scanning every 4h and quiet hours 22:00-07:00.](/assets/langolier/langolier-settings.png)
+
+Scans also run on their own: every 4 hours by default, with quiet hours from 22:00 to 07:00, and once right after you connect an account. A scheduled scan is the same read-only scan. It never writes and never starts a session, so the queue fills up while you're away and nothing happens until you answer. The terminal commands (`langolierd connect github`, `langolierd settings`) do the same things, if you prefer them.
 
 ## Local, and using your own Claude Code
 
@@ -90,12 +100,11 @@ Langolier is early, and I'd rather you know that before you install it.
 
 - **macOS first.** The installer targets macOS. There's no Linux or Windows build.
 - **Nothing is signed.** The binaries and `Langolier.app` are not Developer ID signed or notarized.
-- **Writes are narrow.** One real write exists (GitHub comments), and it's off until you turn it on. Linear is read-only.
+- **Writes are narrow.** One real write exists (GitHub comments). It's on by default, and each comment still needs exact-text confirmation. Linear writes aren't supported yet; Linear is read-only.
 - **Claude Code only.** Codex isn't wired up as an agent yet.
-- **Setup is in the terminal.** Connecting accounts, turning writes on, and setting a scan schedule happen in the CLI and `config.json`, not in the app.
 - **Personal accounts.** Connect your own GitHub and Linear accounts.
 
-If you want to look before you commit, `langolier --demo` runs the whole thing on fake data with a fake agent. It never starts `claude`, reads no credentials, and contacts nothing.
+Connect your accounts from the app's Connections screen, or with `langolierd connect github` in a terminal. If you want to look before you commit, `langolier --demo` runs the whole thing on fake data with a fake agent. It never starts `claude`, reads no credentials, and contacts nothing.
 
 To install on macOS:
 
