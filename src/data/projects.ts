@@ -73,9 +73,12 @@ export const PROJECTS: Project[] = [
     imageAlt: "Orbit: the daily semantic word guessing challenge",
   },
   {
-    name: "Langoliers",
-    description: "Not live yet.",
-    status: "coming-soon",
-    // href: "https://langoliers.enginyyr.com", // enable when live (no DNS record as of 2026-11-09)
+    name: "Langolier",
+    description:
+      "A local agent that finds the work you can't get to, asks what to do about each item, and acts only after you approve the exact change.",
+    status: "live",
+    href: "https://langolier.enginyyr.com",
+    image: "/assets/projects/langolier.png",
+    imageAlt: "Langolier: the queue of work that needs you",
   },
 ];
