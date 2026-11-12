@@ -1,7 +1,7 @@
 ---
 pubDatetime: 2026-11-10T16:00:00.000Z
 modDatetime: 2026-11-10T16:00:00.000Z
-title: "Langolier: Daily Decision Maker"
+title: "Langolier: Daily decision maker"
 slug: langolier-daily-decision-maker
 featured: false
 tags:
