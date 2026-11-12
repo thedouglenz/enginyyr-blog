@@ -1,6 +1,6 @@
 ---
 pubDatetime: 2026-11-12T02:09:00.000Z
-modDatetime: 2026-11-12T02:09:00.000Z
+modDatetime: 2026-11-11T23:59:00.000Z
 title: "Langolier: Daily decision maker"
 slug: langolier-daily-decision-maker
 featured: false
@@ -15,7 +15,7 @@ ogImage: /assets/langolier/langolier-og.png
 draft: false
 ---
 
-![The Langolier desktop app, shown with demo data. A queue lists two items under Needs you; the open card offers three numbered options, with a recommended comment tagged WRITES FOR REAL.](/assets/langolier/langolier-queue.png)
+![The Langolier desktop app, shown with demo data. A queue lists two items under Needs you; the open card offers three numbered options, with a recommended comment carrying a posts pill.](/assets/langolier/langolier-queue.png)
 
 Nothing in your backlog is on fire, which is exactly the problem.
 
@@ -52,9 +52,9 @@ A scan never writes and never starts an agent session; only a card you answer ca
 
 So this is not a read-only tool, and it isn't a dry run either. Langolier is fully functional as installed: it can post. What it won't do is post without you. Writes are narrow, and only one exists today: posting a comment on a GitHub issue or pull request. It is on by default and can be switched off per action type, in the app's Settings screen or with `langolierd settings set writes.github.comment off`. Every Linear action is unsupported for now; Linear is read-only.
 
-A comment option is tagged **WRITES FOR REAL**, and choosing it doesn't send anything. It opens a confirmation that shows the target and every character that will be posted, and the Send button stays disabled until all of that text has been on screen. Approval is per action, every time.
+A comment option carries a **posts** pill, and choosing it opens a confirmation. The app shows the target and every character that will be posted, with the note, “You'll see the exact text before anything is posted.” The dialog asks “Post this comment?” and has a **Post** button. Approval is per action, every time.
 
-![The confirmation dialog titled THIS WRITES FOR REAL, showing the target issue and the full comment text, with Cancel and Send for real buttons.](/assets/langolier/langolier-confirm-write.png)
+![The confirmation dialog titled “Post this comment?”, showing the target issue, the full comment text, and Cancel and Post buttons.](/assets/langolier/langolier-confirm-write.png)
 
 Immediately before posting, the daemon re-reads the item and re-checks that the active `gh` account is still the one you connected and that the item hasn't changed since you decided. If it has, nothing is posted and the card goes back to your queue with the reason. A failed post is never retried without a new answer.
 
@@ -68,21 +68,21 @@ You don't need the terminal to get set up. The desktop app has a **Connections**
 
 Scans also run on their own: every 4 hours by default, with quiet hours from 22:00 to 07:00, and once right after you connect an account. A scheduled scan is the same read-only scan. It never writes and never starts a session, so the queue fills up while you're away and nothing happens until you answer. The terminal commands (`langolierd connect github`, `langolierd settings`) do the same things, if you prefer them.
 
-## Local, and using your own Claude Code
+## Local, and using your own Claude Code or Codex
 
 Langolier runs on your machine. A Rust daemon does the work in the background and a frontend talks to it over a local socket: a terminal UI first, and a desktop app too. Your data and credentials stay local, and every card transition lands in a history you can open.
 
-It doesn't bring its own model. It drives the Claude Code CLI you already have, using the login already there. GitHub goes through your `gh` login, and the Linear key sits in the macOS Keychain. Connectors are registered by what they can do, such as reading assigned work, rather than by vendor name.
+It doesn't bring its own model. Agent sessions can run through Claude Code or Codex, using the sign-in already on your machine. When both are installed, Claude Code is the default; choose Codex in Settings (`agents.default`) or press `c` on a card. Codex uses your existing `codex` sign-in from `codex login` with ChatGPT; API-key logins are refused. Each session receives a short-lived copy of the login without a refresh token, and Langolier deletes it when the session ends. GitHub goes through your `gh` login, and the Linear key sits in the macOS Keychain. Scans and triage still use Claude Code.
 
 ## Agent sessions you approve one tool call at a time
 
-Some options start an agent session instead of posting a comment. There are two fixed recipes. `summarize_diff` reads an item and, for a pull request, its real diff, and writes a summary. `draft_plan` writes a `PLAN.md` in its own empty directory. Which recipe runs is named by the scan, but the tools, the working directory, and the spending caps come from Langolier and your config, never from the ticket.
+Some options start an agent session instead of posting a comment. Follow-up and resume work for both agents. There are two fixed recipes. `summarize_diff` reads an item and, for a pull request, its real diff, and writes a summary. `draft_plan` writes a `PLAN.md` in its own empty directory. Which recipe runs is named by the scan, but the tools, the working directory, and the spending caps come from Langolier and your config, never from the ticket.
 
-The session runs inside an OS sandbox that can read only its own directory and a short list of system paths. Each tool call that could change something stops and waits for you, with exactly what it would receive on screen.
+Each tool call is approved in the app, inside the same macOS sandbox. Codex has no read tool, so each file read or search needs its own approval. The session can read only its own directory and a short list of system paths.
 
 ![A card in the Working tab showing an agent session that needs approval. The agent wants to use Write, with the exact file path and content shown, and Approve once, Deny, and Interrupt session controls.](/assets/langolier/langolier-tool-approval.png)
 
-There is no "always allow". You approve that one call or you deny it, and you can interrupt the session at any point. Sessions have caps on turns, spend, and minutes. One caveat I'd rather state than hide: the sandbox limits what a session can read, but a session can still use the network.
+There is no "always allow". You approve that one call or you deny it, and you can interrupt the session at any point. Claude Code sessions have caps on turns, spend, and minutes. Langolier does not enforce the dollar budget for Codex sessions. A session can still use the network.
 
 ## Rules that make the queue quieter without a model
 
@@ -90,7 +90,7 @@ This is the part that keeps the queue from refilling. When you answer the same w
 
 A rule is data, not a script: a fixed set of fields to match, and one action: snooze, dismiss, or prefer an option type. It never contains ticket text and it never posts anything. Each scan applies your enabled rules before triage, so a matching card is snoozed or dismissed with no model call, and its history says which rule did it.
 
-There are also learned checks (what to look at) and recipes (a templated comment, optionally followed by a snooze or dismiss). Both go through the same propose, preview, and approve flow. A recipe's comment still goes through the same approval and `WRITES FOR REAL` confirmation as any other comment.
+There are also learned checks (what to look at) and recipes (a templated comment, optionally followed by a snooze or dismiss). Both go through the same propose, preview, and approve flow. A recipe's comment goes through the same approval and exact text confirmation as any other comment.
 
 ## Where it stands
 
@@ -99,7 +99,7 @@ Langolier is early, and I'd rather you know that before you install it.
 - **macOS first.** The installer targets macOS. There's no Linux or Windows build.
 - **Nothing is signed.** The binaries and `Langolier.app` are not Developer ID signed or notarized.
 - **Writes are narrow.** One real write exists (GitHub comments). It's on by default, and each comment still needs exact-text confirmation. Linear writes aren't supported yet; Linear is read-only.
-- **Claude Code only.** Codex isn't wired up as an agent yet.
+- **Codex limits.** Codex agent sessions are macOS only. The dollar budget is not enforced, and each file read or search needs a separate approval.
 - **Personal accounts.** Connect your own GitHub and Linear accounts.
 
 Connect your accounts from the app's Connections screen, or with `langolierd connect github` in a terminal. If you want to look before you commit, `langolier --demo` runs the whole thing on fake data with a fake agent. It never starts `claude`, reads no credentials, and contacts nothing.
