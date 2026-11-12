@@ -1,6 +1,6 @@
 ---
-pubDatetime: 2026-11-10T16:00:00.000Z
-modDatetime: 2026-11-10T16:00:00.000Z
+pubDatetime: 2026-11-12T02:09:00.000Z
+modDatetime: 2026-11-12T02:09:00.000Z
 title: "Langolier: Daily decision maker"
 slug: langolier-daily-decision-maker
 featured: false
@@ -21,9 +21,7 @@ Nothing in your backlog is on fire, which is exactly the problem.
 
 A ticket was assigned to you eleven days ago and you haven't touched it. A thread in a channel mentions you and wants a reply. A pull request has been waiting on your review since Monday. You focus on a few things each day, and the rest quietly rots. Nothing surfaces, so nothing gets done, until the mess grows large enough to hurt.
 
-<!-- TODO(Doug): 1-2 sentences, in your own words, about the backlog you live with. Placeholder only: nothing here is written for you, and this comment must be replaced or removed before publishing. -->
-
-**[PLACEHOLDER: Doug's line about the backlog he lives with goes here.]**
+I leave work each day with work on my plate that never gets touched. It stays on my mind for the rest of the evening. If I could only make _some_ progress, incremental, even, it'd feel like I did _something_.
 
 [Langolier](https://langolier.enginyyr.com) is a local agent built for that gap. It follows behind you, finds the work you can't get to, asks what to do about each item, and does nothing until you answer. It works behind you, not instead of you.
 
