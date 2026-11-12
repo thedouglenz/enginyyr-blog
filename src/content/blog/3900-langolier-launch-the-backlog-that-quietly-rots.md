@@ -1,8 +1,8 @@
 ---
 pubDatetime: 2026-11-10T16:00:00.000Z
 modDatetime: 2026-11-10T16:00:00.000Z
-title: "Langolier: An Agent That Works Behind You and Asks Before Acting"
-slug: langolier-agent-that-asks-before-acting
+title: "Langolier: Daily Decision Maker"
+slug: langolier-daily-decision-maker
 featured: false
 tags:
   - ai
