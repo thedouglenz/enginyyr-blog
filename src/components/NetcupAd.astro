@@ -1,0 +1,71 @@
+---
+import { NETCUP_AFFILIATE } from "@config";
+
+export interface Props {
+  /** `card`: boxed block for posts and the homepage. `inline`: one-line footer link. */
+  variant?: "card" | "inline";
+  class?: string;
+}
+
+const { variant = "card", class: className = "" } = Astro.props;
+---
+
+{
+  variant === "card" ? (
+    <aside class:list={["netcup-card", className]} aria-label="Sponsored">
+      <span class="netcup-label">Sponsored · affiliate link</span>
+      <div class="netcup-body">
+        <p>
+          <strong>I run my own servers on netcup.</strong> German VPS and root
+          servers with plenty of RAM and storage for the price.
+        </p>
+        <a
+          href={NETCUP_AFFILIATE.url}
+          target="_blank"
+          rel="sponsored noopener"
+          class="netcup-cta"
+        >
+          Check out netcup&nbsp;→
+        </a>
+      </div>
+    </aside>
+  ) : (
+    <span class:list={["netcup-inline", className]}>
+      My servers run on{" "}
+      <a
+        href={NETCUP_AFFILIATE.url}
+        target="_blank"
+        rel="sponsored noopener"
+        set:text="netcup"
+      />{" "}
+      <span class="netcup-inline-note">(affiliate link)</span>
+    </span>
+  )
+}
+
+<style>
+  .netcup-card {
+    @apply rounded-lg border border-dashed border-skin-line px-4 py-3;
+  }
+  .netcup-label {
+    @apply text-xs uppercase tracking-wide opacity-60;
+  }
+  .netcup-body {
+    @apply mt-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+  }
+  .netcup-body p {
+    @apply text-sm opacity-90;
+  }
+  .netcup-cta {
+    @apply self-end whitespace-nowrap rounded border border-skin-accent px-3 py-1 text-sm text-skin-accent hover:bg-skin-card-muted sm:self-auto;
+  }
+  .netcup-inline {
+    @apply text-sm opacity-80;
+  }
+  .netcup-inline a {
+    @apply text-skin-accent underline decoration-dashed underline-offset-4;
+  }
+  .netcup-inline-note {
+    @apply opacity-70;
+  }
+</style>

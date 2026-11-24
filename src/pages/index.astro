@@ -8,6 +8,7 @@ import Hr from "@components/Hr.astro";
 import Card from "@components/Card";
 import Socials from "@components/Socials.astro";
 import ProjectGrid from "@components/ProjectGrid.astro";
+import NetcupAd from "@components/NetcupAd.astro";
 import getSortedPosts from "@utils/getSortedPosts";
 import { SOCIALS } from "@config";
 
@@ -62,6 +63,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     </section>
 
     <ProjectGrid />
+
+    <section class="pb-6">
+      <NetcupAd />
+    </section>
 
     <Hr />
 
