@@ -7,6 +7,7 @@ import Datetime from "@components/Datetime";
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@utils/slugify";
 import ShareLinks from "@components/ShareLinks.astro";
+import NetcupAd from "@components/NetcupAd.astro";
 import { SITE } from "@config";
 
 export interface Props {
@@ -89,6 +90,8 @@ const nextPost =
     <article id="article" class="prose mx-auto mt-8 max-w-5xl">
       <Content />
     </article>
+
+    <NetcupAd class="mx-auto mt-10 max-w-5xl" />
 
     <ul class="my-8">
       {tags.map(tag => <Tag tag={slugifyStr(tag)} />)}

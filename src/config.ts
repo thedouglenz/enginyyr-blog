@@ -19,6 +19,15 @@ export const SITE: Site = {
   },
 };
 
+// netcup affiliate program: 10% of referred customers' revenue, credited to
+// our netcup invoices. `ref` is the netcup customer number.
+// https://www.netcup.com/en/helpcenter/documentation/general/affiliate-program
+const NETCUP_REF = "477849";
+export const NETCUP_AFFILIATE = {
+  ref: NETCUP_REF,
+  url: `https://www.netcup.com/en?ref=${NETCUP_REF}`,
+} as const;
+
 export const LOCALE = {
   lang: "en", // html lang code. Set this empty and default will be "en"
   langTag: ["en-EN"], // BCP 47 Language Tags. Set this empty [] to use the environment default
